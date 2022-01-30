@@ -22,7 +22,10 @@ ConfigUtils.setConfigProp('themePrefix', 'indice-bien-etre');
  *
  * ConfigUtils.setLocalConfigurationFile('localConfig.json');
  */
-ConfigUtils.setLocalConfigurationFile('MapStore2/web/client/configs/localConfig.json');
+// DEFAULT:
+//ConfigUtils.setLocalConfigurationFile('MapStore2/web/client/configs/localConfig.json');
+
+ConfigUtils.setLocalConfigurationFile('localConfig.json');
 
 /**
  * Use a custom application configuration file with:
