@@ -602,8 +602,7 @@
                 "enableContextManager": true
             }
         }, "Login","Language", "NavMenu", "Attribution", "ScrollTop", "Notifications"],
-        "maps": ["HomeDescription", "Fork", "MapSearch", "CreateNewMap", "FeaturedMaps", "ContentTabs",
-
+        "maps": ["HomeDescription", "MapSearch", "CreateNewMap", "FeaturedMaps", "ContentTabs",
           {
             "name": "Maps",
             "cfg": {
