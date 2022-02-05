@@ -15,7 +15,6 @@ export default {
         AboutPlugin: require('@mapstore/product/plugins/About').default,
         AttributionPlugin: require('@mapstore/product/plugins/Attribution').default,
         FooterPlugin: require('./plugins/Footer'),
-        ForkPlugin: require('@mapstore/product/plugins/Fork').default,
         HeaderPlugin: require('@mapstore/product/plugins/Header').default,
         HomeDescriptionPlugin: require('@mapstore/product/plugins/HomeDescription').default,
         MadeWithLovePlugin: require('@mapstore/product/plugins/MadeWithLove').default,
