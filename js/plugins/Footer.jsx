@@ -38,9 +38,9 @@ class Footer extends React.Component {
             src,
             width: 140,
             height: 'auto',
-            href: 'https://www.geosolutionsgroup.com/',
-            title: 'GeoSolutions',
-            alt: 'GeoSolutions'
+            href: 'https://naturequebec.org/',
+            title: 'Nature Québec',
+            alt: 'Nature Québec'
         }
     };
 
@@ -65,11 +65,6 @@ class Footer extends React.Component {
                         </div>
                     </Col>
                 </Row>}
-                <Row>
-                    <Col xs={12} className="text-center">
-                        <HTML msgId="home.footerDescription"/>
-                    </Col>
-                </Row>
             </Grid>
         );
     }
