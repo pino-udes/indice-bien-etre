@@ -49,7 +49,11 @@ const appConfig = require('@mapstore/product/appConfig').default;
  *
  * const plugins = require('./plugins');
  */
-const plugins = require('@mapstore/product/plugins').default;
+
+// DEFAULT:
+//const plugins = require('@mapstore/product/plugins').default;
+
+const plugins = require('./plugins').default;
 
 checkForMissingPlugins(plugins.plugins);
 
