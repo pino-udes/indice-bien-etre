@@ -18,7 +18,6 @@ export default {
         HeaderPlugin: require('@mapstore/product/plugins/Header').default,
         HomeDescriptionPlugin: require('@mapstore/product/plugins/HomeDescription').default,
         MadeWithLovePlugin: require('@mapstore/product/plugins/MadeWithLove').default,
-        MailingListsPlugin: require('@mapstore/product/plugins/MailingLists').default,
         MapTypePlugin: require('@mapstore/product/plugins/MapType').default,
         NavMenu: require('@mapstore/product/plugins/NavMenu').default,
         // framework plugins
