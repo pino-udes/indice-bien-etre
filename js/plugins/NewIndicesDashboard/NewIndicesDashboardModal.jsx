@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoginForm from '@mapstore/components/security/forms/LoginForm';
 import Modal from '@mapstore/components/misc/Modal';
 import Message from '@mapstore/components/I18N/Message';
 import { getMessageById } from '@mapstore/utils/LocaleUtils';
@@ -18,7 +17,7 @@ import Button from '@mapstore/components/misc/Button';
 /**
  * A Modal window to show password reset form
  */
-class LoginModal extends React.Component {
+class NewIndicesDashboardModal extends React.Component {
     static propTypes = {
         // props
         user: PropTypes.object,
@@ -97,7 +96,7 @@ class LoginModal extends React.Component {
                 buttons={[{
                     bsStyle: "primary",
                     text: <Message msgId="Créer" />,
-                    onClick: this.close
+                    onClick: this.createDashboard
                 }, {
                     text: <Message msgId="Annuler" />,
                     onClick: this.close
@@ -140,6 +139,13 @@ class LoginModal extends React.Component {
             show: false
         });
     };
+
+    createDashboard = () => {
+        // TODO Launch an action in order to change the state
+        this.setState({
+            show: false
+        });
+    };
 }
 
-export default LoginModal;
+export default NewIndicesDashboardModal;

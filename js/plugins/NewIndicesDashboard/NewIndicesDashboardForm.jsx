@@ -21,7 +21,7 @@ import Dropzone from 'react-dropzone';
 /**
  * A Form to login menu for user details:
  */
-class LoginForm extends React.Component {
+class NewIndicesDashboardForm extends React.Component {
     static propTypes = {
         // props
         user: PropTypes.object,
@@ -117,8 +117,6 @@ class LoginForm extends React.Component {
                     <ControlLabel>Nom de la municipalité</ControlLabel>
                     <FormControl ref="username" key="username" type="text" value={this.state.municipalite} onChange={this.setMunicipalite} />
                 </FormGroup>
-
-
                 <div style={{"float": "right"}}>{this.renderLoading()}</div>
             </form>
         );
@@ -159,4 +157,4 @@ class LoginForm extends React.Component {
     };
 }
 
-export default LoginForm;
+export default NewIndicesDashboardForm;

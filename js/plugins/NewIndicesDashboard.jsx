@@ -33,20 +33,21 @@ import * as epics from '@mapstore/epics/createnewmap';
 
 import MyModal from '@mapstore/components/misc/ResizableModal';
 
-import LoginModal from "@js/plugins/newIndiceDashboard/newIndiceDashboardModal";
-import LoginForm from "@js/plugins/newIndiceDashboard/newIndiceDashboardForm";
+import LoginModal from "@js/plugins/NewIndicesDashboard/NewIndicesDashboardModal";
+import NewIndicesDashboardForm from "@js/plugins/NewIndicesDashboard/NewIndicesDashboardForm";
 import Dropzone from 'react-dropzone';
-
-import Modal from "mapstore2/web/client/components/misc/ResizableModal";
+import Modal from "@mapstore/components/misc/ResizableModal";
 import {getMessageById} from "mapstore2/web/client/utils/LocaleUtils";
+import { createResource, updateResource, getResource } from '@mapstore/api/persistence';
+import widgets from "../test.json";
 //
 
 const Button = tooltip(ButtonB);
 const SplitButton = tooltip(SplitButtonB);
 
-class NewIndiceDashboard extends React.Component {
+class NewIndicesDashboard extends React.Component {
     static propTypes = {
-        showNewIndiceDashboardDialog: PropTypes.bool,
+        showNewIndicesDashboardDialog: PropTypes.bool,
         loading: PropTypes.bool,
         loadFlags: PropTypes.object,
         mapType: PropTypes.string,
@@ -68,7 +69,7 @@ class NewIndiceDashboard extends React.Component {
     };
 
     static defaultProps = {
-        showNewIndiceDashboardDialog: false,
+        showNewIndicesDashboardDialog: false,
         loading: false,
         loadFlags: {},
         mapType: "leaflet",
@@ -91,7 +92,7 @@ class NewIndiceDashboard extends React.Component {
 
 
     getForm = () => {
-        return (<LoginForm
+        return (<NewIndicesDashboardForm
             role="body"
             ref="loginForm"
             showSubmitButton={false}
@@ -103,30 +104,30 @@ class NewIndiceDashboard extends React.Component {
         />);
     };
 
-
-    getFooter = () => {
-        return (<span role="footer">
-            <Button
-                ref="submit"
-                value={getMessageById(this.context.messages, "user.signIn")}
-                bsStyle="primary"
-                bsSize={this.props.buttonSize}
-                className="pull-left"
-                onClick={this.loginSubmit}
-                key="submit">{getMessageById(this.context.messages, "user.signIn")}</Button>
-             <Button
-                key="closeButton"
-                ref="closeButton"
-                bsSize={this.props.buttonSize}
-                onClick={this.handleOnHide}><Message msgId="close"/></Button> : <span/>
-        </span>);
-    };
+    //
+    // getFooter = () => {
+    //     return (<span role="footer">
+    //         <Button
+    //             ref="submit"
+    //             value={getMessageById(this.context.messages, "user.signIn")}
+    //             bsStyle="primary"
+    //             bsSize={this.props.buttonSize}
+    //             className="pull-left"
+    //             onClick={this.loginSubmit}
+    //             key="submit">{getMessageById(this.context.messages, "user.signIn")}</Button>
+    //          <Button
+    //             key="closeButton"
+    //             ref="closeButton"
+    //             bsSize={this.props.buttonSize}
+    //             onClick={this.handleOnHide}><Message msgId="close"/></Button> : <span/>
+    //     </span>);
+    // };
 
 
     getModal = () => {
         return (
             <Modal
-                show={this.state ? this.state.showNewIndiceDashboardDialog : false}
+                show={this.state ? this.state.showNewIndicesDashboardDialog : false}
                 onClose={this.close}
                 title={"Nouveau tableau de bord"}
                 buttons={[{
@@ -135,7 +136,7 @@ class NewIndiceDashboard extends React.Component {
                 }, {
                     bsStyle: "primary",
                     text: <Message msgId="Créer" />,
-                    onClick: this.close
+                    onClick: this.createDashboard
                 }]}
                 fitContent
             >
@@ -176,8 +177,6 @@ class NewIndiceDashboard extends React.Component {
     render() {
         const display = this.isAllowed() ? null : "none";
         return (
-
-
             <div className="create-new-map-container">
                 {this.getModal()}
 
@@ -204,7 +203,7 @@ class NewIndiceDashboard extends React.Component {
                                 <Button tooltipId="resources.dashboards.newDashboard"
                                         className="square-button"
                                         bsStyle="primary"
-                                        onClick={() => { this.displayNewIndiceDashboardDialog(); }}>
+                                        onClick={() => { this.displayNewIndicesDashboardDialog(); }}>
                                     <Glyphicon glyph="add-dashboard" />
                                 </Button>
                                 : null}
@@ -220,22 +219,27 @@ class NewIndiceDashboard extends React.Component {
         );
     }
 
-    createNewEmptyMap = () => {
-        this.context.router.history.push("/viewer/" + this.props.mapType + "/new");
-    };
-
     isAllowed = () => this.props.isLoggedIn && this.props.allowedRoles.indexOf(this.props.user && this.props.user.role) >= 0;
 
     close = () => {
         // TODO Launch an action in order to change the state
         this.setState({
-            showNewIndiceDashboardDialog: false
+            showNewIndicesDashboardDialog: false
         });
     };
 
-    displayNewIndiceDashboardDialog = () => {
+
+
+    createDashboard = () => {
+        console.log(widgets.widgets);
         this.setState({
-            showNewIndiceDashboardDialog: true
+            showNewIndicesDashboardDialog: false
+        });
+    };
+
+    displayNewIndicesDashboardDialog = () => {
+        this.setState({
+            showNewIndicesDashboardDialog: true
         });
     };
 }
@@ -262,7 +266,7 @@ export default {
     }), {
         onShowNewMapDialog: showNewMapDialog,
         onNewMap: createNewMap
-    })(NewIndiceDashboard),
+    })(NewIndicesDashboard),
     reducers: {
         createnewmap
     },
