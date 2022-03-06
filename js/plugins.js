@@ -12,7 +12,7 @@
 export default {
     plugins: {
         // indice-bien-etre plugins
-        CreateNewIndiceDashboardPlugin: require('@js/plugins/NewIndicesDashboard').default,
+        NewIndicesDashboardPlugin: require('@js/plugins/NewIndicesDashboard').default,
         HomeDescriptionPlugin: require('@js/plugins/HomeDescription').default,
 
         // product plugins

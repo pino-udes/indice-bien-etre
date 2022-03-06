@@ -11,12 +11,12 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Message from '@mapstore/components/I18N/Message';
-import NewMapDialog from '@mapstore/components/misc/NewMapDialog';
+//import NewMapDialog from '@mapstore/components/misc/NewMapDialog';
 import {ButtonToolbar, SplitButton as SplitButtonB, MenuItem, Grid, Col, Glyphicon} from 'react-bootstrap';
 import ButtonB from '@mapstore/components/misc/Button';
 import tooltip from '@mapstore/components/misc/enhancers/tooltip';
 
-import {showNewMapDialog, createNewMap} from '@mapstore/actions/createnewmap';
+//import {showNewMapDialog, createNewMap} from '@mapstore/actions/createnewmap';
 
 import {
     showNewMapDialogSelector,
@@ -24,10 +24,13 @@ import {
     loadingSelector,
     loadFlagsSelector
 } from '@mapstore/selectors/createnewmap';
+
 import {mapTypeSelector} from '@mapstore/selectors/maptype';
+
 
 import createnewmap from '@mapstore/reducers/createnewmap';
 import * as epics from '@mapstore/epics/createnewmap';
+
 
 //
 
@@ -59,9 +62,9 @@ class NewIndicesDashboard extends React.Component {
         user: PropTypes.object,
         fluid: PropTypes.bool,
         hasContexts: PropTypes.bool,
-        showNewMapDialog: PropTypes.bool,
-        onShowNewMapDialog: PropTypes.func,
-        onNewMap: PropTypes.func
+        //showNewMapDialog: PropTypes.bool,
+        //onShowNewMapDialog: PropTypes.func,
+        //onNewMap: PropTypes.func
     };
 
     static contextTypes = {
@@ -85,9 +88,9 @@ class NewIndicesDashboard extends React.Component {
         },
         fluid: false,
         hasContexts: false,
-        showNewMapDialog: false,
-        onShowNewMapDialog: () => {},
-        onNewMap: () => {}
+        //showNewMapDialog: false,
+        //onShowNewMapDialog: () => {},
+        //onNewMap: () => {}
     };
 
 
@@ -183,22 +186,6 @@ class NewIndicesDashboard extends React.Component {
                 <Grid fluid={this.props.fluid} style={{marginBottom: "30px", padding: 0, display}}>
                     <Col {...this.props.colProps} >
                         <ButtonToolbar>
-                            {this.props.hasContexts &&
-                                <SplitButton
-                                    id="split-button"
-                                    tooltipId="newMap"
-                                    className="square-button"
-                                    bsStyle="primary"
-                                    title={<Glyphicon glyph="add-map" />}
-                                    onClick={() => this.createNewEmptyMap()}>
-                                    <MenuItem onClick={() => this.createNewEmptyMap()}>
-                                        <Message msgId="newMapEmpty"/>
-                                    </MenuItem>
-                                    <MenuItem onClick={() => this.props.onShowNewMapDialog(true)}>
-                                        <Message msgId="newMapContext"/>
-                                    </MenuItem>
-                                </SplitButton>
-                            }
                             {this.props.showNewDashboard ?
                                 <Button tooltipId="resources.dashboards.newDashboard"
                                         className="square-button"
@@ -207,14 +194,9 @@ class NewIndicesDashboard extends React.Component {
                                     <Glyphicon glyph="add-dashboard" />
                                 </Button>
                                 : null}
-
                         </ButtonToolbar>
                     </Col>
                 </Grid>
-                <NewMapDialog
-                    show={this.props.showNewMapDialog}
-                    onClose={() => this.props.onShowNewMapDialog(false)}
-                    onSelect={this.props.onNewMap}/>
             </div>
         );
     }
@@ -244,6 +226,8 @@ class NewIndicesDashboard extends React.Component {
     };
 }
 
+
+
 /**
  * Button bar to create a new contents.
  * @memberof plugins
@@ -254,6 +238,7 @@ class NewIndicesDashboard extends React.Component {
  * @prop {boolean} cfg.showNewContext show/hide the create new context button.
  * @prop {string[]} cfg.allowedRoles array of users roles allowed to create maps and/or dashboards. default: `["ADMIN", "USER"]`. Users that don't have these roles will never see the buttons.
  */
+
 export default {
     CreateNewMapPlugin: connect((state) => ({
         loading: loadingSelector(state),
@@ -262,13 +247,15 @@ export default {
         isLoggedIn: state && state.security && state.security.user && state.security.user.enabled && !(state.browser && state.browser.mobile) && true || false,
         user: state && state.security && state.security.user,
         hasContexts: hasContextsSelector(state),
-        showNewMapDialog: showNewMapDialogSelector(state)
+        //showNewMapDialog: showNewMapDialogSelector(state)
     }), {
-        onShowNewMapDialog: showNewMapDialog,
-        onNewMap: createNewMap
+        //onShowNewMapDialog: showNewMapDialog,
+        //onNewMap: createNewMap
     })(NewIndicesDashboard),
     reducers: {
         createnewmap
     },
     epics
+
+
 };
