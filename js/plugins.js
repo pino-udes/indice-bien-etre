@@ -14,6 +14,9 @@ export default {
         // indice-bien-etre plugins
         NewIndicesDashboardPlugin: require('@js/plugins/NewIndicesDashboard').default,
         HomeDescriptionPlugin: require('@js/plugins/HomeDescription').default,
+        ContentTabs: require('@js/plugins/ContentTabs').default,
+        Dashboard: require('@js/plugins/Dashboard').default,
+
 
         // product plugins
         AboutPlugin: require('@mapstore/product/plugins/About').default,
@@ -31,15 +34,15 @@ export default {
         BackgroundSelectorPlugin: require('@mapstore/plugins/BackgroundSelector').default,
         BurgerMenuPlugin: require('@mapstore/plugins/BurgerMenu').default,
         CRSSelectorPlugin: require('@mapstore/plugins/CRSSelector').default,
-        ContentTabs: require('@mapstore/plugins/ContentTabs').default,
+        //ContentTabs: require('@mapstore/plugins/ContentTabs').default,
         ContextPlugin: require('@mapstore/plugins/Context').default,
         ContextCreatorPlugin: require('@mapstore/plugins/ContextCreator').default,
         ContextManagerPlugin: require('@mapstore/plugins/contextmanager/ContextManager').default,
         ContextsPlugin: require('@mapstore/plugins/Contexts').default,
         CookiePlugin: require('@mapstore/plugins/Cookie').default,
         // CreateNewMapPlugin: require('@mapstore/plugins/CreateNewMap').default,
-        Dashboard: require('@mapstore/plugins/Dashboard').default,
-        DashboardEditor: require('@mapstore/plugins/DashboardEditor').default,
+        //Dashboard: require('@mapstore/plugins/Dashboard').default,
+        //DashboardEditor: require('@mapstore/plugins/DashboardEditor').default,
         DashboardsPlugin: require('@mapstore/plugins/Dashboards').default,
         DetailsPlugin: require('@mapstore/plugins/Details').default,
         DrawerMenuPlugin: require('@mapstore/plugins/DrawerMenu').default,
@@ -49,7 +52,7 @@ export default {
         FilterLayerPlugin: require('@mapstore/plugins/FilterLayer').default,
         FloatingLegendPlugin: require('@mapstore/plugins/FloatingLegend').default,
         FullScreenPlugin: require('@mapstore/plugins/FullScreen').default,
-        DashboardSaveAsPlugin: require('@mapstore/plugins/DashboardSave').DashboardSaveAs,
+        //DashboardSaveAsPlugin: require('@mapstore/plugins/DashboardSave').DashboardSaveAs,
         GlobeViewSwitcherPlugin: require('@mapstore/plugins/GlobeViewSwitcher').default,
         GoFull: require('@mapstore/plugins/GoFull').default,
         GridContainerPlugin: require('@mapstore/plugins/GridContainer').default,
