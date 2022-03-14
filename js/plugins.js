@@ -17,6 +17,7 @@ export default {
         ContentTabs: require('@js/plugins/ContentTabs').default,
         Dashboard: require('@js/plugins/Dashboard').default,
         WidgetsPlugin: require('@js/plugins/Widgets').default,
+        IdentifyPlugin: require('@js/plugins/Identify').default,
 
         // product plugins
         AboutPlugin: require('@mapstore/product/plugins/About').default,
@@ -60,7 +61,7 @@ export default {
         HelpLinkPlugin: require('@mapstore/plugins/HelpLink').default,
         HelpPlugin: require('@mapstore/plugins/Help').default,
         HomePlugin: require('@mapstore/plugins/Home').default,
-        IdentifyPlugin: require('@mapstore/plugins/Identify').default,
+        //IdentifyPlugin: require('@mapstore/plugins/Identify').default,
         LanguagePlugin: require('@mapstore/plugins/Language').default,
         LayerDownload: require('@mapstore/plugins/LayerDownload').default,
         LayerInfoPlugin: require('@mapstore/plugins/LayerInfo').default,
