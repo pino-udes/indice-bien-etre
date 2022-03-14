@@ -16,7 +16,7 @@ export default {
         HomeDescriptionPlugin: require('@js/plugins/HomeDescription').default,
         ContentTabs: require('@js/plugins/ContentTabs').default,
         Dashboard: require('@js/plugins/Dashboard').default,
-
+        WidgetsPlugin: require('@js/plugins/Widgets').default,
 
         // product plugins
         AboutPlugin: require('@mapstore/product/plugins/About').default,
@@ -42,7 +42,7 @@ export default {
         CookiePlugin: require('@mapstore/plugins/Cookie').default,
         // CreateNewMapPlugin: require('@mapstore/plugins/CreateNewMap').default,
         //Dashboard: require('@mapstore/plugins/Dashboard').default,
-        //DashboardEditor: require('@mapstore/plugins/DashboardEditor').default,
+        DashboardEditor: require('@mapstore/plugins/DashboardEditor').default,
         DashboardsPlugin: require('@mapstore/plugins/Dashboards').default,
         DetailsPlugin: require('@mapstore/plugins/Details').default,
         DrawerMenuPlugin: require('@mapstore/plugins/DrawerMenu').default,
@@ -118,7 +118,7 @@ export default {
         UserSessionPlugin: require('@mapstore/plugins/UserSession').default,
         VersionPlugin: require('@mapstore/plugins/Version').default,
         WidgetsBuilderPlugin: require('@mapstore/plugins/WidgetsBuilder').default,
-        WidgetsPlugin: require('@mapstore/plugins/Widgets').default,
+        //WidgetsPlugin: require('@mapstore/plugins/Widgets').default,
         WidgetsTrayPlugin: require('@mapstore/plugins/WidgetsTray').default,
         ZoomAllPlugin: require('@mapstore/plugins/ZoomAll').default,
         ZoomInPlugin: require('@mapstore/plugins/ZoomIn').default,
