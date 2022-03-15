@@ -21,6 +21,9 @@ import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
 import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
 
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
+
+import jsondata from '@js/temp/temp.json'
 
 
 /**
@@ -108,14 +111,43 @@ export default props => {
     const emptyResponses = requests.length === validator(format)?.getNoValidResponses(responses)?.length || 0;
     const missingResponses = requests.length - responses.length;
     const revGeocodeDisplayName = reverseGeocodeData.error ? <Message msgId="identifyRevGeocodeError"/> : reverseGeocodeData.display_name;
+
     const chartdata = [
-        {            subject: 'Math',            A: 120,            B: 110,            fullMark: 150,        },
-        {            subject: 'Chinese',            A: 98,            B: 130,            fullMark: 150,        },
-        {            subject: 'English',            A: 86,            B: 130,            fullMark: 150,        },
-        {            subject: 'Geography',            A: 99,            B: 100,            fullMark: 150,        },
-        {            subject: 'Physics',            A: 85,            B: 90,            fullMark: 150,        },
-        {            subject: 'History',            A: 65,            B: 85,            fullMark: 150,        },
+        {            subject: 'Math',            A: 120,              fullMark: 150,        },
+        {            subject: 'Chinese',            A: 98,                     fullMark: 150,        },
+        {            subject: 'English',            A: 86,                  fullMark: 150,        },
+        {            subject: 'Geography',            A: 99,             fullMark: 150,        },
+        {            subject: 'Physics',            A: 85,            fullMark: 150,        },
+        {            subject: 'History',            A: 65,         fullMark: 150,        },
     ];
+
+
+
+    var testdata = JSON.stringify(responses[0]);
+    var testdata2
+    if (responses[0] !=  undefined) {
+        testdata2 = JSON.parse(testdata);
+        var c1 = testdata2["response"]["features"][0]["properties"]["_ibe_c1_me"];
+        var c2 = testdata2["response"]["features"][0]["properties"]["_ibe_c2_me"];
+        var c3 = testdata2["response"]["features"][0]["properties"]["_ibe_c3_me"];
+        var c4 = testdata2["response"]["features"][0]["properties"]["_ibe_c4_me"];
+        var c5 = testdata2["response"]["features"][0]["properties"]["_ibe_c5_me"];
+
+    }
+    else {
+        testdata2 = "";
+    }
+
+    const chartdata2 = [
+        {            subject: 'Math',            A: JSON.stringify(c1),              fullMark: 1,        },
+        {            subject: 'Chinese',            A: JSON.stringify(c2),                     fullMark: 1,        },
+        {            subject: 'English',            A: JSON.stringify(c3),                  fullMark: 1,        },
+        {            subject: 'Geography',            A: JSON.stringify(c4),             fullMark: 1,        },
+        {            subject: 'Physics',            A: JSON.stringify(c5),            fullMark: 1,        },
+    ];
+
+    //console.log(jsondata);
+
     return (
         <div id="identify-container" className={enabled && requests.length !== 0 ? "identify-active" : ""}>
             <DockablePanel
@@ -183,24 +215,21 @@ export default props => {
                     // </Row>
                 ].filter(headRow => headRow)}>
 
-                <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartdata}>
+                <ResponsiveContainer width="60%" height="60%">
+                    <RadarChart cx="50%" cy="50%" outerRadius="75%" data={chartdata2}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey="subject" />
                         <PolarRadiusAxis />
                         <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
                     </RadarChart>
                 </ResponsiveContainer>
+                {//JSON.stringify(testdata2)
+                    }
+                {JSON.stringify(testdata2)}
 
-                <Viewer
-                    index={index}
-                    setIndex={setIndex}
-                    format={format}
-                    missingResponses={missingResponses}
-                    responses={responses}
-                    requests={requests}
-                    showEmptyMessageGFI={showEmptyMessageGFI}
-                    {...viewerOptions}/>
+                <br/><br/>
+                {//JSON.stringify(jsondata["response"]["features"][0]["properties"]["_ibe_c1_me"])}
+                }
             </DockablePanel>
             <Portal>
                 <ResizableModal

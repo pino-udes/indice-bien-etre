@@ -40,6 +40,7 @@ function RowViewer({
     const layerRowViewer = isString(layerRowViewerProperty) ? getRowViewer(layerRowViewerProperty) : layerRowViewerProperty;
     const Row = layerRowViewer || component || PropertiesViewer;
     return (
+
         <Row
             {...feature.properties}
             feature={feature}
