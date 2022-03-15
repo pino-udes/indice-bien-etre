@@ -139,11 +139,11 @@ export default props => {
     }
 
     const chartdata2 = [
-        {            subject: 'Math',            A: JSON.stringify(c1),              fullMark: 1,        },
-        {            subject: 'Chinese',            A: JSON.stringify(c2),                     fullMark: 1,        },
-        {            subject: 'English',            A: JSON.stringify(c3),                  fullMark: 1,        },
-        {            subject: 'Geography',            A: JSON.stringify(c4),             fullMark: 1,        },
-        {            subject: 'Physics',            A: JSON.stringify(c5),            fullMark: 1,        },
+        {            subject: 'Math',            A: JSON.stringify(c1*100),              fullMark: 100,        },
+        {            subject: 'Chinese',            A: JSON.stringify(c2*100),                     fullMark: 100,        },
+        {            subject: 'English',            A: JSON.stringify(c3*100),                  fullMark: 100,        },
+        {            subject: 'Geography',            A: JSON.stringify(c4*100),             fullMark: 100,        },
+        {            subject: 'Physics',            A: JSON.stringify(c5*100),            fullMark: 100,        },
     ];
 
     //console.log(jsondata);
@@ -223,13 +223,13 @@ export default props => {
                         <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
                     </RadarChart>
                 </ResponsiveContainer>
-                {//JSON.stringify(testdata2)
-                    }
-                {JSON.stringify(testdata2)}
 
-                <br/><br/>
-                {//JSON.stringify(jsondata["response"]["features"][0]["properties"]["_ibe_c1_me"])}
-                }
+                {JSON.stringify(c1)}<br/>
+                {JSON.stringify(c2)}<br/>
+                {JSON.stringify(c3)}<br/>
+                {JSON.stringify(c4)}<br/>
+                {JSON.stringify(c5)}<br/>
+
             </DockablePanel>
             <Portal>
                 <ResizableModal
