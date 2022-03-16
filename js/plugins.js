@@ -18,6 +18,7 @@ export default {
         Dashboard: require('@js/plugins/Dashboard').default,
         WidgetsPlugin: require('@js/plugins/Widgets').default,
         IdentifyPlugin: require('@js/plugins/Identify').default,
+        MapPlugin: require('@js/plugins/Map').default,
 
         // product plugins
         AboutPlugin: require('@mapstore/product/plugins/About').default,
@@ -74,7 +75,7 @@ export default {
         MapFooterPlugin: require('@mapstore/plugins/MapFooter').default,
         MapImportPlugin: require('@mapstore/plugins/MapImport').default,
         MapLoadingPlugin: require('@mapstore/plugins/MapLoading').default,
-        MapPlugin: require('@mapstore/plugins/Map').default,
+        //MapPlugin: require('@mapstore/plugins/Map').default,
         MapSearchPlugin: require('@mapstore/plugins/MapSearch').default,
         MapsPlugin: require('@mapstore/plugins/Maps').default,
         MapCatalogPlugin: require('@mapstore/plugins/MapCatalog').default,

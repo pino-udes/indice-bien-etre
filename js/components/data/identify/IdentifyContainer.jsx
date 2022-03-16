@@ -215,14 +215,18 @@ export default props => {
                     // </Row>
                 ].filter(headRow => headRow)}>
 
-                <ResponsiveContainer width="60%" height="60%">
-                    <RadarChart cx="50%" cy="50%" outerRadius="75%" data={chartdata2}>
+
+
+            <ResponsiveContainer width="100%" height="60%">
+                    <RadarChart cx="50%" cy="50%" outerRadius="75%" data={chartdata2} isAnimationActive={false} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey="subject" />
                         <PolarRadiusAxis />
-                        <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                        <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#2959da" fillOpacity={0.6} />
                     </RadarChart>
                 </ResponsiveContainer>
+
+
 
                 {JSON.stringify(c1)}<br/>
                 {JSON.stringify(c2)}<br/>
