@@ -8,7 +8,7 @@
 
 import React from 'react';
 
-import { Row } from 'react-bootstrap';
+//import { Row } from 'react-bootstrap';
 import { get } from 'lodash';
 import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
 import Message from '@mapstore/components/I18N/Message';
@@ -22,8 +22,9 @@ import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
 
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
+import BorderLayout from '@mapstore/components/layout/BorderLayout';
+import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 
-import jsondata from '@js/temp/temp.json'
 
 
 /**
@@ -112,17 +113,6 @@ export default props => {
     const missingResponses = requests.length - responses.length;
     const revGeocodeDisplayName = reverseGeocodeData.error ? <Message msgId="identifyRevGeocodeError"/> : reverseGeocodeData.display_name;
 
-    const chartdata = [
-        {            subject: 'Math',            A: 120,              fullMark: 150,        },
-        {            subject: 'Chinese',            A: 98,                     fullMark: 150,        },
-        {            subject: 'English',            A: 86,                  fullMark: 150,        },
-        {            subject: 'Geography',            A: 99,             fullMark: 150,        },
-        {            subject: 'Physics',            A: 85,            fullMark: 150,        },
-        {            subject: 'History',            A: 65,         fullMark: 150,        },
-    ];
-
-
-
     var testdata = JSON.stringify(responses[0]);
     var testdata2
     if (responses[0] !=  undefined) {
@@ -139,14 +129,16 @@ export default props => {
     }
 
     const chartdata2 = [
-        {            subject: 'Math',            A: JSON.stringify(c1*100),              fullMark: 100,        },
-        {            subject: 'Chinese',            A: JSON.stringify(c2*100),                     fullMark: 100,        },
-        {            subject: 'English',            A: JSON.stringify(c3*100),                  fullMark: 100,        },
-        {            subject: 'Geography',            A: JSON.stringify(c4*100),             fullMark: 100,        },
-        {            subject: 'Physics',            A: JSON.stringify(c5*100),            fullMark: 100,        },
+        {            subject: 'Social',            A: JSON.stringify(c1*100),              fullMark: 100,        },
+        {            subject: 'Environnement',            A: JSON.stringify(c2*100),                     fullMark: 100,        },
+        {            subject: 'Économique',            A: JSON.stringify(c3*100),                  fullMark: 100,        },
+
     ];
 
     //console.log(jsondata);
+    const style = {width: "100%", height: "100%"};
+
+
 
     return (
         <div id="identify-container" className={enabled && requests.length !== 0 ? "identify-active" : ""}>
@@ -164,6 +156,7 @@ export default props => {
                 }}
                 dock={dock}
                 style={dockStyle}
+                title="Indice de bien-être et de verdure"
                 showFullscreen={showFullscreen}
                 zIndex={zIndex}
                 header={[
@@ -217,22 +210,28 @@ export default props => {
 
 
 
-            <ResponsiveContainer width="100%" height="60%">
-                    <RadarChart cx="50%" cy="50%" outerRadius="75%" data={chartdata2} isAnimationActive={false} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
-                        <PolarGrid />
-                        <PolarAngleAxis dataKey="subject" />
-                        <PolarRadiusAxis />
-                        <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#2959da" fillOpacity={0.6} />
-                    </RadarChart>
-                </ResponsiveContainer>
+                    <div classname="charts" style={style}>
+                        <Nav bsStyle="pills" activeKey="0" >
+                            <NavItem key="0">
+                                Indice de bien-être
+                            </NavItem>
+                            <NavItem key="1">
+                                Indice de verdure
+                            </NavItem>
+                        </Nav>
+                    <ResponsiveContainer width="100%" height="50%">
+                        <RadarChart cx="50%" cy="50%" outerRadius="75%" data={chartdata2} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                            <PolarGrid gridType="circle"/>
+                            <PolarAngleAxis dataKey="subject" />
+                            <PolarRadiusAxis domain={[0, 100]} />
+                            <Radar name="Mike" dataKey="A" stroke="#1e44ae" fill="#2959da" fillOpacity={0.4} strokeOpacity={0.5} />
+                        </RadarChart>
+                    </ResponsiveContainer>
 
-
-
-                {JSON.stringify(c1)}<br/>
-                {JSON.stringify(c2)}<br/>
-                {JSON.stringify(c3)}<br/>
-                {JSON.stringify(c4)}<br/>
-                {JSON.stringify(c5)}<br/>
+                        {JSON.stringify(c1)} <br/>
+                        {JSON.stringify(c2)}<br/>
+                        {JSON.stringify(c3)}<br/>
+                    </div>
 
             </DockablePanel>
             <Portal>
