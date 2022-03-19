@@ -304,7 +304,9 @@
                 }
               }
             }
-          }, "AutoMapUpdate", "HelpLink", "DrawerMenu", "Version", "Notifications", "BackgroundSelector", "Swipe", {
+          },
+
+          "AutoMapUpdate", "HelpLink", "DrawerMenu", "Version", "Notifications",  "Swipe", {
             "name": "Annotations",
             "cfg": {
               "measurementAnnotationEdit": false
@@ -390,12 +392,7 @@
                 }
             }, "Print", "MapImport", {
                 "name": "MapExport"
-            }, {
-                "name": "Settings",
-                "cfg": {
-                    "wrap": true
-                }
-            }, {
+            },{
                 "name": "MetadataExplorer",
                 "cfg": {
                     "wrap": true

@@ -20,11 +20,13 @@ import Coordinate from '@mapstore/components/data/identify/coordinates/Coordinat
 import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
 import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
 
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
 import BorderLayout from '@mapstore/components/layout/BorderLayout';
 import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 
+import IdentifyCharts from '@js/components/data/identify/Charts'
+import { Tabs, Tab, TabPane, Sonnet, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
+import IdentifyTabs from '@js/components/data/identify/IdentifyTabs'
 
 
 /**
@@ -63,6 +65,7 @@ export default props => {
         setIndex,
         warning,
         clearWarning,
+        test,
         zIndex,
         showEmptyMessageGFI,
         showEdit,
@@ -113,42 +116,18 @@ export default props => {
     const missingResponses = requests.length - responses.length;
     const revGeocodeDisplayName = reverseGeocodeData.error ? <Message msgId="identifyRevGeocodeError"/> : reverseGeocodeData.display_name;
 
-    var testdata = JSON.stringify(responses[0]);
-    var testdata2
-    if (responses[0] !=  undefined) {
-        testdata2 = JSON.parse(testdata);
-        var c1 = testdata2["response"]["features"][0]["properties"]["_ibe_c1_me"];
-        var c2 = testdata2["response"]["features"][0]["properties"]["_ibe_c2_me"];
-        var c3 = testdata2["response"]["features"][0]["properties"]["_ibe_c3_me"];
-        var c4 = testdata2["response"]["features"][0]["properties"]["_ibe_c4_me"];
-        var c5 = testdata2["response"]["features"][0]["properties"]["_ibe_c5_me"];
-
-    }
-    else {
-        testdata2 = "";
-    }
-
-    const chartdata2 = [
-        {            subject: 'Social',            A: JSON.stringify(c1*100),              fullMark: 100,        },
-        {            subject: 'Environnement',            A: JSON.stringify(c2*100),                     fullMark: 100,        },
-        {            subject: 'Économique',            A: JSON.stringify(c3*100),                  fullMark: 100,        },
-
-    ];
-
-    //console.log(jsondata);
     const style = {width: "100%", height: "100%"};
-
 
 
     return (
         <div id="identify-container" className={enabled && requests.length !== 0 ? "identify-active" : ""}>
             <DockablePanel
                 bsStyle="primary"
-                glyph="map-marker"
+                glyph="1-layer"
                 open={enabled && requests.length !== 0}
                 size={size}
                 fluid={fluid}
-                position={position}
+                position="left"
                 draggable={draggable}
                 onClose={() => {
                     onClose();
@@ -156,13 +135,14 @@ export default props => {
                 }}
                 dock={dock}
                 style={dockStyle}
-                title="Indice de bien-être et de verdure"
+                title="Indices"
                 showFullscreen={showFullscreen}
                 zIndex={zIndex}
                 header={[
+                    /*
                     <Row className="layer-select-row">
                         <div className="layer-col">
-                            <span className="identify-icon glyphicon glyphicon-1-layer"/>
+                                        <span className="identify-icon glyphicon glyphicon-1-layer"/>
                             <LayerSelector
                                 responses={responses}
                                 index={index}
@@ -173,13 +153,15 @@ export default props => {
                                 validator={validator}
                                 format={format}
                             />
-                            <Toolbar
+                                        <Toolbar
                                 btnDefaultProps={{ bsStyle: 'primary', className: 'square-button-md' }}
                                 buttons={getFeatureButtons(props)}
                                 transitionProps={null}
                             />
                         </div>
                     </Row>,
+                    */
+
                     // <Row className="coordinates-edit-row">
                     //     <span className="identify-icon glyphicon glyphicon-point"/>
                     //     <div style={showCoordinateEditor ? {zIndex: 1} : {}} className={"coordinate-editor"}>
@@ -210,28 +192,9 @@ export default props => {
 
 
 
-                    <div classname="charts" style={style}>
-                        <Nav bsStyle="pills" activeKey="0" >
-                            <NavItem key="0">
-                                Indice de bien-être
-                            </NavItem>
-                            <NavItem key="1">
-                                Indice de verdure
-                            </NavItem>
-                        </Nav>
-                    <ResponsiveContainer width="100%" height="50%">
-                        <RadarChart cx="50%" cy="50%" outerRadius="75%" data={chartdata2} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                            <PolarGrid gridType="circle"/>
-                            <PolarAngleAxis dataKey="subject" />
-                            <PolarRadiusAxis domain={[0, 100]} />
-                            <Radar name="Mike" dataKey="A" stroke="#1e44ae" fill="#2959da" fillOpacity={0.4} strokeOpacity={0.5} />
-                        </RadarChart>
-                    </ResponsiveContainer>
+                <IdentifyTabs data={responses} />
 
-                        {JSON.stringify(c1)} <br/>
-                        {JSON.stringify(c2)}<br/>
-                        {JSON.stringify(c3)}<br/>
-                    </div>
+
 
             </DockablePanel>
             <Portal>

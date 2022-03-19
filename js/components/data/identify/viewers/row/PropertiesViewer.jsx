@@ -12,9 +12,6 @@ import React from 'react';
 import { containsHTML } from '@mapstore/utils/StringUtils';
 import Message from '@mapstore/components/I18N/Message';
 
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
-
-
 class PropertiesViewer extends React.Component {
 
     static displayName = 'PropertiesViewer';

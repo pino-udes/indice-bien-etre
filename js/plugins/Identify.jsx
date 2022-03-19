@@ -131,6 +131,7 @@ const identifyDefaultProps = defaultProps({
     purgeResults: () => { },
     hideMarker: () => { },
     clearWarning: () => { },
+    test: () => { alert("test") },
     changeMousePointer: () => { },
     showRevGeocode: () => { },
     checkIdentifyIsMounted: () => {},
