@@ -127,7 +127,7 @@ export default props => {
                 open={enabled && requests.length !== 0}
                 size={size}
                 fluid={fluid}
-                position="left"
+                position="right"
                 draggable={draggable}
                 onClose={() => {
                     onClose();
