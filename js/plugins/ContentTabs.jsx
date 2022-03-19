@@ -92,7 +92,9 @@ class ContentTabs extends React.Component {
                                             )}
                                     </Nav>
                                 </div>
-                                {props.children}
+                                {
+                                    props.children
+                                     }
                             </div>}
                             toolStyle="primary"
                             stateSelector="contentTabs"
@@ -111,12 +113,12 @@ export default {
     ContentTabsPlugin: assign(connect(selectedSelector, {
         onSelect: onTabSelected
     })(ContentTabs), {
-        NavMenu: {
-            position: 2,
-            label: <Message msgId="resources.contents.title" />,
-            linkId: '#content-tabs',
-            glyph: 'dashboard'
-        }
+        // NavMenu: {
+        //     position: 2,
+        //     label: <Message msgId="resources.contents.title" />,
+        //     linkId: '#content-tabs',
+        //     glyph: 'dashboard'
+        // }
     }),
     reducers: {contenttabs: contenttabsReducers},
     epics: contenttabsEpics
