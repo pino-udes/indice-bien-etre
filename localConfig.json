@@ -277,6 +277,8 @@
             "FeedbackMask"
         ],
         "desktop": ["Details",
+
+
           {
             "name": "Map",
             "cfg": {
@@ -302,7 +304,9 @@
                 }
               }
             }
-          }, "AutoMapUpdate", "HelpLink", "DrawerMenu", "Version", "Notifications", "BackgroundSelector", "Swipe", {
+          },
+
+          "AutoMapUpdate", "HelpLink", "DrawerMenu", "Version", "Notifications",  "Swipe", {
             "name": "Annotations",
             "cfg": {
               "measurementAnnotationEdit": false
@@ -319,12 +323,17 @@
             },
             {
                 "name": "Identify",
+              "disabledAlwaysOn": false,
                 "cfg": {
+                    "showInMapPopup": false,
+                    "disableCenterToMarker": false,
+                    "showMoreInfo": false,
                     "showHighlightFeatureButton": true,
                     "viewerOptions": {
                         "container": "{context.ReactSwipe}"
                     },
-                    "showEdit": true
+
+                    "showEdit": false
                 },
                 "override": {
                   "Toolbar": {
@@ -365,8 +374,8 @@
                       "legendOptions": {
                         "WMSLegendOptions": "forceLabels:on",
                         "scaleDependent": true,
-                        "legendWidth": 12,
-                        "legendHeight": 12
+                        "legendWidth": 18,
+                        "legendHeight": 18
                       }
                     }
                 }
@@ -383,12 +392,7 @@
                 }
             }, "Print", "MapImport", {
                 "name": "MapExport"
-            }, {
-                "name": "Settings",
-                "cfg": {
-                    "wrap": true
-                }
-            }, {
+            },{
                 "name": "MetadataExplorer",
                 "cfg": {
                     "wrap": true
