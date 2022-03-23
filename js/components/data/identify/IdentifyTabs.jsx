@@ -43,7 +43,10 @@ class IdentifyTabs extends React.Component {
         layers: []
     }
 
-
+    handleSelect(index) {
+        console.log(index);
+        updateNode("ibe:ibe-criteres__6", 'layers', {visibility: false});
+    }
 
     render() {
         var chartData = JSON.stringify(this.props.data[0]);
@@ -75,8 +78,8 @@ class IdentifyTabs extends React.Component {
 
         return (
             <>
-            <Tabs  defaultActiveKey="first" >
-                    <Tab  eventKey="first" title={
+            <Tabs onSelect={this.handleSelect} defaultActiveKey={1} >
+                    <Tab  eventKey={1} title={
                         <span className="identify-icon glyphicon glyphicon-1-layer"> Indice de bien-être</span>
                     }>
                     <div className="charts" style={style}>
@@ -84,17 +87,17 @@ class IdentifyTabs extends React.Component {
                         <Button
                             variant="primary"
                             onClick={() => {
-                                this.props.updateNode(mylayer.id, 'layers', {visibility: false});
+                                this.props.updateNode("ibe:ibe-criteres__6", 'layers', {visibility: false});
                                 console.log(JSON.stringify(this.props.layers ));}}
                             >
-                            hgfh
+                            Switch layer
                     </Button>
                     </div>
                 </Tab>
-                <Tab eventKey="second" title={
+                <Tab eventKey={2} title={
                     <span className="identify-icon glyphicon glyphicon-1-layer"> Indice de verdure</span>
                 }>
-                    Hii, I am 2nd tab content
+                    ibe:ibe-criteres__5
                 </Tab>
             </Tabs>
 

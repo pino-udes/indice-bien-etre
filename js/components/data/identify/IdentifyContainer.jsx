@@ -142,7 +142,6 @@ export default props => {
                 showFullscreen={showFullscreen}
                 zIndex={zIndex}
                 header={[
-                    <h3>{JSON.stringify(layers[7])}</h3>
                     /*
                     <Row className="layer-select-row">
                         <div className="layer-col">
