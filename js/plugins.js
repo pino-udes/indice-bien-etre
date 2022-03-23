@@ -52,7 +52,7 @@ export default {
         FeatureEditorPlugin: require('@mapstore/plugins/FeatureEditor').default,
         FeedbackMaskPlugin: require('@mapstore/plugins/FeedbackMask').default,
         FilterLayerPlugin: require('@mapstore/plugins/FilterLayer').default,
-        FloatingLegendPlugin: require('@mapstore/plugins/FloatingLegend').default,
+        //FloatingLegendPlugin: require('@mapstore/plugins/FloatingLegend').default,
         FullScreenPlugin: require('@mapstore/plugins/FullScreen').default,
         //DashboardSaveAsPlugin: require('@mapstore/plugins/DashboardSave').DashboardSaveAs,
         GlobeViewSwitcherPlugin: require('@mapstore/plugins/GlobeViewSwitcher').default,

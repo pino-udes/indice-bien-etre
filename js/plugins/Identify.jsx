@@ -76,6 +76,10 @@ import getFeatureButtons from '@mapstore/plugins/identify/featureButtons';
 import getToolButtons from '@mapstore/plugins/identify/toolButtons';
 import Message from '@mapstore/plugins/locale/Message';
 
+import { updateNode } from '@mapstore/actions/layers';
+
+
+
 const selector = createStructuredSelector({
     enabled: (state) => mapInfoEnabledSelector(state) || state.controls && state.controls.info && state.controls.info.enabled || false,
     responses: responsesSelector,

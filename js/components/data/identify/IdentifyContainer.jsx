@@ -42,8 +42,10 @@ import IdentifyTabs from '@js/components/data/identify/IdentifyTabs'
  */
 export default props => {
     const {
+        layers,
         enabled,
         requests = [],
+        onChange = () => {},
         onClose = () => {},
         responses = [],
         index,
@@ -119,15 +121,16 @@ export default props => {
     const style = {width: "100%", height: "100%"};
 
 
+
     return (
         <div id="identify-container" className={enabled && requests.length !== 0 ? "identify-active" : ""}>
             <DockablePanel
                 bsStyle="primary"
                 glyph="1-layer"
                 open={enabled && requests.length !== 0}
-                size={size}
-                fluid={fluid}
-                position="right"
+                size={0.26}
+                fluid={true}
+                position="left"
                 draggable={draggable}
                 onClose={() => {
                     onClose();
@@ -139,6 +142,7 @@ export default props => {
                 showFullscreen={showFullscreen}
                 zIndex={zIndex}
                 header={[
+                    <h3>{JSON.stringify(layers[7])}</h3>
                     /*
                     <Row className="layer-select-row">
                         <div className="layer-col">
@@ -192,7 +196,7 @@ export default props => {
 
 
 
-                <IdentifyTabs data={responses} />
+                <IdentifyTabs data={responses} layers={layers} />
 
 
 

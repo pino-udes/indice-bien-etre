@@ -11,7 +11,7 @@ import ResizableModal from '@mapstore/components/misc/ResizableModal';
 import Portal from '@mapstore/components/misc/Portal';
 import Coordinate from '@mapstore/components/data/identify/coordinates/Coordinate';
 import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
-import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
+//import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
 
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
@@ -22,15 +22,27 @@ import PropTypes from 'prop-types';
 import IdentifyCharts from '@js/components/data/identify/Charts'
 import { Tabs, Tab, TabPane, Sonnet, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
 
+import { layersSelector } from '@mapstore/selectors/layers'
+import { createSelector } from 'reselect';
+import { getLocalizedProp } from '@mapstore/utils/LocaleUtils';
+import { updateNode } from '@mapstore/actions/layers';
+import { connect } from 'react-redux';
+
+const mapDispatchToProps = {
+    updateNode
+};
 
 class IdentifyTabs extends React.Component {
     static PropTypes = {
         data: PropTypes.object,
+        layers: PropTypes.array,
     };
 
     static defaultProps = {
         name: '',
+        layers: []
     }
+
 
 
     render() {
@@ -55,6 +67,12 @@ class IdentifyTabs extends React.Component {
 
         const style = {width: "100%", height: "100%", zIndex: 10000};
         var test = "AWE"
+
+
+
+        //console.log(layers.length);
+        const mylayer = this.props.layers[7];
+
         return (
             <>
             <Tabs  defaultActiveKey="first" >
@@ -65,7 +83,9 @@ class IdentifyTabs extends React.Component {
                         <IdentifyCharts width="100%" height="100%" data={this.props.data} name="indice-bien-etre" />
                         <Button
                             variant="primary"
-                            onClick={() => {alert("asd")}}
+                            onClick={() => {
+                                this.props.updateNode(mylayer.id, 'layers', {visibility: false});
+                                console.log(JSON.stringify(this.props.layers ));}}
                             >
                             hgfh
                     </Button>
@@ -83,4 +103,4 @@ class IdentifyTabs extends React.Component {
     }
 }
 
-export default IdentifyTabs;
+export default connect(null, mapDispatchToProps)(IdentifyTabs);
