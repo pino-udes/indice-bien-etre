@@ -142,55 +142,7 @@ export default props => {
                 showFullscreen={showFullscreen}
                 zIndex={zIndex}
                 header={[
-                    /*
-                    <Row className="layer-select-row">
-                        <div className="layer-col">
-                                        <span className="identify-icon glyphicon glyphicon-1-layer"/>
-                            <LayerSelector
-                                responses={responses}
-                                index={index}
-                                loaded={loaded}
-                                setIndex={setIndex}
-                                missingResponses={missingResponses}
-                                emptyResponses={emptyResponses}
-                                validator={validator}
-                                format={format}
-                            />
-                                        <Toolbar
-                                btnDefaultProps={{ bsStyle: 'primary', className: 'square-button-md' }}
-                                buttons={getFeatureButtons(props)}
-                                transitionProps={null}
-                            />
-                        </div>
-                    </Row>,
-                    */
 
-                    // <Row className="coordinates-edit-row">
-                    //     <span className="identify-icon glyphicon glyphicon-point"/>
-                    //     <div style={showCoordinateEditor ? {zIndex: 1} : {}} className={"coordinate-editor"}>
-                    //         <Coordinate
-                    //             key="coordinate-editor"
-                    //             formatCoord={formatCoord}
-                    //             enabledCoordEditorButton={enabledCoordEditorButton}
-                    //             onSubmit={onSubmitClickPoint}
-                    //             onChangeFormat={onChangeFormat}
-                    //             edit={showCoordinateEditor}
-                    //             coordinate={{
-                    //                 lat: latlng && latlng.lat,
-                    //                 lon: lngCorrected
-                    //             }}
-                    //         />
-                    //     </div>
-                    //     <GeocodeViewer latlng={latlng} revGeocodeDisplayName={revGeocodeDisplayName} {...props}/>
-                    //     <Toolbar
-                    //         btnDefaultProps={{ bsStyle: 'primary', className: 'square-button-md' }}
-                    //         buttons={toolButtons}
-                    //         transitionProps={null
-                    //         /* transitions was causing a bad rendering of toolbar present in the identify panel
-                    //              * for this reason they ahve been disabled
-                    //             */
-                    //         }/>
-                    // </Row>
                 ].filter(headRow => headRow)}>
 
 

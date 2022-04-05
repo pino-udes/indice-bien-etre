@@ -35,22 +35,23 @@ class IdentifyCharts extends React.Component {
 
     render() {
         var chartData = JSON.stringify(this.props.data[0]);
+        console.log(chartData);
         var parsedChartData;
 
         if (this.props.data[0] !=  undefined) {
             parsedChartData = JSON.parse(chartData);
-            var environnement = parsedChartData["response"]["features"][0]["properties"]["_ibe_c1_me"];
-            var social = parsedChartData["response"]["features"][0]["properties"]["_ibe_c2_me"];
-            var economique = parsedChartData["response"]["features"][0]["properties"]["_ibe_c3_me"];
+            var environnement = parsedChartData["response"]["features"][0]["properties"]["ibe_d1"];
+            var social = parsedChartData["response"]["features"][0]["properties"]["ibe_d2"];
+            var economique = parsedChartData["response"]["features"][0]["properties"]["ibe_d3"];
         }
         else {
             parsedChartData = "";
         }
 
         const parsedRadarChartData = [
-            {            subject: 'Social',            A: JSON.stringify(environnement*100),              fullMark: 100,        },
-            {            subject: 'Environnement',            A: JSON.stringify(social*100),                     fullMark: 100,        },
-            {            subject: 'Économique',            A: JSON.stringify(economique*100),                  fullMark: 100,        },
+            {            subject: 'Social',            A: JSON.stringify(environnement),              fullMark: 100,        },
+            {            subject: 'Environnement',            A: JSON.stringify(social),                     fullMark: 100,        },
+            {            subject: 'Économique',            A: JSON.stringify(economique),                  fullMark: 100,        },
         ];
 
         const style = {width: "100%", height: "100%", zIndex: 10000};

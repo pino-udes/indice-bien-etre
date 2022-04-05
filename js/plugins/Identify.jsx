@@ -68,7 +68,7 @@ import {
     hoverEnabledSelector,
     mapInfoEnabledSelector
 } from '@mapstore/selectors/mapInfo';
-import { mapLayoutValuesSelector } from '@mapstore/selectors/maplayout';
+import { mapLayoutValuesSelector } from '@js/selectors/maplayout';
 import { isCesium, mapTypeSelector } from '@mapstore/selectors/maptype';
 import ConfigUtils from '@mapstore/utils/ConfigUtils';
 import { getDefaultInfoFormatValue, getValidator } from '@js/utils/MapInfoUtils';

@@ -16,7 +16,7 @@ import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
 import BorderLayout from '@mapstore/components/layout/BorderLayout';
-import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
+import { Col, Grid, Nav, NavItem, Row, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import IdentifyCharts from '@js/components/data/identify/Charts'
@@ -27,6 +27,10 @@ import { createSelector } from 'reselect';
 import { getLocalizedProp } from '@mapstore/utils/LocaleUtils';
 import { updateNode } from '@mapstore/actions/layers';
 import { connect } from 'react-redux';
+import { getNode } from '@mapstore/utils/LayersUtils';
+import aggregation1 from '../../../../assets/honeycomb.png';
+import aggregation2 from '../../../../assets/polygon1.png';
+import aggregation3 from '../../../../assets/polygon2.png';
 
 const mapDispatchToProps = {
     updateNode
@@ -36,65 +40,82 @@ class IdentifyTabs extends React.Component {
     static PropTypes = {
         data: PropTypes.object,
         layers: PropTypes.array,
+        selected_tab: PropTypes.numeric,
     };
 
     static defaultProps = {
         name: '',
-        layers: []
+        layers: [],
+        selected_tab: 1,
+
     }
 
-    handleSelect(index) {
-        console.log(index);
-        updateNode("ibe:ibe-criteres__6", 'layers', {visibility: false});
+    handleSelect(event) {
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID'));
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID'));
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID'));
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID'));
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID'));
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID'));
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID'));
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID'));
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID'));
+        console.log(getNode(this.props.layers, 'Magog_IBE_ID').id);
+
+        if (event == "Magog_IBE_ID__7") {
+            this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: false});
+            this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: true});
+        }
+        if (event == "Magog_IBE_AD__5") {
+            this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: true});
+            this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: false});
+        }
     }
+
+
 
     render() {
-        var chartData = JSON.stringify(this.props.data[0]);
-        var parsedChartData;
-
-        if (this.props.data[0] !=  undefined) {
-            parsedChartData = JSON.parse(chartData);
-            var environnement = parsedChartData["response"]["features"][0]["properties"]["_ibe_c1_me"];
-            var social = parsedChartData["response"]["features"][0]["properties"]["_ibe_c2_me"];
-            var economique = parsedChartData["response"]["features"][0]["properties"]["_ibe_c3_me"];
-        }
-        else {
-            parsedChartData = "";
-        }
-
-        const parsedRadarChartData = [
-            {            subject: 'Social',            A: JSON.stringify(environnement*100),              fullMark: 100,        },
-            {            subject: 'Environnement',            A: JSON.stringify(social*100),                     fullMark: 100,        },
-            {            subject: 'Économique',            A: JSON.stringify(economique*100),                  fullMark: 100,        },
-        ];
-
         const style = {width: "100%", height: "100%", zIndex: 10000};
         var test = "AWE"
 
-
-
-        //console.log(layers.length);
         const mylayer = this.props.layers[7];
 
         return (
             <>
-            <Tabs onSelect={this.handleSelect} defaultActiveKey={1} >
-                    <Tab  eventKey={1} title={
+
+            <Tabs onSelect={ (event) => { this.handleSelect(event); } } defaultActiveKey={this.props.selected_tab} >
+                    <Tab  eventKey={"Magog_IBE_ID__7"} title={
                         <span className="identify-icon glyphicon glyphicon-1-layer"> Indice de bien-être</span>
                     }>
+                        <div>
+                            <Col>1 of 3</Col>
+                            <Col>2 of 3</Col>
+                            <Col>3 of 3</Col>
+                        </div>
                     <div className="charts" style={style}>
+
+
+
+                        <img src={aggregation1}/>
+                        <img src={aggregation1}/>
+                        <img src={aggregation1}/>
+
                         <IdentifyCharts width="100%" height="100%" data={this.props.data} name="indice-bien-etre" />
                         <Button
                             variant="primary"
                             onClick={() => {
-                                this.props.updateNode("ibe:ibe-criteres__6", 'layers', {visibility: false});
-                                console.log(JSON.stringify(this.props.layers ));}}
+                                this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: false});
+                                console.log(JSON.stringify(this.props.layers ));
+                                console.log(this.props.layers);
+
+                            }}
+
                             >
                             Switch layer
                     </Button>
                     </div>
                 </Tab>
-                <Tab eventKey={2} title={
+                <Tab eventKey={"Magog_IBE_AD__5"} title={
                     <span className="identify-icon glyphicon glyphicon-1-layer"> Indice de verdure</span>
                 }>
                     ibe:ibe-criteres__5
