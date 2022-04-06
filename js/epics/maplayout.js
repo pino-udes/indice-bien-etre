@@ -7,10 +7,10 @@
 */
 import Rx from 'rxjs';
 
-import { updateMapLayout } from '../actions/maplayout';
-import { TOGGLE_CONTROL, SET_CONTROL_PROPERTY, SET_CONTROL_PROPERTIES } from '../actions/controls';
-import { MAP_CONFIG_LOADED } from '../actions/config';
-import { SIZE_CHANGE, CLOSE_FEATURE_GRID, OPEN_FEATURE_GRID } from '../actions/featuregrid';
+import { updateMapLayout } from '@mapstore/actions/maplayout';
+import { TOGGLE_CONTROL, SET_CONTROL_PROPERTY, SET_CONTROL_PROPERTIES } from '@mapstore/actions/controls';
+import { MAP_CONFIG_LOADED } from '@mapstore/actions/config';
+import { SIZE_CHANGE, CLOSE_FEATURE_GRID, OPEN_FEATURE_GRID } from '@mapstore/actions/featuregrid';
 
 import {
     CLOSE_IDENTIFY,
@@ -19,13 +19,13 @@ import {
     LOAD_FEATURE_INFO,
     EXCEPTIONS_FEATURE_INFO,
     NO_QUERYABLE_LAYERS
-} from '../actions/mapInfo';
+} from '@mapstore/actions/mapInfo';
 
-import { SHOW_SETTINGS, HIDE_SETTINGS } from '../actions/layers';
-import {isMapInfoOpen, mapInfoEnabledSelector} from '../selectors/mapInfo';
-import { showCoordinateEditorSelector } from '../selectors/controls';
-import ConfigUtils from '../utils/ConfigUtils';
-import { mapInfoDetailsSettingsFromIdSelector, isMouseMoveIdentifyActiveSelector } from '../selectors/map';
+import { SHOW_SETTINGS, HIDE_SETTINGS } from '@mapstore/actions/layers';
+import {isMapInfoOpen, mapInfoEnabledSelector} from '@mapstore/selectors/mapInfo';
+import { showCoordinateEditorSelector } from '@mapstore/selectors/controls';
+import ConfigUtils from '@mapstore/utils/ConfigUtils';
+import { mapInfoDetailsSettingsFromIdSelector, isMouseMoveIdentifyActiveSelector } from '@mapstore/selectors/map';
 
 /**
  * Epìcs for feature grid
@@ -35,7 +35,7 @@ import { mapInfoDetailsSettingsFromIdSelector, isMouseMoveIdentifyActiveSelector
 
 import { head, get } from 'lodash';
 
-import { isFeatureGridOpen, getDockSize } from '../selectors/featuregrid';
+import { isFeatureGridOpen, getDockSize } from '@mapstore/selectors/featuregrid';
 
 /**
  * Capture that cause layout change to update the proper object.
@@ -77,7 +77,7 @@ export const updateMapLayoutEpic = (action$, store) =>
                 }));
             }
 
-            const mapLayout = ConfigUtils.getConfigProp("mapLayout") || {left: {sm: 300, md: 500, lg: 600}, right: {md: 658}, bottom: {sm: 30}};
+            const mapLayout = ConfigUtils.getConfigProp("mapLayout") || {left: {sm: 300, md: 500, lg: 600}, right: {md: 0}, bottom: {sm: 30}};
 
             if (get(state, "mode") === 'embedded') {
                 const height = {height: 'calc(100% - ' + mapLayout.bottom.sm + 'px)'};
