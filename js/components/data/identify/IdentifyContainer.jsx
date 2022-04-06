@@ -128,7 +128,7 @@ export default props => {
                 bsStyle="primary"
                 glyph="1-layer"
                 open={enabled && requests.length !== 0}
-                size={0.26}
+                size={0.28}
                 fluid={true}
                 position="left"
                 draggable={draggable}

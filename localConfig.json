@@ -294,7 +294,7 @@
             }
           },
 
-          "AutoMapUpdate", "HelpLink", "DrawerMenu", "Version", "Notifications",  "Swipe", {
+          "AutoMapUpdate", "HelpLink", "DrawerMenu", "Version", "Notifications", "BackgroundSelector", "Swipe", {
             "name": "Annotations",
             "cfg": {
               "measurementAnnotationEdit": false

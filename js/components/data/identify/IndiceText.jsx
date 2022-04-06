@@ -19,7 +19,7 @@ import BorderLayout from '@mapstore/components/layout/BorderLayout';
 import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-class IdentifyCharts extends React.Component {
+class IdentifyIndiceText extends React.Component {
     static PropTypes = {
         data: PropTypes.object,
         width: PropTypes.string,
@@ -31,11 +31,8 @@ class IdentifyCharts extends React.Component {
         name: '',
     }
 
-
-
     render() {
         var chartData = JSON.stringify(this.props.data[0]);
-        //console.log(chartData);
         var parsedChartData;
 
         if (this.props.data[0] !=  undefined) {
@@ -46,33 +43,16 @@ class IdentifyCharts extends React.Component {
         }
         else {
             parsedChartData = "";
+            environnement = social = economique = 0;
         }
 
-        const parsedRadarChartData = [
-            {            subject: 'Social',            A: JSON.stringify(environnement),              fullMark: 100,        },
-            {            subject: 'Environnement',            A: JSON.stringify(social),                     fullMark: 100,        },
-            {            subject: 'Économique',            A: JSON.stringify(economique),                  fullMark: 100,        },
-        ];
-
-        const style = {width: "100%", height: "100%", zIndex: 10000};
-        var test = "AWE"
-
-
         return (
-            <>
-                <ResponsiveContainer width="100%" height={300}>
-                    <RadarChart  cy="50%" outerRadius="75%"
-                                data={parsedRadarChartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                        <PolarGrid gridType="circle"/>
-                        <PolarAngleAxis dataKey="subject" />
-                        <PolarRadiusAxis domain={[0, 100]} />
-                        <Radar  name="indice-bien-etre"  dataKey="A" stroke="#1e44ae" fill="#2959da" fillOpacity={0.4} strokeOpacity={0.5} />
-                    </RadarChart>
-                </ResponsiveContainer>
-
-            </>
+            <div style={{padding: '20px', display: 'flex', justifyContent: 'center'}}>
+                <h1>Indice de bien-être<br/>{Math.round((environnement+social+economique)/3)}</h1>
+                <h1></h1>
+            </div>
         );
     }
 }
 
-export default IdentifyCharts;
+export default IdentifyIndiceText;
