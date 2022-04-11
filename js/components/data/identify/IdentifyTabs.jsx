@@ -36,6 +36,8 @@ import aggregation3 from '../../../../assets/polygon2.png';
 
 import ToggleButton from '@mapstore/components/buttons/ToggleButton';
 import Accordion from '@mapstore/components/misc/panels/Accordion';
+import './style/topchart.css';
+
 
 const mapDispatchToProps = {
     updateNode
@@ -142,11 +144,13 @@ class IdentifyTabs extends React.Component {
             <>
             <Tabs onSelect={ (event) => { this.handleSelect(event); } } defaultActiveKey={this.state.selected_tab} >
                     <Tab  eventKey={"Magog_IBE_ID__7"} title={
-                        <span className={this.state.ibe_check}> Indice de bien-être</span>
+                        <><h4>Indice de bien-être</h4></>
                     }>
 
                     <div className="charts" style={style}>
-                        <div style={{padding: '15px', borderColor: 'black', borderWidth: '10px', display: 'flex', justifyContent: 'space-evenly'}}>
+                        <div className={"buttoncard"} >
+
+
                             <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check}
                                           tooltip={<Tooltip id="showMousePositionCoordinates">Test!</Tooltip>}
                                           text={"Aire de diffusion"}
@@ -169,10 +173,9 @@ class IdentifyTabs extends React.Component {
                             />
                         </div>
 
-                        <IdentifyIndiceText data={this.props.data} name="indice-bien-etre"/>
 
 
-                        <IdentifyCharts width="100%" height="100%" data={this.props.data} name="indice-bien-etre" />
+                            <IdentifyCharts width="100%" height="100%" data={this.props.data} name="indice-bien-etre" />
 
 
                     </div>
@@ -181,7 +184,8 @@ class IdentifyTabs extends React.Component {
 
                 </Tab>
                 <Tab eventKey={"Magog_IBE_AD__5"} title={
-                    <span className={this.state.iv_check}> Indice de verdure</span>
+                    <><h4>Indice de verdure</h4></>
+
                 }>
                     ibe:ibe-criteres__5
                 </Tab>

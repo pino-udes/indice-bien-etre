@@ -16,7 +16,7 @@ import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
 import BorderLayout from '@mapstore/components/layout/BorderLayout';
-import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
+import { Col, Grid, Nav, NavItem, Row, Jumbotron } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 class IdentifyIndiceText extends React.Component {
@@ -47,9 +47,8 @@ class IdentifyIndiceText extends React.Component {
         }
 
         return (
-            <div style={{padding: '20px', display: 'flex', justifyContent: 'center'}}>
-                <h1>Indice de bien-être<br/>{Math.round((environnement+social+economique)/3)}</h1>
-                <h1></h1>
+            <div style={{padding: '5px', display: 'flex', justifyContent: 'center'}}>
+                <h2>Indice de bien-être: {Math.round((environnement+social+economique)/3)}</h2>
             </div>
         );
     }
