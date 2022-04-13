@@ -19,6 +19,7 @@ import BorderLayout from '@mapstore/components/layout/BorderLayout';
 import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Accordion from '@mapstore/components/misc/panels/Accordion';
+import RadarChartsDimensions from '@js/components/data/identify/RadarChartsDimensions';
 import './style/topchart.css';
 
 
@@ -156,17 +157,7 @@ class IdentifyCharts extends React.Component {
                     size: 'sm'
                 },
                 body:
-                    <>
-                        <ResponsiveContainer width="100%" height={250}>
-                            <RadarChart  cy="50%" outerRadius="75%"
-                                         data={parsedEnvironnementData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                                <PolarGrid gridType="polygon"/>
-                                <PolarAngleAxis dataKey="name" />
-                                <PolarRadiusAxis domain={[0, 100]} />
-                                <Radar  name="indice-bien-etre"  dataKey="A" stroke="#1e44ae" fill="#3FB338" fillOpacity={0.4} strokeOpacity={0.5} />
-                            </RadarChart>
-                        </ResponsiveContainer>
-                    </>
+                    <RadarChartsDimensions data={this.props.data} name={"DEnvironnement"}>
             },
 
             {

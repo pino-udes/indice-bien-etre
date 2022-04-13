@@ -145,9 +145,7 @@ export default props => {
 
                 ].filter(headRow => headRow)}>
 
-
                 <IdentifyTabs data={responses} layers={layers} />
-
 
             </DockablePanel>
             <Portal>
