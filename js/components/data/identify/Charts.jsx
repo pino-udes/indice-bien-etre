@@ -20,6 +20,7 @@ import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Accordion from '@mapstore/components/misc/panels/Accordion';
 import RadarChartsDimensions from '@js/components/data/identify/RadarChartsDimensions';
+import IdentifyIBEAccordion from '@js/components/data/identify/IdentifyIBEAccordion';
 import './style/topchart.css';
 
 
@@ -147,63 +148,6 @@ class IdentifyCharts extends React.Component {
             }
         };
 
-        const panels = [
-            {
-                id: 'panel-001',
-                head: {
-                    preview: <h1>{environnement}</h1>,
-                        title: 'Environnement',
-                    description: 'Indicateurs de la dimension environnementale',
-                    size: 'sm'
-                },
-                body:
-                    <RadarChartsDimensions data={this.props.data} name={"DEnvironnement"}>
-            },
-
-            {
-                id: 'panel-002',
-                head: {
-                    preview: <h1>{social}</h1>,
-                    title: 'Social',
-                    description: 'Indicateurs de la dimension sociale',
-                    size: 'sm'
-                },
-                body:
-                    <>
-                        <ResponsiveContainer width="100%" height={250}>
-                            <RadarChart  cy="50%" outerRadius="75%"
-                                         data={parsedSocialData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                                <PolarGrid gridType="polygon"/>
-                                <PolarAngleAxis dataKey="name" />
-                                <PolarRadiusAxis domain={[0, 100]} />
-                                <Radar  name="indice-bien-etre"  dataKey="A" stroke="#1e44ae" fill="#FF9412" fillOpacity={0.4} strokeOpacity={0.5} />
-                            </RadarChart>
-                        </ResponsiveContainer>
-                    </>
-            },
-            {
-                id: 'panel-003',
-                head: {
-                    preview:<h1>{economique}</h1>,
-                    title: 'Économique',
-                    description: 'Indicateurs de la dimension économique',
-                    size: 'sm'
-                },
-                body:
-                <>
-
-            <ResponsiveContainer width="100%" height={300}>
-                <RadarChart  cy="50%" outerRadius="75%"
-                             data={parsedEconomiqueData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                    <PolarGrid gridType="polygon"/>
-                    <PolarAngleAxis dataKey="name" />
-                    <PolarRadiusAxis domain={[0, 100]} />
-                    <Radar  name="indice-bien-etre"  dataKey="A" stroke="#1e44ae" fill="#16BDFA" fillOpacity={0.4} strokeOpacity={0.5} />
-                </RadarChart>
-            </ResponsiveContainer>
-            </>
-            }
-        ];
 
         const style_radial = {
             top: '50%',
@@ -214,7 +158,7 @@ class IdentifyCharts extends React.Component {
 
         return (
             <>
-                <div className={"mygridcard"}>
+                <div className={"IdentifyGridCard"}>
 
                     <div style={{padding: '5px', display: 'flex', justifyContent: 'center'}}>
                         <h2>Indice de bien-être: {Math.round((environnement+social+economique)/3)}</h2>
@@ -229,9 +173,9 @@ class IdentifyCharts extends React.Component {
 
                 </div>
 
-                <div>
-                    <Accordion activePanel={this.props.activePanel} panels={panels} onSelect={ (key, value) => { this.setState({activePanel: key}); } } />
-                </div>
+
+                { /* <Accordion activePanel={this.props.activePanel} panels={panels} onSelect={ (key, value) => { this.setState({activePanel: key}); } } /> */}
+                <IdentifyIBEAccordion data={this.props.data}/>
 
             </>
         );
