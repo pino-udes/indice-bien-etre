@@ -593,7 +593,7 @@
             "cfg": {
                 "enableContextManager": true
             }
-        }, "Login","Language", "NavMenu", "Attribution", "ScrollTop", "Notifications"],
+        }, "Login","Language",  "Attribution", "ScrollTop", "Notifications"],
         "maps": ["HomeDescription", "MapSearch", "CreateNewMap", "FeaturedMaps", "ContentTabs",
           {
             "name": "Maps",
@@ -637,7 +637,7 @@
                 "containerPosition": "header",
                 "className": "navbar shadow navbar-home"
             }
-        }, "Login", "Language", "NavMenu", "DashboardSave", "DashboardSaveAs", "Attribution", "Home", {
+        }, "Login", "Language",  "DashboardSave", "DashboardSaveAs", "Attribution", "Home", {
           "name": "Share",
           "cfg": {
             "showAPI": false,
@@ -747,7 +747,7 @@
           "Login",
           "BurgerMenu",
           "Language",
-          "NavMenu",
+          
           "Attribution",
           "Home",
           {
@@ -807,7 +807,7 @@
           "Redirect",
           "Login",
           "Language",
-          "NavMenu",
+          
           "Attribution",
           "Tutorial",
           {

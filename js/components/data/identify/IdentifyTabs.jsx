@@ -71,22 +71,22 @@ class IdentifyTabs extends React.Component {
     }
 
     handleSelect(event) {
-        if (event == "Magog_IBE_ID__7") {
-            this.setState( { selected_tab: "Magog_IBE_ID__7"});
-            this.setState( { ibe_check: "glyphicon glyphicon-check"});
-            this.setState( { iv_check: "glyphicon glyphicon-unchecked"});
-            this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: false});
-            this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: true});
-            console.log(this.state.selected_tab);
-        }
-        if (event == "Magog_IBE_AD__5") {
-            this.setState({selected_tab: "Magog_IBE_AD__5"});
-            this.setState({ibe_check: "glyphicon glyphicon-unchecked"});
-            this.setState({iv_check: "glyphicon glyphicon-check"});
-            this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: true});
-            this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: false});
-            console.log(this.state.selected_tab);
-        }
+        // if (event == "Magog_IBE_ID__7") {
+        //     this.setState( { selected_tab: "Magog_IBE_ID__7"});
+        //     this.setState( { ibe_check: "glyphicon glyphicon-check"});
+        //     this.setState( { iv_check: "glyphicon glyphicon-unchecked"});
+        //     this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: false});
+        //     this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: true});
+        //     console.log(this.state.selected_tab);
+        // }
+        // if (event == "Magog_IBE_AD__5") {
+        //     this.setState({selected_tab: "Magog_IBE_AD__5"});
+        //     this.setState({ibe_check: "glyphicon glyphicon-unchecked"});
+        //     this.setState({iv_check: "glyphicon glyphicon-check"});
+        //     this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: true});
+        //     this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: false});
+        //     console.log(this.state.selected_tab);
+        // }
     }
 //Magog_IBE_HEXA__6
     handleToggleButtonClick(button) {
@@ -152,21 +152,21 @@ class IdentifyTabs extends React.Component {
 
 
                             <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check}
-                                          tooltip={<Tooltip id="showMousePositionCoordinates">Test!</Tooltip>}
+                                          tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>}
                                           text={"Aire de diffusion"}
                                           style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}}
                                           onClick={ () => { this.handleToggleButtonClick('AD') } }
                             />
 
                             <ToggleButton pressed={this.state.ibe_id_pressed} glyphicon={this.state.ibe_id_check}
-                                          tooltip={<Tooltip id="showMousePositionCoordinates">Test!</Tooltip>}
+                                          tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'ilots de diffusion</Tooltip>}
                                           text={"Îlots de diffusion"}
                                           style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}}
                                           onClick={ () => { this.handleToggleButtonClick('ID') } }
                             />
 
                             <ToggleButton pressed={this.state.ibe_pix_pressed} glyphicon={this.state.ibe_pix_check}
-                                          tooltip={<Tooltip id="showMousePositionCoordinates">Test!</Tooltip>}
+                                          tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon des hexagones de 200 mètres</Tooltip>}
                                           text={"Pixels"}
                                           style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}}
                                           onClick={ () => { this.handleToggleButtonClick('PIX') } }
@@ -187,7 +187,8 @@ class IdentifyTabs extends React.Component {
                     <><h4>Indice de verdure</h4></>
 
                 }>
-                    ibe:ibe-criteres__5
+                    <p align={"center"}><br/><br/><br/><span className="glyphicon glyphicon-wrench"></span></p>
+
                 </Tab>
             </Tabs>
 

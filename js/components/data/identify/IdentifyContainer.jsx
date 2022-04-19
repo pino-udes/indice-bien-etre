@@ -27,6 +27,7 @@ import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 import IdentifyCharts from '@js/components/data/identify/Charts'
 import { Tabs, Tab, TabPane, Sonnet, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
 import IdentifyTabs from '@js/components/data/identify/IdentifyTabs'
+import './style/topchart.css';
 
 
 /**
@@ -123,11 +124,13 @@ export default props => {
 
 
     return (
-        <div id="identify-container" className={enabled && requests.length !== 0 ? "identify-active" : ""}>
+        <div id="identify-active" className={enabled && requests.length !== 0 ? "identify-active" : ""}>
             <DockablePanel
                 bsStyle="primary"
                 glyph="1-layer"
-                open={enabled && requests.length !== 0}
+                open={true
+                    //enabled && requests.length !== 0
+                }
                 size={0.30}
                 fluid={true}
                 position="left"
