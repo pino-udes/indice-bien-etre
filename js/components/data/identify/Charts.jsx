@@ -160,12 +160,12 @@ class IdentifyCharts extends React.Component {
             <>
                 <div className={"IdentifyGridCard"}>
 
-                    <div style={{padding: '5px', display: 'flex', justifyContent: 'center'}}>
-                        <h2>Indice de bien-être: {Math.round((environnement+social+economique)/3)}</h2>
+                    <div style={{padding: '0px', display: 'flex', justifyContent: 'center'}}>
+                        <h3>Indice de bien-être: {Math.round((environnement+social+economique)/3)}</h3>
                     </div>
 
-                    <ResponsiveContainer width="100%" height={250}>
-                        <RadialBarChart barCategoryGap={1} barGap={1} barSize={20} width="100%" height={250} cy="70%" innerRadius="10%" outerRadius="100%" data={parsedRadarChartData} startAngle={180} endAngle={0}>
+                    <ResponsiveContainer width="100%" height={150}>
+                        <RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="10%" outerRadius="100%" data={parsedRadarChartData} startAngle={180} endAngle={0}>
                             <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise={true} dataKey="A" />
                             <Legend iconSize={14} layout="horizontal" verticalAlign="bottom"  />
                         </RadialBarChart>

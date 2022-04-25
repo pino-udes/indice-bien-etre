@@ -128,8 +128,9 @@ export default props => {
             <DockablePanel
                 bsStyle="primary"
                 glyph="1-layer"
-                open={true
-                    //enabled && requests.length !== 0
+                open={
+                    //true
+                    enabled && requests.length !== 0
                 }
                 size={0.30}
                 fluid={true}

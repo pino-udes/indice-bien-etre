@@ -22,11 +22,19 @@ import Accordion from '@mapstore/components/misc/panels/Accordion';
 import RadarChartsDimensions from '@js/components/data/identify/RadarChartsDimensions';
 import './style/topchart.css';
 
+import { updateNode } from '@mapstore/actions/layers';
+import { connect } from 'react-redux';
+import { getNode } from '@mapstore/utils/LayersUtils';
+
+const mapDispatchToProps = {
+    updateNode
+};
 
 class IdentifyIBEAccordion extends React.Component {
     static PropTypes = {
         data: PropTypes.object,
-        activePanel: PropTypes.string
+        activePanel: PropTypes.string,
+        onChange: PropTypes.func
     };
 
     static defaultProps = {
@@ -97,10 +105,11 @@ class IdentifyIBEAccordion extends React.Component {
 
         return (
             <>
-                <Accordion activePanel={this.props.activePanel} panels={panels} onSelect={ (key, value) => { this.setState({activePanel: key}); } } />
+                <Accordion activePanel={this.props.activePanel} panels={panels} onSelect={ (key, value) => { this.setState({activePanel: key}); this.props.updateNode("Magog_IBE_AD__5", 'layers', {style: 'indice-bien-etre_environnement'}); } } />
             </>
         );
     }
 }
 
-export default IdentifyIBEAccordion;
+//export default IdentifyIBEAccordion;
+export default connect(null, mapDispatchToProps)(IdentifyIBEAccordion);
