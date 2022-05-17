@@ -48,18 +48,21 @@ class IdentifyTabs extends React.Component {
     static PropTypes = {
         data: PropTypes.object,
         layers: PropTypes.array,
+        selectedLayer: PropTypes.string,
     };
 
     static defaultProps = {
         name: '',
         layers: [],
         selected_tab: "Magog_IBE_ID__7",
+        selectedLayer: 'Aire de diffusion',
         ibe_check: "glyphicon glyphicon-check",
         iv_check: "glyphicon glyphicon-unchecked",
     }
 
     state = {
         selected_tab: "Magog_IBE_ID__7",
+        selectedLayer: 'Aire de diffusion',
         ibe_check: "glyphicon glyphicon-check",
         ibe_ad_check: "check",
         ibe_ad_pressed: true,
@@ -95,6 +98,7 @@ class IdentifyTabs extends React.Component {
                 ibe_ad_check: "check",
                 ibe_id_check: "unchecked",
                 ibe_pix_check: "unchecked",
+                selectedLayer: 'Aire de diffusion',
                 ibe_ad_pressed: true,
                 ibe_id_pressed: false,
                 ibe_pix_pressed: false,
@@ -108,6 +112,7 @@ class IdentifyTabs extends React.Component {
                 ibe_ad_check: "unchecked",
                 ibe_id_check: "check",
                 ibe_pix_check: "unchecked",
+                selectedLayer: 'Îlot de diffusion',
                 ibe_ad_pressed: false,
                 ibe_id_pressed: true,
                 ibe_pix_pressed: false,
@@ -123,6 +128,7 @@ class IdentifyTabs extends React.Component {
                 ibe_ad_check: "unchecked",
                 ibe_id_check: "unchecked",
                 ibe_pix_check: "check",
+                selectedLayer: 'Pixel',
                 ibe_ad_pressed: false,
                 ibe_id_pressed: false,
                 ibe_pix_pressed: true,
@@ -160,14 +166,14 @@ class IdentifyTabs extends React.Component {
 
                             <ToggleButton pressed={this.state.ibe_id_pressed} glyphicon={this.state.ibe_id_check}
                                           tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'ilots de diffusion</Tooltip>}
-                                          text={"Îlots de diffusion"}
+                                          text={"Îlot de diffusion"}
                                           style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}}
                                           onClick={ () => { this.handleToggleButtonClick('ID') } }
                             />
 
                             <ToggleButton pressed={this.state.ibe_pix_pressed} glyphicon={this.state.ibe_pix_check}
                                           tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon des hexagones de 200 mètres</Tooltip>}
-                                          text={"Pixels"}
+                                          text={"Pixel"}
                                           style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}}
                                           onClick={ () => { this.handleToggleButtonClick('PIX') } }
                             />
@@ -175,7 +181,7 @@ class IdentifyTabs extends React.Component {
 
 
 
-                            <IdentifyCharts width="100%" height="100%" data={this.props.data} name="indice-bien-etre" />
+                            <IdentifyCharts width="100%" height="100%" data={this.props.data} name="indice-bien-etre" selectedLayer={this.state.selectedLayer} />
 
 
                     </div>

@@ -30,7 +30,8 @@ class IdentifyCharts extends React.Component {
         width: PropTypes.string,
         height: PropTypes.string,
         name: PropTypes.string,
-        activePanel: PropTypes.string
+        activePanel: PropTypes.string,
+        selectedLayer: PropTypes.string
     };
 
     static defaultProps = {
@@ -173,9 +174,7 @@ class IdentifyCharts extends React.Component {
 
                 </div>
 
-
-                { /* <Accordion activePanel={this.props.activePanel} panels={panels} onSelect={ (key, value) => { this.setState({activePanel: key}); } } /> */}
-                <IdentifyIBEAccordion data={this.props.data}/>
+                <IdentifyIBEAccordion data={this.props.data} selectedLayer={this.props.selectedLayer}/>
 
             </>
         );
