@@ -10,7 +10,8 @@
           "https://gs-stable.geo-solutions.it/geoserver",
           "https://gs-stable.geo-solutions.it:443/geoserver",
           "http://gs-stable.geo-solutions.it/geoserver",
-          "http://gs-stable.geo-solutions.it:443/geoserver"
+          "http://gs-stable.geo-solutions.it:443/geoserver",
+          "http://localhost:8080/geoserver"
         ]
     },
     "geoStoreUrl": "rest/geostore/",
@@ -148,11 +149,8 @@
             "fr": {
               "code": "fr-FR",
               "description": "Français"
-            },
-            "en": {
-              "code": "en-US",
-              "description": "English"
             }
+
           }
         }
       }

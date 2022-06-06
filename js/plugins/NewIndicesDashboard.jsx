@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 
 import Message from '@mapstore/components/I18N/Message';
 //import NewMapDialog from '@mapstore/components/misc/NewMapDialog';
-import {ButtonToolbar, SplitButton as SplitButtonB, MenuItem, Grid, Col, Glyphicon} from 'react-bootstrap';
+import { FormControl, FormGroup, Form, Checkbox, FormCheck, ControlLabel, ButtonToolbar, SplitButton as SplitButtonB, MenuItem, Grid, Col, Glyphicon, Tabs, Tab} from 'react-bootstrap';
 import ButtonB from '@mapstore/components/misc/Button';
 import tooltip from '@mapstore/components/misc/enhancers/tooltip';
 
@@ -31,18 +31,18 @@ import {mapTypeSelector} from '@mapstore/selectors/maptype';
 import createnewmap from '@mapstore/reducers/createnewmap';
 import * as epics from '@mapstore/epics/createnewmap';
 
-
 //
-
 import MyModal from '@mapstore/components/misc/ResizableModal';
-
 import LoginModal from "@js/plugins/NewIndicesDashboard/NewIndicesDashboardModal";
 import NewIndicesDashboardForm from "@js/plugins/NewIndicesDashboard/NewIndicesDashboardForm";
 import Dropzone from 'react-dropzone';
 import Modal from "@mapstore/components/misc/ResizableModal";
 import {getMessageById} from "mapstore2/web/client/utils/LocaleUtils";
-import { createResource, updateResource, getResource } from '@mapstore/api/persistence';
-import widgets from "../test.json";
+//import { createResource, updateResource, getResource } from '@mapstore/api/persistence';
+import testmap from "@js/102.json";
+import { createResource, updateResource, getResource, createCategory } from '@mapstore/api/persistence';
+import axios from '@mapstore/libs/ajax';
+import xml2js from 'xml2js';
 //
 
 const Button = tooltip(ButtonB);
@@ -93,6 +93,9 @@ class NewIndicesDashboard extends React.Component {
         //onNewMap: () => {}
     };
 
+    state = {
+        municipalite: '',
+    };
 
     getForm = () => {
         return (<NewIndicesDashboardForm
@@ -107,32 +110,15 @@ class NewIndicesDashboard extends React.Component {
         />);
     };
 
-    //
-    // getFooter = () => {
-    //     return (<span role="footer">
-    //         <Button
-    //             ref="submit"
-    //             value={getMessageById(this.context.messages, "user.signIn")}
-    //             bsStyle="primary"
-    //             bsSize={this.props.buttonSize}
-    //             className="pull-left"
-    //             onClick={this.loginSubmit}
-    //             key="submit">{getMessageById(this.context.messages, "user.signIn")}</Button>
-    //          <Button
-    //             key="closeButton"
-    //             ref="closeButton"
-    //             bsSize={this.props.buttonSize}
-    //             onClick={this.handleOnHide}><Message msgId="close"/></Button> : <span/>
-    //     </span>);
-    // };
-
 
     getModal = () => {
         return (
             <Modal
+                clickOutEnabled={false}
+                showClose={false}
                 show={this.state ? this.state.showNewIndicesDashboardDialog : false}
                 onClose={this.close}
-                title={"Nouveau tableau de bord"}
+                title={"Nouvelle visualisation cartographique"}
                 buttons={[{
                     text: <Message msgId="Annuler" />,
                     onClick: this.close
@@ -144,41 +130,70 @@ class NewIndicesDashboard extends React.Component {
                 fitContent
             >
                 <div className="ms-detail-body">
-                    {this.getForm()}
+                    <form ref="loginForm">
+                        <FormGroup>
+                            <ControlLabel>Nom de la municipalité</ControlLabel>
+                            <FormControl ref="username" key="username" type="text" value={this.state.municipalite} onChange={this.setMunicipalite} />
+                        </FormGroup>
 
-                    <h4>Carte raster de la dimension environnement</h4>
-                    <Dropzone key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
-                        <div style={{display: "flex", borderStyle: "inherit", borderWidth: "inherit", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
+                        <Checkbox >
+                            Visible pour tout le monde
+                        </Checkbox>
+                    </form>
+
+                    <>
+                        <Tabs defaultActiveKey={"Indice de bien-être"} >
+                            <Tab  eventKey={"Indice de bien-être"} title={"Indice de bien-être"}>
+
+                                <h4>Carte raster de la dimension environnement</h4>
+                                <Dropzone style={{display: "flex", borderWidth: 3 + "px" }} key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
+                                    <div style={{display: "flex", borderStyle: "inherit", borderWidth: 3 + "px", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
                       <span style={{ fontStyle: 'italic', textAlign: "left" }}>
                             Glissez le fichier ici ou cliquez pour choisir un fichier
                         </span>
-                        </div>
-                    </Dropzone>
+                                    </div>
+                                </Dropzone>
 
-                    <h4>Carte raster de la dimension sociale</h4>
-                    <Dropzone key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
-                        <div style={{display: "flex", borderStyle: "inherit", borderWidth: "inherit", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
+                                <h4>Carte raster de la dimension sociale</h4>
+                                <Dropzone key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
+                                    <div style={{display: "flex", borderStyle: "inherit", borderWidth: "inherit", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
                       <span style={{ fontStyle: 'italic', textAlign: "left" }}>
                             Glissez le fichier ici ou cliquez pour choisir un fichier
                         </span>
-                        </div>
-                    </Dropzone>
-                    <h4>Carte raster de la dimension économique</h4>
-                    <Dropzone key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
-                        <div style={{display: "flex", borderStyle: "inherit", borderWidth: "inherit", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
+                                    </div>
+                                </Dropzone>
+                                <h4>Carte raster de la dimension économique</h4>
+                                <Dropzone key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
+                                    <div style={{display: "flex", borderStyle: "inherit", borderWidth: "inherit", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
                         <span style={{ fontStyle: 'italic', textAlign: "left" }}>
                             Glissez le fichier ici ou cliquez pour choisir un fichier
                         </span>
-                        </div>
-                    </Dropzone>
+                                    </div>
+                                </Dropzone>
+                            </Tab>
+                            <Tab  eventKey={"Indice de verdure"} title={"Indice de verdure"}>
+
+                            </Tab>
+                        </Tabs>
+                    </>
+
                 </div>
                 {/*{this.getFooter()}*/}
             </Modal>
         );
     }
 
+
+
+    setMunicipalite = (e) => {
+        this.setState({
+            municipalite: e.target.value
+        });
+    };
+
     render() {
         const display = this.isAllowed() ? null : "none";
+
         return (
             <div className="create-new-map-container">
                 {this.getModal()}
@@ -188,10 +203,10 @@ class NewIndicesDashboard extends React.Component {
                         <ButtonToolbar>
                             {this.props.showNewDashboard ?
                                 <Button tooltipId="resources.dashboards.newDashboard"
-                                        className="square-button"
+                                        bsSize="large"
                                         bsStyle="primary"
                                         onClick={() => { this.displayNewIndicesDashboardDialog(); }}>
-                                    <Glyphicon glyph="add-dashboard" />
+                                    <span className="glyphicon glyphicon-plus"></span> Nouvelle visualisation
                                 </Button>
                                 : null}
                         </ButtonToolbar>
@@ -213,11 +228,72 @@ class NewIndicesDashboard extends React.Component {
 
 
     createDashboard = () => {
-        console.log(widgets.widgets);
+
+        // Create workspace on Geoserver
+        //const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
+        var tempXML = "<workspace><name>" + this.state.municipalite + "</name></workspace>";
+        var createWorkspaceXML = `${tempXML}`;
+        console.log(tempXML);
+
+        var username = 'admin';
+        var password = 'geoserver';
+        var basicAuth = 'Basic ' + btoa(username + ':' + password);
+
+        var config = {
+            headers: {
+                'Content-Type': 'text/xml',
+                'Authorization': + basicAuth,
+            }
+        };
+
+        // axios
+        //     .post(geoserverWorkspaceBaseURL, tempXML, XMLconfig)
+        //     .then((response) => {
+        //         console.log(response.data);
+        //     });
+
+        const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
+        axios.get(geoserverWorkspaceBaseURL, config).then((response) => {
+            console.log(response.data);
+        });
+
+        // Upload data to Geoserver
+
+        // Do stuff in GEostore
+        // const baseURL = "http://localhost:8080/mapstore/rest/geostore/data/178";
+        // var mapdata;
+        //
+        // axios.get(baseURL).then((response) => {
+        //     mapdata = response.data;
+        //
+        //     const layers  = mapdata.map.layers;
+        //
+        //     var x = 0;
+        //     layers.forEach((layer) => {
+        //         console.log(layer.id);
+        //         if (layer.id == "Magog_IBE_HEXA__6") {
+        //             mapdata.map.layers[x].visibility = false;
+        //         }
+        //         x++;
+        //     });
+        //
+        //     axios.put(baseURL, mapdata)
+        //         .then((response) => {
+        //             console.log(response.data);
+        //         });
+        //
+        // });
+
+
+
+
+
         this.setState({
             showNewIndicesDashboardDialog: false
         });
+
     };
+
 
     displayNewIndicesDashboardDialog = () => {
         this.setState({

@@ -148,6 +148,30 @@ class IdentifyTabs extends React.Component {
         return (
 
             <>
+                <style type="text/css">
+                    {`
+                        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover {
+                            float:none;
+                            display:inline-block;
+                            zoom:1;
+                            box-shadow: 0px -4px 4px 2px rgb(0 0 0 / 20%);
+                            width: 99%;
+                        }
+                        .nav-tabs > li {
+                            float:none;
+                            display:inline-block;
+                            zoom:1;
+                            width: 50%;
+                        }
+                        .nav-tabs {
+                            text-align:center;
+                            box-shadow: inset 0px -6px 4px -4px rgb(0 0 0 / 20%);
+                            margin-top: 15px;
+                            width: 99%;
+                        }
+                    `}
+                </style>
+
             <Tabs onSelect={ (event) => { this.handleSelect(event); } } defaultActiveKey={this.state.selected_tab} >
                     <Tab  eventKey={"Magog_IBE_ID__7"} title={
                         <><h4>Indice de bien-être</h4></>

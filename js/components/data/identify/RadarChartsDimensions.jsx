@@ -96,7 +96,7 @@ class RadarChartsDimensions extends React.Component {
 
         const parsedEconomiqueData = [
             { name: 'Prix du logement', A: JSON.stringify(economique_c1), "fill": "#ffc658" },
-            { name: 'L\'accession à la propriété', A: JSON.stringify(economique_c2), "fill": "#ffc658" },
+            { name: 'Accession à la propriété', A: JSON.stringify(economique_c2), "fill": "#ffc658" },
             { name: 'Attraits touristiques (naturels et anthropiques)', A: JSON.stringify(economique_c3), "fill": "#ffc658" },
             { name: 'Commerces et marchés', A: JSON.stringify(economique_c4), "fill": "#ffc658" },
         ];
