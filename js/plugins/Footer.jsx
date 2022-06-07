@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Row, Col } from 'react-bootstrap';
 import src from "../../assets/Nature-Quebec-logo.png";
-import HTML from '@mapstore/components/I18N/HTML';
+// import HTML from '@mapstore/components/I18N/HTML';
 
 /**
  * Footer plugin, section of the homepage.

@@ -178,9 +178,9 @@ class LeafletMap extends React.Component {
             }
         });
         // The timeout is needed to cover the delay we have for the throttled mouseMove event.
-//        this.map.on('mouseout', () => {
-//            setTimeout(() => this.props.onMouseOut(), 150);
-//        });
+        // this.map.on('mouseout', () => {
+        //      setTimeout(() => this.props.onMouseOut(), 150);
+        // });
 
         this.updateMapInfoState();
         this.setMousePointer(this.props.mousePointer);

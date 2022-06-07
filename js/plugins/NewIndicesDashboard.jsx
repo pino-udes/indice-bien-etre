@@ -11,15 +11,14 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Message from '@mapstore/components/I18N/Message';
-//import NewMapDialog from '@mapstore/components/misc/NewMapDialog';
-import { FormControl, FormGroup, Form, Checkbox, FormCheck, ControlLabel, ButtonToolbar, SplitButton as SplitButtonB, MenuItem, Grid, Col, Glyphicon, Tabs, Tab} from 'react-bootstrap';
+// import NewMapDialog from '@mapstore/components/misc/NewMapDialog';
+import { FormControl, FormGroup, Checkbox, ControlLabel, ButtonToolbar, Grid, Col, Tabs, Tab} from 'react-bootstrap';
 import ButtonB from '@mapstore/components/misc/Button';
 import tooltip from '@mapstore/components/misc/enhancers/tooltip';
 
-//import {showNewMapDialog, createNewMap} from '@mapstore/actions/createnewmap';
+// import {showNewMapDialog, createNewMap} from '@mapstore/actions/createnewmap';
 
 import {
-    showNewMapDialogSelector,
     hasContextsSelector,
     loadingSelector,
     loadFlagsSelector
@@ -32,21 +31,21 @@ import createnewmap from '@mapstore/reducers/createnewmap';
 import * as epics from '@mapstore/epics/createnewmap';
 
 //
-import MyModal from '@mapstore/components/misc/ResizableModal';
-import LoginModal from "@js/plugins/NewIndicesDashboard/NewIndicesDashboardModal";
 import NewIndicesDashboardForm from "@js/plugins/NewIndicesDashboard/NewIndicesDashboardForm";
 import Dropzone from 'react-dropzone';
 import Modal from "@mapstore/components/misc/ResizableModal";
-import {getMessageById} from "mapstore2/web/client/utils/LocaleUtils";
-//import { createResource, updateResource, getResource } from '@mapstore/api/persistence';
-import testmap from "@js/102.json";
-import { createResource, updateResource, getResource, createCategory } from '@mapstore/api/persistence';
+// import { createResource, updateResource, getResource, createCategory } from '@mapstore/api/persistence';
 import axios from '@mapstore/libs/ajax';
 import xml2js from 'xml2js';
+import { reloadMaps } from '@mapstore/actions/maps';
 //
 
+const mapDispatchToProps = {
+    reloadMaps
+};
+
 const Button = tooltip(ButtonB);
-const SplitButton = tooltip(SplitButtonB);
+// const SplitButton = tooltip(SplitButtonB);
 
 class NewIndicesDashboard extends React.Component {
     static propTypes = {
@@ -61,10 +60,10 @@ class NewIndicesDashboard extends React.Component {
         allowedRoles: PropTypes.array,
         user: PropTypes.object,
         fluid: PropTypes.bool,
-        hasContexts: PropTypes.bool,
-        //showNewMapDialog: PropTypes.bool,
-        //onShowNewMapDialog: PropTypes.func,
-        //onNewMap: PropTypes.func
+        hasContexts: PropTypes.bool
+        // showNewMapDialog: PropTypes.bool,
+        // onShowNewMapDialog: PropTypes.func,
+        // onNewMap: PropTypes.func
     };
 
     static contextTypes = {
@@ -87,14 +86,15 @@ class NewIndicesDashboard extends React.Component {
             md: 12
         },
         fluid: false,
-        hasContexts: false,
-        //showNewMapDialog: false,
-        //onShowNewMapDialog: () => {},
-        //onNewMap: () => {}
+        hasContexts: false
+        // showNewMapDialog: false,
+        // onShowNewMapDialog: () => {},
+        // onNewMap: () => {}
     };
 
     state = {
         municipalite: '',
+        everyone_can_see: false
     };
 
     getForm = () => {
@@ -103,10 +103,10 @@ class NewIndicesDashboard extends React.Component {
             ref="loginForm"
             showSubmitButton={false}
             user={this.props.user}
-            loginError={this.props.loginError}
-            onLoginSuccess={this.props.onLoginSuccess}
-            onSubmit={this.props.onSubmit}
-            onError={this.props.onError}
+            // loginError={this.props.loginError}
+            // onLoginSuccess={this.props.onLoginSuccess}
+            // onSubmit={this.props.onSubmit}
+            // onError={this.props.onError}
         />);
     };
 
@@ -136,7 +136,7 @@ class NewIndicesDashboard extends React.Component {
                             <FormControl ref="username" key="username" type="text" value={this.state.municipalite} onChange={this.setMunicipalite} />
                         </FormGroup>
 
-                        <Checkbox >
+                        <Checkbox onChange={this.setVisibility}>
                             Visible pour tout le monde
                         </Checkbox>
                     </form>
@@ -148,26 +148,26 @@ class NewIndicesDashboard extends React.Component {
                                 <h4>Carte raster de la dimension environnement</h4>
                                 <Dropzone style={{display: "flex", borderWidth: 3 + "px" }} key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
                                     <div style={{display: "flex", borderStyle: "inherit", borderWidth: 3 + "px", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
-                      <span style={{ fontStyle: 'italic', textAlign: "left" }}>
-                            Glissez le fichier ici ou cliquez pour choisir un fichier
-                        </span>
+                                        <span style={{ fontStyle: 'italic', textAlign: "left" }}>
+                                            Glissez le fichier ici ou cliquez pour choisir un fichier
+                                        </span>
                                     </div>
                                 </Dropzone>
 
                                 <h4>Carte raster de la dimension sociale</h4>
                                 <Dropzone key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
                                     <div style={{display: "flex", borderStyle: "inherit", borderWidth: "inherit", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
-                      <span style={{ fontStyle: 'italic', textAlign: "left" }}>
-                            Glissez le fichier ici ou cliquez pour choisir un fichier
-                        </span>
+                                        <span style={{ fontStyle: 'italic', textAlign: "left" }}>
+                                            Glissez le fichier ici ou cliquez pour choisir un fichier
+                                        </span>
                                     </div>
                                 </Dropzone>
                                 <h4>Carte raster de la dimension économique</h4>
                                 <Dropzone key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
                                     <div style={{display: "flex", borderStyle: "inherit", borderWidth: "inherit", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
-                        <span style={{ fontStyle: 'italic', textAlign: "left" }}>
-                            Glissez le fichier ici ou cliquez pour choisir un fichier
-                        </span>
+                                        <span style={{ fontStyle: 'italic', textAlign: "left" }}>
+                                            Glissez le fichier ici ou cliquez pour choisir un fichier
+                                        </span>
                                     </div>
                                 </Dropzone>
                             </Tab>
@@ -178,18 +178,11 @@ class NewIndicesDashboard extends React.Component {
                     </>
 
                 </div>
-                {/*{this.getFooter()}*/}
+                {/* {this.getFooter()} */}
             </Modal>
         );
     }
 
-
-
-    setMunicipalite = (e) => {
-        this.setState({
-            municipalite: e.target.value
-        });
-    };
 
     render() {
         const display = this.isAllowed() ? null : "none";
@@ -202,10 +195,7 @@ class NewIndicesDashboard extends React.Component {
                     <Col {...this.props.colProps} >
                         <ButtonToolbar>
                             {this.props.showNewDashboard ?
-                                <Button tooltipId="resources.dashboards.newDashboard"
-                                        bsSize="large"
-                                        bsStyle="primary"
-                                        onClick={() => { this.displayNewIndicesDashboardDialog(); }}>
+                                <Button tooltipId="resources.dashboards.newDashboard" bsSize="large" bsStyle="primary" onClick={() => { this.displayNewIndicesDashboardDialog(); }}>
                                     <span className="glyphicon glyphicon-plus"></span> Nouvelle visualisation
                                 </Button>
                                 : null}
@@ -216,6 +206,16 @@ class NewIndicesDashboard extends React.Component {
         );
     }
 
+    setMunicipalite = (e) => {
+        this.setState({
+            municipalite: e.target.value
+        });
+    };
+    setVisibility = (e) => {
+        this.setState({
+            everyone_can_see: e.target.checked
+        });
+    };
     isAllowed = () => this.props.isLoggedIn && this.props.allowedRoles.indexOf(this.props.user && this.props.user.role) >= 0;
 
     close = () => {
@@ -225,26 +225,23 @@ class NewIndicesDashboard extends React.Component {
         });
     };
 
-
-
     createDashboard = () => {
+        // var username = 'admin';
+        // var password = 'geoserver';
+        // var basicAuth = 'Basic ' + btoa(username + ':' + password);
+        //
+        // var config = {
+        //     headers: {
+        //         'Content-Type': 'text/xml',
+        //         'Authorization': + basicAuth
+        //     }
+        // };
 
         // Create workspace on Geoserver
-        //const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
-        var tempXML = "<workspace><name>" + this.state.municipalite + "</name></workspace>";
-        var createWorkspaceXML = `${tempXML}`;
-        console.log(tempXML);
-
-        var username = 'admin';
-        var password = 'geoserver';
-        var basicAuth = 'Basic ' + btoa(username + ':' + password);
-
-        var config = {
-            headers: {
-                'Content-Type': 'text/xml',
-                'Authorization': + basicAuth,
-            }
-        };
+        // const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
+        // var tempXML = "<workspace><name>" + this.state.municipalite + "</name></workspace>";
+        // var createWorkspaceXML = `${tempXML}`;
+        // console.log(tempXML);
 
         // axios
         //     .post(geoserverWorkspaceBaseURL, tempXML, XMLconfig)
@@ -252,19 +249,72 @@ class NewIndicesDashboard extends React.Component {
         //         console.log(response.data);
         //     });
 
-        const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
-        axios.get(geoserverWorkspaceBaseURL, config).then((response) => {
-            console.log(response.data);
-        });
+        // const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
+        // axios.get(geoserverWorkspaceBaseURL, config).then((response) => {
+        //     // console.log(response.data);
+        // });
 
         // Upload data to Geoserver
 
         // Do stuff in GEostore
+
+        // Create new map
+        const getCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/102?full=true";
+        const getTemplateDataURL = "http://localhost:8080/mapstore/rest/geostore/data/102";
+
+        const putCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources";
+        var newMapData;
+        var newMapID;
+        var resourcePermissions;
+
+        axios.get(getTemplateDataURL).then((response) => {
+            newMapData = response.data;
+
+            console.log(JSON.parse(JSON.stringify(newMapData)));
+            var newResource = "<Resource><description></description><metadata></metadata><name>" + this.state.municipalite + "</name><category><name>MAP</name></category><store><data><![CDATA[ " + JSON.stringify(newMapData) + " ]]></data></store></Resource>";
+            var config = {
+                headers: {
+                    'Content-Type': 'text/xml',
+                }
+            };
+            axios.post(putCreateNewMapBaseURL, newResource, config)
+                .then((response) => {
+                    newMapID = response.data
+                    console.log("newMapID: ", newMapID);
+                    // this.props.reloadMaps();
+
+                    var changeSecurityRoleURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/" + newMapID + "/permissions";
+                    axios.get(changeSecurityRoleURL).then((response) => {
+                        resourcePermissions = response.data;
+                        console.log("3333333 ", JSON.parse(JSON.stringify(resourcePermissions)));
+                    });
+
+                    var securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule></SecurityRuleList>";
+                    if (this.state.everyone_can_see == true) {
+                        console.log("SADASDASDASDS");
+                        securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule><SecurityRule><canRead>true</canRead><canWrite>false</canWrite><group><groupName>everyone</groupName><id>9</id></group></SecurityRule></SecurityRuleList>";
+                        axios.post(changeSecurityRoleURL, securityRoleNewRessource, config)
+                            .then((response) => {
+                                this.setState({
+                                    everyone_can_see: false
+                                });
+                            });
+                    }
+
+                    this.props.reloadMaps();
+
+                });
+        });
+
+
+        // // //
         // const baseURL = "http://localhost:8080/mapstore/rest/geostore/data/178";
         // var mapdata;
         //
         // axios.get(baseURL).then((response) => {
         //     mapdata = response.data;
+        //
+        //     console.log(response.data);
         //
         //     const layers  = mapdata.map.layers;
         //
@@ -283,10 +333,7 @@ class NewIndicesDashboard extends React.Component {
         //         });
         //
         // });
-
-
-
-
+        // // //
 
         this.setState({
             showNewIndicesDashboardDialog: false
@@ -302,8 +349,6 @@ class NewIndicesDashboard extends React.Component {
     };
 }
 
-
-
 /**
  * Button bar to create a new contents.
  * @memberof plugins
@@ -314,6 +359,7 @@ class NewIndicesDashboard extends React.Component {
  * @prop {boolean} cfg.showNewContext show/hide the create new context button.
  * @prop {string[]} cfg.allowedRoles array of users roles allowed to create maps and/or dashboards. default: `["ADMIN", "USER"]`. Users that don't have these roles will never see the buttons.
  */
+// export default connect(null, mapDispatchToProps)(IdentifyTabs);
 
 export default {
     CreateNewMapPlugin: connect((state) => ({
@@ -322,11 +368,9 @@ export default {
         mapType: mapTypeSelector(state),
         isLoggedIn: state && state.security && state.security.user && state.security.user.enabled && !(state.browser && state.browser.mobile) && true || false,
         user: state && state.security && state.security.user,
-        hasContexts: hasContextsSelector(state),
-        //showNewMapDialog: showNewMapDialogSelector(state)
+        hasContexts: hasContextsSelector(state)
     }), {
-        //onShowNewMapDialog: showNewMapDialog,
-        //onNewMap: createNewMap
+        reloadMaps
     })(NewIndicesDashboard),
     reducers: {
         createnewmap

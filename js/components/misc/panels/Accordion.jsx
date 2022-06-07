@@ -8,9 +8,10 @@
 
 import React from 'react';
 
-import { Panel, Accordion, Tooltip } from 'react-bootstrap';
+import { Panel, Accordion } from 'react-bootstrap';
+// import { Tooltip } from 'react-bootstrap';
 import SideCard from '@mapstore/components/misc/cardgrids/SideCard';
-import ToggleButton from '@mapstore/components/buttons/ToggleButton';
+// import ToggleButton from '@mapstore/components/buttons/ToggleButton';
 
 /**
  * Component for rendering an Accordion with Side Card as header.

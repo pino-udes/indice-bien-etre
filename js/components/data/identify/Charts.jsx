@@ -47,35 +47,35 @@ class IdentifyCharts extends React.Component {
 
         if (this.props.data[0] !=  undefined) {
             parsedChartData = JSON.parse(chartData);
-            var environnement = parsedChartData["response"]["features"][0]["properties"]["ibe_d1"];
-            var environnement_c1 = parsedChartData["response"]["features"][0]["properties"]["ibe_d1_c1"];
-            var environnement_c2 = parsedChartData["response"]["features"][0]["properties"]["ibe_d1_c2"];
-            var environnement_c3 = parsedChartData["response"]["features"][0]["properties"]["ibe_d1_c3"];
-            var environnement_c4 = parsedChartData["response"]["features"][0]["properties"]["ibe_d1_c4"];
-            var environnement_c5 = parsedChartData["response"]["features"][0]["properties"]["ibe_d1_c5"];
-            var environnement_c6 = parsedChartData["response"]["features"][0]["properties"]["ibe_d1_c6"];
-            var environnement_c7 = parsedChartData["response"]["features"][0]["properties"]["ibe_d1_c7"];
-            var environnement_c8 = parsedChartData["response"]["features"][0]["properties"]["ibe_d1_c8"];
+            var environnement = parsedChartData.response.features[0].properties.ibe_d1;
+            var environnement_c1 = parsedChartData.response.features[0].properties.ibe_d1_c1;
+            var environnement_c2 = parsedChartData.response.features[0].properties.ibe_d1_c2;
+            var environnement_c3 = parsedChartData.response.features[0].properties.ibe_d1_c3;
+            var environnement_c4 = parsedChartData.response.features[0].properties.ibe_d1_c4;
+            var environnement_c5 = parsedChartData.response.features[0].properties.ibe_d1_c5;
+            var environnement_c6 = parsedChartData.response.features[0].properties.ibe_d1_c6;
+            var environnement_c7 = parsedChartData.response.features[0].properties.ibe_d1_c7;
+            var environnement_c8 = parsedChartData.response.features[0].properties.ibe_d1_c8;
 
-            var social = parsedChartData["response"]["features"][0]["properties"]["ibe_d2"];
-            var social_c1 = parsedChartData["response"]["features"][0]["properties"]["ibe_d2_c1"];
-            var social_c2 = parsedChartData["response"]["features"][0]["properties"]["ibe_d2_c2"];
-            var social_c3 = parsedChartData["response"]["features"][0]["properties"]["ibe_d2_c3"];
-            var social_c4 = parsedChartData["response"]["features"][0]["properties"]["ibe_d2_c4"];
-            var social_c5 = parsedChartData["response"]["features"][0]["properties"]["ibe_d2_c5"];
-            var social_c6 = parsedChartData["response"]["features"][0]["properties"]["ibe_d2_c6"];
-            var social_c7 = parsedChartData["response"]["features"][0]["properties"]["ibe_d2_c7"];
-            var social_c8 = parsedChartData["response"]["features"][0]["properties"]["ibe_d2_c8"];
+            var social = parsedChartData.response.features[0].properties.ibe_d2;
+            var social_c1 = parsedChartData.response.features[0].properties.ibe_d2_c1;
+            var social_c2 = parsedChartData.response.features[0].properties.ibe_d2_c2;
+            var social_c3 = parsedChartData.response.features[0].properties.ibe_d2_c3;
+            var social_c4 = parsedChartData.response.features[0].properties.ibe_d2_c4;
+            var social_c5 = parsedChartData.response.features[0].properties.ibe_d2_c5;
+            var social_c6 = parsedChartData.response.features[0].properties.ibe_d2_c6;
+            var social_c7 = parsedChartData.response.features[0].properties.ibe_d2_c7;
+            var social_c8 = parsedChartData.response.features[0].properties.ibe_d2_c8;
 
-            var economique = parsedChartData["response"]["features"][0]["properties"]["ibe_d3"];
-            var economique_c1 = parsedChartData["response"]["features"][0]["properties"]["ibe_d3_c1"];
-            var economique_c2 = parsedChartData["response"]["features"][0]["properties"]["ibe_d3_c2"];
-            var economique_c3 = parsedChartData["response"]["features"][0]["properties"]["ibe_d3_c3"];
-            var economique_c4 = parsedChartData["response"]["features"][0]["properties"]["ibe_d3_c4"];
-            var economique_c5 = parsedChartData["response"]["features"][0]["properties"]["ibe_d3_c5"];
-            var economique_c6 = parsedChartData["response"]["features"][0]["properties"]["ibe_d3_c6"];
-            var economique_c7 = parsedChartData["response"]["features"][0]["properties"]["ibe_d3_c7"];
-            var economique_c8 = parsedChartData["response"]["features"][0]["properties"]["ibe_d3_c8"];
+            var economique = parsedChartData.response.features[0].properties.ibe_d3;
+            var economique_c1 = parsedChartData.response.features[0].properties.ibe_d3_c1;
+            var economique_c2 = parsedChartData.response.features[0].properties.ibe_d3_c2;
+            var economique_c3 = parsedChartData.response.features[0].properties.ibe_d3_c3;
+            var economique_c4 = parsedChartData.response.features[0].properties.ibe_d3_c4;
+            var economique_c5 = parsedChartData.response.features[0].properties.ibe_d3_c5;
+            var economique_c6 = parsedChartData.response.features[0].properties.ibe_d3_c6;
+            var economique_c7 = parsedChartData.response.features[0].properties.ibe_d3_c7;
+            var economique_c8 = parsedChartData.response.features[0].properties.ibe_d3_c8;
         }
         else {
             parsedChartData = "";
