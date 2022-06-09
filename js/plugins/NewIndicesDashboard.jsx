@@ -38,6 +38,7 @@ import Modal from "@mapstore/components/misc/ResizableModal";
 import axios from '@mapstore/libs/ajax';
 import xml2js from 'xml2js';
 import { reloadMaps } from '@mapstore/actions/maps';
+import API from '@mapstore/api/geoserver/Workspaces';
 //
 
 const mapDispatchToProps = {
@@ -226,16 +227,15 @@ class NewIndicesDashboard extends React.Component {
     };
 
     createDashboard = () => {
-        // var username = 'admin';
-        // var password = 'geoserver';
-        // var basicAuth = 'Basic ' + btoa(username + ':' + password);
-        //
-        // var config = {
-        //     headers: {
-        //         'Content-Type': 'text/xml',
-        //         'Authorization': + basicAuth
-        //     }
-        // };
+        var username = 'admin';
+        var password = 'geoserver';
+        var basicAuth = 'Basic ' + btoa(username + ':' + password);
+        var configGeoserver = {
+            headers: {
+                'Content-Type': 'text/xml',
+                'Authorization': + basicAuth
+            }
+        };
 
         // Create workspace on Geoserver
         // const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
@@ -249,10 +249,10 @@ class NewIndicesDashboard extends React.Component {
         //         console.log(response.data);
         //     });
 
-        // const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
-        // axios.get(geoserverWorkspaceBaseURL, config).then((response) => {
-        //     // console.log(response.data);
-        // });
+        const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
+        axios.get(geoserverWorkspaceBaseURL).then((response) => {
+            console.log(response.data);
+        });
 
         // Upload data to Geoserver
 
