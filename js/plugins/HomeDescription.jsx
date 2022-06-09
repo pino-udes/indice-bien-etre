@@ -9,7 +9,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import { Jumbotron, Grid, Row, Col } from 'react-bootstrap';
-import HTML from '@mapstore/components/I18N/HTML';
+// import HTML from '@mapstore/components/I18N/HTML';
 
 /**
  * Description of MapStore rendered in the home page.

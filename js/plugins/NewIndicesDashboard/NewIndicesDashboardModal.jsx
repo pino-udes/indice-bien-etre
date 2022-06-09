@@ -54,18 +54,18 @@ class NewIndicesDashboardModal extends React.Component {
     };
 
 
-    getForm = () => {
-        return (<LoginForm
-            role="body"
-            ref="loginForm"
-            showSubmitButton={false}
-            user={this.props.user}
-            loginError={this.props.loginError}
-            onLoginSuccess={this.props.onLoginSuccess}
-            onSubmit={this.props.onSubmit}
-            onError={this.props.onError}
-        />);
-    };
+    // getForm = () => {
+    //     return (<LoginForm
+    //         role="body"
+    //         ref="loginForm"
+    //         showSubmitButton={false}
+    //         user={this.props.user}
+    //         loginError={this.props.loginError}
+    //         onLoginSuccess={this.props.onLoginSuccess}
+    //         onSubmit={this.props.onSubmit}
+    //         onError={this.props.onError}
+    //     />);
+    // };
 
 
     getFooter = () => {
@@ -78,11 +78,11 @@ class NewIndicesDashboardModal extends React.Component {
                 className="pull-left"
                 onClick={this.loginSubmit}
                 key="submit">{getMessageById(this.context.messages, "user.signIn")}</Button>
-             <Button
-                 key="closeButton"
-                 ref="closeButton"
-                 bsSize={this.props.buttonSize}
-                 onClick={this.handleOnHide}><Message msgId="close"/></Button> : <span/>
+            <Button
+                key="closeButton"
+                ref="closeButton"
+                bsSize={this.props.buttonSize}
+                onClick={this.handleOnHide}><Message msgId="close"/></Button> : <span/>
         </span>);
     };
 

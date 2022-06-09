@@ -27,6 +27,7 @@ import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 import IdentifyCharts from '@js/components/data/identify/Charts'
 import { Tabs, Tab, TabPane, Sonnet, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
 import IdentifyTabs from '@js/components/data/identify/IdentifyTabs'
+import './style/topchart.css';
 
 
 /**
@@ -42,8 +43,10 @@ import IdentifyTabs from '@js/components/data/identify/IdentifyTabs'
  */
 export default props => {
     const {
+        layers,
         enabled,
         requests = [],
+        onChange = () => {},
         onClose = () => {},
         responses = [],
         index,
@@ -119,15 +122,19 @@ export default props => {
     const style = {width: "100%", height: "100%"};
 
 
+
     return (
-        <div id="identify-container" className={enabled && requests.length !== 0 ? "identify-active" : ""}>
+        <div id="identify-active" className={enabled && requests.length !== 0 ? "identify-active" : ""}>
             <DockablePanel
                 bsStyle="primary"
                 glyph="1-layer"
-                open={enabled && requests.length !== 0}
-                size={size}
-                fluid={fluid}
-                position="right"
+                open={
+                    //true
+                    enabled && requests.length !== 0
+                }
+                size={0.30}
+                fluid={true}
+                position="left"
                 draggable={draggable}
                 onClose={() => {
                     onClose();
@@ -139,62 +146,10 @@ export default props => {
                 showFullscreen={showFullscreen}
                 zIndex={zIndex}
                 header={[
-                    /*
-                    <Row className="layer-select-row">
-                        <div className="layer-col">
-                                        <span className="identify-icon glyphicon glyphicon-1-layer"/>
-                            <LayerSelector
-                                responses={responses}
-                                index={index}
-                                loaded={loaded}
-                                setIndex={setIndex}
-                                missingResponses={missingResponses}
-                                emptyResponses={emptyResponses}
-                                validator={validator}
-                                format={format}
-                            />
-                                        <Toolbar
-                                btnDefaultProps={{ bsStyle: 'primary', className: 'square-button-md' }}
-                                buttons={getFeatureButtons(props)}
-                                transitionProps={null}
-                            />
-                        </div>
-                    </Row>,
-                    */
 
-                    // <Row className="coordinates-edit-row">
-                    //     <span className="identify-icon glyphicon glyphicon-point"/>
-                    //     <div style={showCoordinateEditor ? {zIndex: 1} : {}} className={"coordinate-editor"}>
-                    //         <Coordinate
-                    //             key="coordinate-editor"
-                    //             formatCoord={formatCoord}
-                    //             enabledCoordEditorButton={enabledCoordEditorButton}
-                    //             onSubmit={onSubmitClickPoint}
-                    //             onChangeFormat={onChangeFormat}
-                    //             edit={showCoordinateEditor}
-                    //             coordinate={{
-                    //                 lat: latlng && latlng.lat,
-                    //                 lon: lngCorrected
-                    //             }}
-                    //         />
-                    //     </div>
-                    //     <GeocodeViewer latlng={latlng} revGeocodeDisplayName={revGeocodeDisplayName} {...props}/>
-                    //     <Toolbar
-                    //         btnDefaultProps={{ bsStyle: 'primary', className: 'square-button-md' }}
-                    //         buttons={toolButtons}
-                    //         transitionProps={null
-                    //         /* transitions was causing a bad rendering of toolbar present in the identify panel
-                    //              * for this reason they ahve been disabled
-                    //             */
-                    //         }/>
-                    // </Row>
                 ].filter(headRow => headRow)}>
 
-
-
-                <IdentifyTabs data={responses} />
-
-
+                <IdentifyTabs data={responses} layers={layers} />
 
             </DockablePanel>
             <Portal>
