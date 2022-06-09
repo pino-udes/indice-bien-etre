@@ -1,22 +1,22 @@
 
 import React from 'react';
 
-//import { Row } from 'react-bootstrap';
-import { get } from 'lodash';
-import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
-import Message from '@mapstore/components/I18N/Message';
-import DockablePanel from '@mapstore/components/misc/panels/DockablePanel';
-import GeocodeViewer from '@mapstore/components/data/identify/GeocodeViewer';
-import ResizableModal from '@mapstore/components/misc/ResizableModal';
-import Portal from '@mapstore/components/misc/Portal';
-import Coordinate from '@mapstore/components/data/identify/coordinates/Coordinate';
-import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
-import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
-
-import { RadialBarChart, RadialBar, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Glyphicon, Legend } from 'recharts';
-import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
-import BorderLayout from '@mapstore/components/layout/BorderLayout';
-import { Col, Grid, Nav, NavItem, Row, Tooltip } from 'react-bootstrap';
+//  import { Row } from 'react-bootstrap';
+// import { get } from 'lodash';
+// import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
+// import Message from '@mapstore/components/I18N/Message';
+// import DockablePanel from '@mapstore/components/misc/panels/DockablePanel';
+// import GeocodeViewer from '@mapstore/components/data/identify/GeocodeViewer';
+// import ResizableModal from '@mapstore/components/misc/ResizableModal';
+// import Portal from '@mapstore/components/misc/Portal';
+// import Coordinate from '@mapstore/components/data/identify/coordinates/Coordinate';
+// import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
+// import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
+//
+// import { RadialBarChart, RadialBar, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Glyphicon, Legend } from 'recharts';
+// import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
+// import BorderLayout from '@mapstore/components/layout/BorderLayout';
+import { Tooltip } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Accordion from '@js/components/misc/panels/Accordion';
 import RadarChartsDimensions from '@js/components/data/identify/RadarChartsDimensions';
@@ -24,7 +24,7 @@ import './style/topchart.css';
 
 import { updateNode } from '@mapstore/actions/layers';
 import { connect } from 'react-redux';
-import { getNode } from '@mapstore/utils/LayersUtils';
+// import { getNode } from '@mapstore/utils/LayersUtils';
 import ToggleButton from '@mapstore/components/buttons/ToggleButton';
 
 
@@ -41,7 +41,7 @@ class IdentifyIBEAccordion extends React.Component {
     };
 
     static defaultProps = {
-        name: '',
+        name: ''
     }
 
     state = {
@@ -49,37 +49,37 @@ class IdentifyIBEAccordion extends React.Component {
         environnement_lock: "eye-close",
         sociale_lock: "eye-close",
         economique_lock: "eye-close",
-        current_lock: "",
+        current_lock: ""
     };
 
     visualizationLockButtonGlyph(button) {
-        if (this.state.current_lock == button) return 'eye-open';
+        if (this.state.current_lock === button) return 'eye-open';
         else return 'eye-close';
     }
 
     visualizationLockButtonToggled(button) {
-        if (this.state.current_lock == button) return true;
+        if (this.state.current_lock === button) return true;
         else return false;
     }
 
     toggleVisualizationLockButton(button) {
         console.log(button);
-        if (button == this.state.current_lock) { this.setState({ current_lock: "" }, this.resetVisualization) }
+        if (button === this.state.current_lock) { this.setState({ current_lock: "" }, this.resetVisualization) }
         else { this.setState({ current_lock: button }, this.changeVisualization) }
     }
 
     changeVisualization(button) {
-        if (this.state.current_lock == 'Environnement') {
+        if (this.state.current_lock === 'Environnement') {
             this.props.updateNode("Magog_IBE_AD__5", 'layers', {style: 'indice-bien-etre_environnement'});
             this.props.updateNode("Magog_IBE_HEXA__6", 'layers', {style: 'indice-bien-etre_environnement'});
             this.props.updateNode("Magog_IBE_ID__7", 'layers', {style: 'indice-bien-etre_environnement'});
         }
-        if (this.state.current_lock == 'Sociale') {
+        if (this.state.current_lock === 'Sociale') {
             this.props.updateNode("Magog_IBE_AD__5", 'layers', {style: 'indice-bien-etre_environnement'});
             this.props.updateNode("Magog_IBE_HEXA__6", 'layers', {style: 'indice-bien-etre_environnement'});
             this.props.updateNode("Magog_IBE_ID__7", 'layers', {style: 'indice-bien-etre_environnement'});
         }
-        if (this.state.current_lock == 'Économique') {
+        if (this.state.current_lock === 'Économique') {
             this.props.updateNode("Magog_IBE_AD__5", 'layers', {style: 'indice-bien-etre_environnement'});
             this.props.updateNode("Magog_IBE_HEXA__6", 'layers', {style: 'indice-bien-etre_environnement'});
             this.props.updateNode("Magog_IBE_ID__7", 'layers', {style: 'indice-bien-etre_environnement'});
@@ -87,7 +87,7 @@ class IdentifyIBEAccordion extends React.Component {
     }
 
     resetVisualization() {
-        console.log("RESETING VISZ");
+        // console.log("RESETING VISZ");
         this.props.updateNode("Magog_IBE_AD__5", 'layers', {style: 'indice-bien-etre'});
         this.props.updateNode("Magog_IBE_ID__7", 'layers', {style: 'indice-bien-etre'});
         this.props.updateNode("Magog_IBE_HEXA__6", 'layers', {style: 'indice-bien-etre'});
@@ -140,16 +140,15 @@ class IdentifyIBEAccordion extends React.Component {
 
     render() {
         var chartData = JSON.stringify(this.props.data[0]);
-        //console.log(chartData);
+        // console.log(chartData);
         var parsedChartData;
 
-        if (this.props.data[0] !=  undefined) {
+        if (this.props.data[0] !==  undefined) {
             parsedChartData = JSON.parse(chartData);
-            var environnement = parsedChartData["response"]["features"][0]["properties"]["ibe_d1"];
-            var social = parsedChartData["response"]["features"][0]["properties"]["ibe_d2"];
-            var economique = parsedChartData["response"]["features"][0]["properties"]["ibe_d3"];
-        }
-        else {
+            var environnement = parsedChartData.response.features[0].properties.ibe_d1;
+            var social = parsedChartData.response.features[0].properties.ibe_d2;
+            var economique = parsedChartData.response.features[0].properties.ibe_d3;
+        } else {
             parsedChartData = "";
         }
 
@@ -173,11 +172,7 @@ class IdentifyIBEAccordion extends React.Component {
                     size: 'sm'
                 },
                 body: <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Environnement"}/>,
-                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Environnement')} glyphicon={this.visualizationLockButtonGlyph('Environnement')}
-                                    tooltip={<Tooltip>Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>}
-                                    style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}}
-                                    onClick={ () => { this.handleToggleButtonClick('Environnement') } }
-                    />
+                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Environnement')} glyphicon={this.visualizationLockButtonGlyph('Environnement')} tooltip={<Tooltip>Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Environnement') } }/>
             },
 
             {
@@ -189,11 +184,7 @@ class IdentifyIBEAccordion extends React.Component {
                     size: 'sm'
                 },
                 body: <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Sociale"}/>,
-                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Sociale')} glyphicon={this.visualizationLockButtonGlyph('Sociale')}
-                                    tooltip={<Tooltip>Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>}
-                                    style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}}
-                                    onClick={ () => { this.handleToggleButtonClick('Sociale') } }
-                     />
+                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Sociale')} glyphicon={this.visualizationLockButtonGlyph('Sociale')} tooltip={<Tooltip>Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Sociale') } }/>
             },
             {
                 id: 'panel-economique',
@@ -204,24 +195,29 @@ class IdentifyIBEAccordion extends React.Component {
                     size: 'sm'
                 },
                 body: <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Économique"}/>,
-                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Économique')} glyphicon={this.visualizationLockButtonGlyph('Économique')}
-                            tooltip={<Tooltip>Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>}
-                            style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}}
-                            onClick={ () => { this.handleToggleButtonClick('Économique') } }
-                        />
+                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Économique')} glyphicon={this.visualizationLockButtonGlyph('Économique')} tooltip={<Tooltip>Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Économique') } }/>
             }
         ];
 
+        // return (
+        //     <>
+        //         <Accordion activePanel={this.props.activePanel} panels={panels} onSelect={ (key, value) => {
+        //             this.setState({activePanel: key});
+        //             // this.props.updateNode("Magog_IBE_AD__5", 'layers', {style: 'indice-bien-etre_environnement'});
+        //         } } />
+        //     </>
+        // );
+        //
         return (
             <>
-                <Accordion activePanel={this.props.activePanel} panels={panels} onSelect={ (key, value) => {
+                <Accordion activePanel={this.props.activePanel} panels={panels} onSelect={ (key) => {
                     this.setState({activePanel: key});
-                    //this.props.updateNode("Magog_IBE_AD__5", 'layers', {style: 'indice-bien-etre_environnement'});
+                    // this.props.updateNode("Magog_IBE_AD__5", 'layers', {style: 'indice-bien-etre_environnement'});
                 } } />
             </>
         );
     }
 }
 
-//export default IdentifyIBEAccordion;
+// export default IdentifyIBEAccordion;
 export default connect(null, mapDispatchToProps)(IdentifyIBEAccordion);

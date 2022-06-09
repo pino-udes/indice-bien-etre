@@ -10,22 +10,22 @@ import React from 'react';
 
 //import { Row } from 'react-bootstrap';
 import { get } from 'lodash';
-import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
+// import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
 import Message from '@mapstore/components/I18N/Message';
 import DockablePanel from '@mapstore/components/misc/panels/DockablePanel';
-import GeocodeViewer from '@mapstore/components/data/identify/GeocodeViewer';
+// import GeocodeViewer from '@mapstore/components/data/identify/GeocodeViewer';
 import ResizableModal from '@mapstore/components/misc/ResizableModal';
 import Portal from '@mapstore/components/misc/Portal';
-import Coordinate from '@mapstore/components/data/identify/coordinates/Coordinate';
+// import Coordinate from '@mapstore/components/data/identify/coordinates/Coordinate';
 import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
-import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
-
-import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
-import BorderLayout from '@mapstore/components/layout/BorderLayout';
-import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
-
-import IdentifyCharts from '@js/components/data/identify/Charts'
-import { Tabs, Tab, TabPane, Sonnet, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
+// import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
+//
+// import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
+// import BorderLayout from '@mapstore/components/layout/BorderLayout';
+// import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
+//
+// import IdentifyCharts from '@js/components/data/identify/Charts'
+//import { Sonnet, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
 import IdentifyTabs from '@js/components/data/identify/IdentifyTabs'
 import './style/topchart.css';
 

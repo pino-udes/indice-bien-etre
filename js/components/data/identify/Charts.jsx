@@ -162,7 +162,7 @@ class IdentifyCharts extends React.Component {
                 <div className={"IdentifyGridCard"}>
 
                     <div style={{padding: '0px', display: 'flex', justifyContent: 'center'}}>
-                        <h3>Indice de bien-être: {Math.round((environnement+social+economique)/3)}</h3>
+                        <h3>Indice de bien-être: {Math.round((environnement + social+economique) / 3)}</h3>
                     </div>
 
                     <ResponsiveContainer width="100%" height={150}>
