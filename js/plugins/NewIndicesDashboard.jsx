@@ -34,12 +34,11 @@ import * as epics from '@mapstore/epics/createnewmap';
 import NewIndicesDashboardForm from "@js/plugins/NewIndicesDashboard/NewIndicesDashboardForm";
 import Dropzone from 'react-dropzone';
 import Modal from "@mapstore/components/misc/ResizableModal";
-// import { createResource, updateResource, getResource, createCategory } from '@mapstore/api/persistence';
 import axios from '@mapstore/libs/ajax';
-// import xml2js from 'xml2js';
 import { reloadMaps } from '@mapstore/actions/maps';
 import FileUploader from '@js/components/file/FileUploader';
-//
+import sample_data from '../../assets/sample_data.json';
+
 
 
 const Button = tooltip(ButtonB);
@@ -337,49 +336,61 @@ class NewIndicesDashboard extends React.Component {
 
         // Create new map
         // const getCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/102?full=true";
-        const getTemplateDataURL = "http://localhost:8080/mapstore/rest/geostore/data/102";
+
+        // const getTemplateDataURL = "http://localhost:8080/mapstore/rest/geostore/data/102";
+        // axios.get(getTemplateDataURL).then((newMapDataResponse) => {
+        //
+        // });
 
         const putCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources";
 
+        newMapData = sample_data;
 
-        axios.get(getTemplateDataURL).then((newMapDataResponse) => {
-            newMapData = newMapDataResponse.data;
+        ////// modifier ici le mapdata avant d'inserer
 
-            // console.log(JSON.parse(JSON.stringify(newMapData)));
-            newResource = "<Resource><description></description><metadata></metadata><name>" + this.state.municipalite + "</name><category><name>MAP</name></category><store><data><![CDATA[ " + JSON.stringify(newMapData) + " ]]></data></store></Resource>";
-            config = {
-                headers: {
-                    'Content-Type': 'text/xml'
+            const layers  = newMapData.map.layers;
+
+            var x = 0;
+            layers.forEach((layer) => {
+                console.log(layer.id);
+                if (layer.id === "aire_diffusion" || layer.id == "ilot_diffusion" || layer.id == "hexagone") {
+                    newMapData.map.layers[x].search.url = window.location.origin + "/geoserver/" + this.state.municipalite + "/wfs";
+                    newMapData.map.layers[x].search.type = "wfs";
+                    newMapData.map.layers[x].type = "wms";
+                    newMapData.map.layers[x].url = window.location.origin + "/geoserver/" + this.state.municipalite + "/wms";;
                 }
-            };
-            axios.post(putCreateNewMapBaseURL, newResource, config)
-                .then((newMapIDResponse) => {
-                    newMapID = newMapIDResponse.data;
-                    // console.log("newMapID: ", newMapID);
-                    // this.props.reloadMaps();
+                x++;
+            });
 
-                    changeSecurityRoleURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/" + newMapID + "/permissions";
-                    // axios.get(changeSecurityRoleURL).then((response) => {
-                    //     resourcePermissions = response.data;
-                    //     // console.log("3333333 ", JSON.parse(JSON.stringify(resourcePermissions)));
-                    // });
+        /////
 
-                    securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule></SecurityRuleList>";
-                    if (this.state.everyone_can_see === true) {
-                        // console.log("SADASDASDASDS");
-                        securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule><SecurityRule><canRead>true</canRead><canWrite>false</canWrite><group><groupName>everyone</groupName><id>9</id></group></SecurityRule></SecurityRuleList>";
-                        axios.post(changeSecurityRoleURL, securityRoleNewRessource, config)
-                            .then(() => {
-                                this.setState({
-                                    everyone_can_see: false
-                                });
+        console.log(JSON.parse(JSON.stringify(newMapData)));
+        newResource = "<Resource><description></description><metadata></metadata><name>" + this.state.municipalite + "</name><category><name>MAP</name></category><store><data><![CDATA[ " + JSON.stringify(newMapData) + " ]]></data></store></Resource>";
+        config = {
+            headers: {
+                'Content-Type': 'text/xml'
+            }
+        };
+        axios.post(putCreateNewMapBaseURL, newResource, config)
+            .then((newMapIDResponse) => {
+                newMapID = newMapIDResponse.data;
+
+                changeSecurityRoleURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/" + newMapID + "/permissions";
+
+                securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule></SecurityRuleList>";
+                if (this.state.everyone_can_see === true) {
+                    securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule><SecurityRule><canRead>true</canRead><canWrite>false</canWrite><group><groupName>everyone</groupName><id>9</id></group></SecurityRule></SecurityRuleList>";
+                    axios.post(changeSecurityRoleURL, securityRoleNewRessource, config)
+                        .then(() => {
+                            this.setState({
+                                everyone_can_see: false
                             });
-                    }
+                        });
+                }
 
-                    this.props.reloadMaps();
+                this.props.reloadMaps();
+            });
 
-                });
-        });
 
 
         // // //
