@@ -38,6 +38,7 @@ import Modal from "@mapstore/components/misc/ResizableModal";
 import axios from '@mapstore/libs/ajax';
 // import xml2js from 'xml2js';
 import { reloadMaps } from '@mapstore/actions/maps';
+import FileUploader from '@js/components/file/FileUploader';
 //
 
 
@@ -58,7 +59,7 @@ class NewIndicesDashboard extends React.Component {
         user: PropTypes.object,
         fluid: PropTypes.bool,
         hasContexts: PropTypes.bool,
-        reloadMaps: PropTypes.func
+        reloadMaps: PropTypes.func,
         // showNewMapDialog: PropTypes.bool,
         // onShowNewMapDialog: PropTypes.func,
         // onNewMap: PropTypes.func
@@ -92,7 +93,10 @@ class NewIndicesDashboard extends React.Component {
 
     state = {
         municipalite: '',
-        everyone_can_see: false
+        everyone_can_see: false,
+        adFilename: '',
+        idFilename: '',
+        hexaFilename: ''
     };
 
     getForm = () => {
@@ -131,7 +135,7 @@ class NewIndicesDashboard extends React.Component {
                     <form ref="loginForm">
                         <FormGroup>
                             <ControlLabel>Nom de la municipalité</ControlLabel>
-                            <FormControl ref="username" key="username" type="text" value={this.state.municipalite} onChange={this.setMunicipalite} />
+                            <FormControl ref="username" key="username" type="text" value={this.state.municipalite} onChange={this.setMunicipalite}  />
                         </FormGroup>
 
                         <Checkbox onChange={this.setVisibility}>
@@ -143,31 +147,12 @@ class NewIndicesDashboard extends React.Component {
                         <Tabs defaultActiveKey={"Indice de bien-être"} >
                             <Tab  eventKey={"Indice de bien-être"} title={"Indice de bien-être"}>
 
-                                <h4>Carte raster de la dimension environnement</h4>
-                                <Dropzone style={{display: "flex", borderWidth: 3 + "px" }} key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
-                                    <div style={{display: "flex", borderStyle: "inherit", borderWidth: 3 + "px", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
-                                        <span style={{ fontStyle: 'italic', textAlign: "left" }}>
-                                            Glissez le fichier ici ou cliquez pour choisir un fichier
-                                        </span>
-                                    </div>
-                                </Dropzone>
+                                <p style={{marginTop: "20px"}}>Téléversez les fichiers Shapefiles en format ZIP</p>
 
-                                <h4>Carte raster de la dimension sociale</h4>
-                                <Dropzone key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
-                                    <div style={{display: "flex", borderStyle: "inherit", borderWidth: "inherit", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
-                                        <span style={{ fontStyle: 'italic', textAlign: "left" }}>
-                                            Glissez le fichier ici ou cliquez pour choisir un fichier
-                                        </span>
-                                    </div>
-                                </Dropzone>
-                                <h4>Carte raster de la dimension économique</h4>
-                                <Dropzone key="dropzone" rejectClassName="dropzone-danger" className="dropzone" activeClassName="active">
-                                    <div style={{display: "flex", borderStyle: "inherit", borderWidth: "inherit", alignItems: "center", width: "100%", height: "100%", justifyContent: "left"}}>
-                                        <span style={{ fontStyle: 'italic', textAlign: "left" }}>
-                                            Glissez le fichier ici ou cliquez pour choisir un fichier
-                                        </span>
-                                    </div>
-                                </Dropzone>
+                                <FileUploader dropMessage={"Aires de diffusion"} beforeUploadMessage={"Aires de diffusion"} setFilename={this.setADFilename}/>
+                                <FileUploader dropMessage={"Îlots de diffusion"} beforeUploadMessage={"Îlots de diffusion"} setFilename={this.setIDFilename}/>
+                                <FileUploader dropMessage={"Hexagones"} beforeUploadMessage={"Hexagones"} setFilename={this.setHexaFilename}/>
+
                             </Tab>
                             <Tab  eventKey={"Indice de verdure"} title={"Indice de verdure"}>
 
@@ -204,6 +189,24 @@ class NewIndicesDashboard extends React.Component {
         );
     }
 
+    setADFilename = (value) => {
+        this.setState({
+            adFilename: value
+        });
+    };
+
+    setIDFilename = (value) => {
+        this.setState({
+            idFilename: value
+        });
+    };
+
+    setHexaFilename = (value) => {
+        this.setState({
+            hexaFilename: value
+        });
+    };
+
     setMunicipalite = (e) => {
         this.setState({
             municipalite: e.target.value
@@ -232,37 +235,105 @@ class NewIndicesDashboard extends React.Component {
         // var password = 'geoserver';
         var securityRoleNewRessource;
         var changeSecurityRoleURL;
-        // var resourcePermissions;
-        // var basicAuth = 'Basic ' + btoa(username + ':' + password);
-        // var newResource;
-        // var config;
-        // var configGeoserver = {
-        //     headers: {
-        //         'Content-Type': 'text/xml',
-        //         'Authorization': + basicAuth
-        //     }
-        // };
+        var tempXML;
+        var createWorkspaceXML;
+        var configGeoserver = {
+            headers: {
+                'Content-type': 'text/xml'
+            },
+            auth: {
+                username: 'admin',
+                password: 'geoserver'
+            }
+        };
+        var configGeoserverUpload = {
+            headers: {
+                'Content-Type': 'application/zip'
+            },
+            auth: {
+                username: 'admin',
+                password: 'geoserver'
+            }
+        };
+
+        console.log("123123 ", this.state.adFilename);
+
+        const geoserverWorkspaceBaseURL = window.location.origin + "/geoserver/rest/workspaces";
+        // todo changer pour un random. Pas besoin d'avoir le nom dans le workspace nécessairment.
+        createWorkspaceXML = "<workspace><name>" + this.state.municipalite + "</name></workspace>";
+
+
+
+        var parts = this.state.adFilename.split('/');
+        var lastSegment = parts.pop() || parts.pop();
+        var geoserverDatastoreBaseURL;
+        var file;
+        var config;
+        var geoserverLayerBaseURL;
+        var layerDefaultStyle = "<layer><defaultStyle><name>indice_bien_etre</name></defaultStyle></layer>";
 
         // Create workspace on Geoserver
-        // const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
-        // var tempXML = "<workspace><name>" + this.state.municipalite + "</name></workspace>";
-        // var createWorkspaceXML = `${tempXML}`;
-        // // console.log(tempXML);
+        axios
+            .post(geoserverWorkspaceBaseURL, createWorkspaceXML, configGeoserver)
+            .then(() => {
+                // Get the file from FileUploader (blob url) and upload to geoserver aire_diffusion
+                config = { responseType: 'blob' };
+                axios.get(this.state.adFilename, config).then(response => {
+                    file = new File([response.data], "aire_diffusion.zip");
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/datastores/aire_diffusion/file.shp";
+                    // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/aire_diffusion";
 
-        // axios
-        //     .post(geoserverWorkspaceBaseURL, tempXML, XMLconfig)
-        //     .then((response) => {
-        //         // console.log(response.data);
-        //     });
+                    axios
+                        .put(geoserverDatastoreBaseURL, file, configGeoserverUpload)
+                        .then((response) => {
+                            console.log("!Shapefile uploaded!");
+                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/aire_diffusion";
+                            axios
+                                .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
+                                .then((response) => {
+                                    console.log("default style", response.data);
+                                });
+                        });
+                });
+                // Get the file from FileUploader (blob url) and upload to geoserver ilot_diffusion
+                config = { responseType: 'blob' };
+                axios.get(this.state.idFilename, config).then(response => {
+                    file = new File([response.data], "ilot_diffusion.zip");
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/datastores/ilot_diffusion/file.shp";
+                    // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/ilot_diffusion";
 
-        // const geoserverWorkspaceBaseURL = "http://localhost:8080/geoserver/rest/workspaces";
-        // axios.get(geoserverWorkspaceBaseURL).then((response) => {
-        //      console.log(response.data);
-        // });
+                    axios
+                        .put(geoserverDatastoreBaseURL, file, configGeoserverUpload)
+                        .then((response) => {
+                            console.log("!Shapefile uploaded!");
+                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/ilot_diffusion";
+                            axios
+                                .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
+                                .then((response) => {
+                                    console.log("default style", response.data);
+                                });
+                        });
+                });
 
-        // Upload data to Geoserver
+                // Get the file from FileUploader (blob url) and upload to geoserver hexagone
+                config = { responseType: 'blob' };
+                axios.get(this.state.hexaFilename, config).then(response => {
+                    file = new File([response.data], "hexagone.zip");
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/datastores/hexagone/file.shp";
+                    axios
+                        .put(geoserverDatastoreBaseURL, file, configGeoserverUpload)
+                        .then((response) => {
+                            console.log("!Shapefile uploaded!");
+                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/hexagone";
+                            axios
+                                .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
+                                .then((response) => {
+                                    console.log("default style", response.data);
+                                });
+                        });
+                });
+            });
 
-        // Do stuff in GEostore
 
         // Create new map
         // const getCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/102?full=true";

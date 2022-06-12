@@ -14,7 +14,7 @@ const ConfigUtils = require('@mapstore/utils/ConfigUtils').default;
  *
  * ConfigUtils.setConfigProp('translationsPath', ['./MapStore2/web/client/translations', './translations']);
  */
-//ConfigUtils.setConfigProp('translationsPath', './MapStore2/web/client/translations');
+// ConfigUtils.setConfigProp('translationsPath', './MapStore2/web/client/translations');
 ConfigUtils.setConfigProp('translationsPath', ['./MapStore2/web/client/translations', './translations']);
 ConfigUtils.setConfigProp('themePrefix', 'indice-bien-etre');
 
@@ -24,7 +24,7 @@ ConfigUtils.setConfigProp('themePrefix', 'indice-bien-etre');
  * ConfigUtils.setLocalConfigurationFile('localConfig.json');
  */
 // DEFAULT:
-//ConfigUtils.setLocalConfigurationFile('MapStore2/web/client/configs/localConfig.json');
+// ConfigUtils.setLocalConfigurationFile('MapStore2/web/client/configs/localConfig.json');
 
 ConfigUtils.setLocalConfigurationFile('localConfig.json');
 
@@ -52,7 +52,7 @@ const appConfig = require('../configs/appConfig').default;
  */
 
 // DEFAULT:
-//const plugins = require('@mapstore/product/plugins').default;
+// const plugins = require('@mapstore/product/plugins').default;
 
 const plugins = require('./plugins').default;
 

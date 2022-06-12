@@ -8,8 +8,8 @@
 
 import React from 'react';
 
-//import { Row } from 'react-bootstrap';
-import { get } from 'lodash';
+// import { Row } from 'react-bootstrap';
+// import { get } from 'lodash';
 // import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
 import Message from '@mapstore/components/I18N/Message';
 import DockablePanel from '@mapstore/components/misc/panels/DockablePanel';
@@ -17,7 +17,7 @@ import DockablePanel from '@mapstore/components/misc/panels/DockablePanel';
 import ResizableModal from '@mapstore/components/misc/ResizableModal';
 import Portal from '@mapstore/components/misc/Portal';
 // import Coordinate from '@mapstore/components/data/identify/coordinates/Coordinate';
-import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
+// import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
 // import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
 //
 // import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
@@ -25,8 +25,8 @@ import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
 // import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 //
 // import IdentifyCharts from '@js/components/data/identify/Charts'
-//import { Sonnet, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
-import IdentifyTabs from '@js/components/data/identify/IdentifyTabs'
+// import { Sonnet, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
+import IdentifyTabs from '@js/components/data/identify/IdentifyTabs';
 import './style/topchart.css';
 
 
@@ -46,81 +46,80 @@ export default props => {
         layers,
         enabled,
         requests = [],
-        onChange = () => {},
+        // onChange = () => {},
         onClose = () => {},
         responses = [],
-        index,
-        viewerOptions = {},
-        format,
+        // index,
+        // viewerOptions = {},
+        // format,
         dock = true,
-        position,
-        size,
-        fluid,
-        validResponses = [],
-        viewer = () => null,
-        getToolButtons = () => [],
-        getFeatureButtons = () => [],
+        // position,
+        // size,
+        // fluid,
+        // validResponses = [],
+        // viewer = () => null,
+        // getToolButtons = () => [],
+        // getFeatureButtons = () => [],
         showFullscreen,
-        reverseGeocodeData = {},
-        point,
+        // reverseGeocodeData = {},
+        // point,
         dockStyle = {},
         draggable,
-        setIndex,
+        // setIndex,
         warning,
         clearWarning,
-        test,
+        // test,
         zIndex,
-        showEmptyMessageGFI,
-        showEdit,
-        isEditingAllowed,
-        onEdit = () => {},
+        // showEmptyMessageGFI,
+        // showEdit,
+        // isEditingAllowed,
+        // onEdit = () => {},
         // coord editor props
-        enabledCoordEditorButton,
-        showCoordinateEditor,
-        onSubmitClickPoint,
-        onChangeFormat,
-        formatCoord,
-        loaded,
-        validator = () => null,
+        // enabledCoordEditorButton,
+        // showCoordinateEditor,
+        // onSubmitClickPoint,
+        // onChangeFormat,
+        // formatCoord,
+        // loaded,
+        // validator = () => null,
         toggleHighlightFeature = () => {}
     } = props;
-    const latlng = point && point.latlng || null;
+    // const latlng = point && point.latlng || null;
 
     // Layer selector allows only selection of valid response's index, so target response will always be valid.
-    const targetResponse = responses[index];
-    const {layer} = targetResponse || {};
+    // const targetResponse = responses[index];
+    // const {layer} = targetResponse || {};
 
-    let lngCorrected = null;
-    if (latlng) {
-        /* lngCorrected is the converted longitude in order to have the value between
-         * the range (-180 / +180).
-         * Precision has to be >= than the coordinate editor precision
-         * especially in the case of aeronautical degree edito which is 12
-        */
-        lngCorrected = latlng && Math.round(latlng.lng * 100000000000000000) / 100000000000000000;
-        /* the following formula apply the converion */
-        lngCorrected = lngCorrected - 360 * Math.floor(lngCorrected / 360 + 0.5);
-    }
-    const Viewer = viewer;
+    // let lngCorrected = null;
+    // if (latlng) {
+    //     /* lngCorrected is the converted longitude in order to have the value between
+    //      * the range (-180 / +180).
+    //      * Precision has to be >= than the coordinate editor precision
+    //      * especially in the case of aeronautical degree edito which is 12
+    //     */
+    //     lngCorrected = latlng && Math.round(latlng.lng * 100000000000000000) / 100000000000000000;
+    //     /* the following formula apply the converion */
+    //     lngCorrected = lngCorrected - 360 * Math.floor(lngCorrected / 360 + 0.5);
+    // }
+    // const Viewer = viewer;
     // TODO: put all the header (Toolbar, navigation, coordinate editor) outside the container
-    const toolButtons = getToolButtons({
-        ...props,
-        lngCorrected,
-        validResponses,
-        latlng,
-        showEdit: showEdit && isEditingAllowed && !!targetResponse && responseValidForEdit(targetResponse),
-        onEdit: onEdit.bind(null, layer && {
-            id: layer.id,
-            name: layer.name,
-            url: get(layer, 'search.url')
-        })
-    });
-    const emptyResponses = requests.length === validator(format)?.getNoValidResponses(responses)?.length || 0;
-    const missingResponses = requests.length - responses.length;
-    const revGeocodeDisplayName = reverseGeocodeData.error ? <Message msgId="identifyRevGeocodeError"/> : reverseGeocodeData.display_name;
-
-    const style = {width: "100%", height: "100%"};
-
+    // const toolButtons = getToolButtons({
+    //     ...props,
+    //     lngCorrected,
+    //     validResponses,
+    //     latlng,
+    //     showEdit: showEdit && isEditingAllowed && !!targetResponse && responseValidForEdit(targetResponse),
+    //     onEdit: onEdit.bind(null, layer && {
+    //         id: layer.id,
+    //         name: layer.name,
+    //         url: get(layer, 'search.url')
+    //     })
+    // });
+    // const emptyResponses = requests.length === validator(format)?.getNoValidResponses(responses)?.length || 0;
+    // const missingResponses = requests.length - responses.length;
+    // const revGeocodeDisplayName = reverseGeocodeData.error ? <Message msgId="identifyRevGeocodeError"/> : reverseGeocodeData.display_name;
+    //
+    // const style = {width: "100%", height: "100%"};
 
 
     return (
@@ -128,12 +127,9 @@ export default props => {
             <DockablePanel
                 bsStyle="primary"
                 glyph="1-layer"
-                open={
-                    //true
-                    enabled && requests.length !== 0
-                }
+                open
                 size={0.30}
-                fluid={true}
+                fluid
                 position="left"
                 draggable={draggable}
                 onClose={() => {
