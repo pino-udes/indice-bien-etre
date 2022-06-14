@@ -38,8 +38,8 @@ import axios from '@mapstore/libs/ajax';
 import { reloadMaps } from '@mapstore/actions/maps';
 import FileUploader from '@js/components/file/FileUploader';
 import sample_data from '../../assets/sample_data.json';
-
-
+import xml2js from 'xml2js';
+import uuid from 'uuid';
 
 const Button = tooltip(ButtonB);
 // const SplitButton = tooltip(SplitButtonB);
@@ -254,8 +254,9 @@ class NewIndicesDashboard extends React.Component {
                 password: 'geoserver'
             }
         };
+        var workspaceId = "ibe_" + uuid();
 
-        console.log("123123 ", this.state.adFilename);
+        console.log("workspace ", workspaceId);
 
         const geoserverWorkspaceBaseURL = window.location.origin + "/geoserver/rest/workspaces";
         // todo changer pour un random. Pas besoin d'avoir le nom dans le workspace nécessairment.
@@ -270,6 +271,10 @@ class NewIndicesDashboard extends React.Component {
         var config;
         var geoserverLayerBaseURL;
         var layerDefaultStyle = "<layer><defaultStyle><name>indice_bien_etre</name></defaultStyle></layer>";
+        var WMSGetCapabilitiesADBBox;
+        var WMSGetCapabilitiesIDBBox;
+        var WMSGetCapabilitiesHEXABBox;
+
 
         // Create workspace on Geoserver
         axios
@@ -328,6 +333,35 @@ class NewIndicesDashboard extends React.Component {
                                 .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
                                 .then((response) => {
                                     console.log("default style", response.data);
+
+                                    // axios.get("http://localhost:8080/geoserver/" + this.state.municipalite + "/wms?service=WMS&request=GetCapabilities", configGeoserver).then((response) => {
+                                    //     //console.log(xml2js.parseString(response.data));
+                                    //     const parser = new xml2js.Parser();
+                                    //     parser.parseString(response.data, function (err, result) {
+                                    //
+                                    //
+                                    //         //WMSGetCapabilitiesADnum
+                                    //         //wmslayers = result.WMS_Capabilities;
+                                    //         const wmslayers = result.WMS_Capabilities.Capability[0].Layer[0].Layer;
+                                    //         console.log(wmslayers);
+                                    //         wmslayers.forEach((wmslayer) => {
+                                    //             console.log(wmslayer.BoundingBox[0].CRS, wmslayer.BoundingBox[0]);
+                                    //             if (wmslayer.name === "aire_diffusion") {
+                                    //                 WMSGetCapabilitiesADBBox = wmslayer.BoundingBox[0].CRS, wmslayer.BoundingBox[0];
+                                    //             }
+                                    //             if (wmslayer.name === "ilot_diffusion") {
+                                    //                 WMSGetCapabilitiesIDBBox = wmslayer.BoundingBox[0].CRS, wmslayer.BoundingBox[0];
+                                    //             }
+                                    //             if (wmslayer.name === "hexagone") {
+                                    //                 WMSGetCapabilitiesHEXABBox = wmslayer.BoundingBox[0].CRS, wmslayer.BoundingBox[0];
+                                    //             }
+                                    //             console.log(WMSGetCapabilitiesADBBox, WMSGetCapabilitiesHEXABBox, WMSGetCapabilitiesIDBBox)
+                                    //         });
+                                    //
+                                    //     });
+                                    // });
+
+
                                 });
                         });
                 });
@@ -343,7 +377,6 @@ class NewIndicesDashboard extends React.Component {
         // });
 
         const putCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources";
-
         newMapData = sample_data;
 
         ////// modifier ici le mapdata avant d'inserer
