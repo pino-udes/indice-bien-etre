@@ -106,9 +106,9 @@ class IdentifyTabs extends React.Component {
                 ibe_id_pressed: false,
                 ibe_pix_pressed: false
             });
-            this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: true});
-            this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: false});
-            this.props.updateNode("Magog_IBE_HEXA__6", 'layers', {visibility: false});
+            this.props.updateNode("aire_diffusion", 'layers', {visibility: true});
+            this.props.updateNode("ilot_diffusion", 'layers', {visibility: false});
+            this.props.updateNode("hexagone", 'layers', {visibility: false});
         }
         if (button === 'ID') {
             this.setState({
@@ -120,9 +120,9 @@ class IdentifyTabs extends React.Component {
                 ibe_id_pressed: true,
                 ibe_pix_pressed: false
             });
-            this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: false});
-            this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: true});
-            this.props.updateNode("Magog_IBE_HEXA__6", 'layers', {visibility: false});
+            this.props.updateNode("aire_diffusion", 'layers', {visibility: false});
+            this.props.updateNode("ilot_diffusion", 'layers', {visibility: true});
+            this.props.updateNode("hexagone", 'layers', {visibility: false});
 
         }
 
@@ -136,9 +136,9 @@ class IdentifyTabs extends React.Component {
                 ibe_id_pressed: false,
                 ibe_pix_pressed: true
             });
-            this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: false});
-            this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: false});
-            this.props.updateNode("Magog_IBE_HEXA__6", 'layers', {visibility: true});
+            this.props.updateNode("aire_diffusion", 'layers', {visibility: false});
+            this.props.updateNode("ilot_diffusion", 'layers', {visibility: false});
+            this.props.updateNode("hexagone", 'layers', {visibility: true});
         }
     }
 

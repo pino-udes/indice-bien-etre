@@ -40,6 +40,8 @@ import FileUploader from '@js/components/file/FileUploader';
 import sample_data from '../../assets/sample_data.json';
 import xml2js from 'xml2js';
 import uuid from 'uuid';
+import Spinner from 'react-spinkit';
+
 
 const Button = tooltip(ButtonB);
 // const SplitButton = tooltip(SplitButtonB);
@@ -95,7 +97,8 @@ class NewIndicesDashboard extends React.Component {
         everyone_can_see: false,
         adFilename: '',
         idFilename: '',
-        hexaFilename: ''
+        hexaFilename: '',
+        spinner: ''
     };
 
     getForm = () => {
@@ -121,11 +124,11 @@ class NewIndicesDashboard extends React.Component {
                 onClose={this.close}
                 title={"Nouvelle visualisation cartographique"}
                 buttons={[{
-                    text: <Message msgId="Annuler" />,
+                    text: "Annuler",
                     onClick: this.close
                 }, {
                     bsStyle: "primary",
-                    text: <Message msgId="Créer" />,
+                    text: "Créer",
                     onClick: this.createDashboard
                 }]}
                 fitContent
@@ -157,6 +160,7 @@ class NewIndicesDashboard extends React.Component {
 
                             </Tab>
                         </Tabs>
+                        {this.state.spinner}
                     </>
 
                 </div>
@@ -260,9 +264,7 @@ class NewIndicesDashboard extends React.Component {
 
         const geoserverWorkspaceBaseURL = window.location.origin + "/geoserver/rest/workspaces";
         // todo changer pour un random. Pas besoin d'avoir le nom dans le workspace nécessairment.
-        createWorkspaceXML = "<workspace><name>" + this.state.municipalite + "</name></workspace>";
-
-
+        createWorkspaceXML = "<workspace><name>" + workspaceId + "</name></workspace>";
 
         var parts = this.state.adFilename.split('/');
         var lastSegment = parts.pop() || parts.pop();
@@ -274,7 +276,11 @@ class NewIndicesDashboard extends React.Component {
         var WMSGetCapabilitiesADBBox;
         var WMSGetCapabilitiesIDBBox;
         var WMSGetCapabilitiesHEXABBox;
+        var x;
 
+        this.setState({
+            spinner: <Spinner style={{marginTop: "10px", marginBottom: "10px"}} spinnerName="circle" overrideSpinnerClassName="spinner"/>
+        });
 
         // Create workspace on Geoserver
         axios
@@ -284,14 +290,14 @@ class NewIndicesDashboard extends React.Component {
                 config = { responseType: 'blob' };
                 axios.get(this.state.adFilename, config).then(response => {
                     file = new File([response.data], "aire_diffusion.zip");
-                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/datastores/aire_diffusion/file.shp";
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/datastores/aire_diffusion/file.shp";
                     // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/aire_diffusion";
 
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUpload)
                         .then((response) => {
                             console.log("!Shapefile uploaded!");
-                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/aire_diffusion";
+                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/aire_diffusion";
                             axios
                                 .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
                                 .then((response) => {
@@ -303,14 +309,14 @@ class NewIndicesDashboard extends React.Component {
                 config = { responseType: 'blob' };
                 axios.get(this.state.idFilename, config).then(response => {
                     file = new File([response.data], "ilot_diffusion.zip");
-                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/datastores/ilot_diffusion/file.shp";
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/datastores/ilot_diffusion/file.shp";
                     // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/ilot_diffusion";
 
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUpload)
                         .then((response) => {
                             console.log("!Shapefile uploaded!");
-                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/ilot_diffusion";
+                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/ilot_diffusion";
                             axios
                                 .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
                                 .then((response) => {
@@ -323,43 +329,133 @@ class NewIndicesDashboard extends React.Component {
                 config = { responseType: 'blob' };
                 axios.get(this.state.hexaFilename, config).then(response => {
                     file = new File([response.data], "hexagone.zip");
-                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/datastores/hexagone/file.shp";
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/datastores/hexagone/file.shp";
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUpload)
                         .then((response) => {
                             console.log("!Shapefile uploaded!");
-                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/hexagone";
+                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/hexagone";
                             axios
                                 .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
                                 .then((response) => {
                                     console.log("default style", response.data);
 
-                                    // axios.get("http://localhost:8080/geoserver/" + this.state.municipalite + "/wms?service=WMS&request=GetCapabilities", configGeoserver).then((response) => {
-                                    //     //console.log(xml2js.parseString(response.data));
-                                    //     const parser = new xml2js.Parser();
-                                    //     parser.parseString(response.data, function (err, result) {
-                                    //
-                                    //
-                                    //         //WMSGetCapabilitiesADnum
-                                    //         //wmslayers = result.WMS_Capabilities;
-                                    //         const wmslayers = result.WMS_Capabilities.Capability[0].Layer[0].Layer;
-                                    //         console.log(wmslayers);
-                                    //         wmslayers.forEach((wmslayer) => {
-                                    //             console.log(wmslayer.BoundingBox[0].CRS, wmslayer.BoundingBox[0]);
-                                    //             if (wmslayer.name === "aire_diffusion") {
-                                    //                 WMSGetCapabilitiesADBBox = wmslayer.BoundingBox[0].CRS, wmslayer.BoundingBox[0];
-                                    //             }
-                                    //             if (wmslayer.name === "ilot_diffusion") {
-                                    //                 WMSGetCapabilitiesIDBBox = wmslayer.BoundingBox[0].CRS, wmslayer.BoundingBox[0];
-                                    //             }
-                                    //             if (wmslayer.name === "hexagone") {
-                                    //                 WMSGetCapabilitiesHEXABBox = wmslayer.BoundingBox[0].CRS, wmslayer.BoundingBox[0];
-                                    //             }
-                                    //             console.log(WMSGetCapabilitiesADBBox, WMSGetCapabilitiesHEXABBox, WMSGetCapabilitiesIDBBox)
-                                    //         });
-                                    //
-                                    //     });
-                                    // });
+                                    axios.get("http://localhost:8080/geoserver/" + workspaceId + "/wms?service=WMS&request=GetCapabilities", configGeoserver).then((response) => {
+                                        //console.log(xml2js.parseString(response.data));
+                                        const parser = new xml2js.Parser();
+                                        parser.parseString(response.data, function (err, result) {
+
+                                            //WMSGetCapabilitiesADnum
+                                            //wmslayers = result.WMS_Capabilities;
+                                            const wmslayers = result.WMS_Capabilities.Capability[0].Layer[0].Layer;
+                                            console.log(wmslayers);
+
+                                            wmslayers.forEach((wmslayer) => {
+                                                console.log("bound ", wmslayer.EX_GeographicBoundingBox[0].westBoundLongitude[0]);
+                                                if (wmslayer.Name[0] === "aire_diffusion") {
+                                                    WMSGetCapabilitiesADBBox = {
+                                                        "minx": wmslayer.EX_GeographicBoundingBox[0].westBoundLongitude[0],
+                                                        "miny": wmslayer.EX_GeographicBoundingBox[0].southBoundLatitude[0],
+                                                        "maxx": wmslayer.EX_GeographicBoundingBox[0].eastBoundLongitude[0],
+                                                        "maxy": wmslayer.EX_GeographicBoundingBox[0].northBoundLatitude[0]
+                                                    }
+                                                }
+                                                if (wmslayer.Name[0] === "ilot_diffusion") {
+                                                    WMSGetCapabilitiesIDBBox = {
+                                                        "minx": wmslayer.EX_GeographicBoundingBox[0].westBoundLongitude[0],
+                                                        "miny": wmslayer.EX_GeographicBoundingBox[0].southBoundLatitude[0],
+                                                        "maxx": wmslayer.EX_GeographicBoundingBox[0].eastBoundLongitude[0],
+                                                        "maxy": wmslayer.EX_GeographicBoundingBox[0].northBoundLatitude[0]
+                                                    }
+                                                }
+                                                if (wmslayer.Name[0] === "hexagone") {
+                                                    WMSGetCapabilitiesHEXABBox = {
+                                                        "minx": wmslayer.EX_GeographicBoundingBox[0].westBoundLongitude[0],
+                                                        "miny": wmslayer.EX_GeographicBoundingBox[0].southBoundLatitude[0],
+                                                        "maxx": wmslayer.EX_GeographicBoundingBox[0].eastBoundLongitude[0],
+                                                        "maxy": wmslayer.EX_GeographicBoundingBox[0].northBoundLatitude[0]
+                                                    }
+                                                }
+                                            });
+                                        });
+
+                                        newMapData = sample_data;
+                                        newMapData.map.center.x = WMSGetCapabilitiesADBBox.minx + ((WMSGetCapabilitiesADBBox.maxx - WMSGetCapabilitiesADBBox.minx) / 2)
+                                        newMapData.map.center.y = WMSGetCapabilitiesADBBox.miny + ((WMSGetCapabilitiesADBBox.maxy - WMSGetCapabilitiesADBBox.miny) / 2)
+
+                                        const putCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources";
+                                        const layers  = newMapData.map.layers;
+
+                                        x = 0;
+                                        layers.forEach((layer) => {
+                                            console.log(layer.id);
+                                            if (layer.id === "aire_diffusion") {
+                                                newMapData.map.layers[x].search.url = window.location.origin + "/geoserver/" + workspaceId + "/wfs";
+                                                newMapData.map.layers[x].search.type = "wfs";
+                                                newMapData.map.layers[x].type = "wms";
+                                                newMapData.map.layers[x].url = window.location.origin + "/geoserver/" + workspaceId + "/wms";
+                                                newMapData.map.layers[x].bbox.bounds.minx = WMSGetCapabilitiesADBBox.minx;
+                                                newMapData.map.layers[x].bbox.bounds.miny = WMSGetCapabilitiesADBBox.miny;
+                                                newMapData.map.layers[x].bbox.bounds.maxx = WMSGetCapabilitiesADBBox.maxx;
+                                                newMapData.map.layers[x].bbox.bounds.maxy = WMSGetCapabilitiesADBBox.maxy;
+                                            }
+                                            if (layer.id == "ilot_diffusion") {
+                                                newMapData.map.layers[x].search.url = window.location.origin + "/geoserver/" + workspaceId + "/wfs";
+                                                newMapData.map.layers[x].search.type = "wfs";
+                                                newMapData.map.layers[x].type = "wms";
+                                                newMapData.map.layers[x].url = window.location.origin + "/geoserver/" + workspaceId + "/wms";
+                                                newMapData.map.layers[x].bbox.bounds.minx = WMSGetCapabilitiesIDBBox.minx;
+                                                newMapData.map.layers[x].bbox.bounds.miny = WMSGetCapabilitiesIDBBox.miny;
+                                                newMapData.map.layers[x].bbox.bounds.maxx = WMSGetCapabilitiesIDBBox.maxx;
+                                                newMapData.map.layers[x].bbox.bounds.maxy = WMSGetCapabilitiesIDBBox.maxy;
+                                            }
+                                            if (layer.id == "hexagone") {
+                                                newMapData.map.layers[x].search.url = window.location.origin + "/geoserver/" + workspaceId + "/wfs";
+                                                newMapData.map.layers[x].search.type = "wfs";
+                                                newMapData.map.layers[x].type = "wms";
+                                                newMapData.map.layers[x].url = window.location.origin + "/geoserver/" + workspaceId + "/wms";
+                                                newMapData.map.layers[x].bbox.bounds.minx = WMSGetCapabilitiesHEXABBox.minx;
+                                                newMapData.map.layers[x].bbox.bounds.miny = WMSGetCapabilitiesHEXABBox.miny;
+                                                newMapData.map.layers[x].bbox.bounds.maxx = WMSGetCapabilitiesHEXABBox.maxx;
+                                                newMapData.map.layers[x].bbox.bounds.maxy = WMSGetCapabilitiesHEXABBox.maxy;
+                                            }
+                                            x++;
+                                        });
+
+
+                                        console.log(JSON.parse(JSON.stringify(newMapData)));
+                                        newResource = "<Resource><description></description><metadata></metadata><name>" + this.state.municipalite + "</name><category><name>MAP</name></category><store><data><![CDATA[ " + JSON.stringify(newMapData) + " ]]></data></store></Resource>";
+                                        config = {
+                                            headers: {
+                                                'Content-Type': 'text/xml'
+                                            }
+                                        };
+                                        axios.post(putCreateNewMapBaseURL, newResource, config)
+                                            .then((newMapIDResponse) => {
+                                                newMapID = newMapIDResponse.data;
+
+                                                changeSecurityRoleURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/" + newMapID + "/permissions";
+
+                                                securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule></SecurityRuleList>";
+                                                if (this.state.everyone_can_see === true) {
+                                                    securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule><SecurityRule><canRead>true</canRead><canWrite>false</canWrite><group><groupName>everyone</groupName><id>9</id></group></SecurityRule></SecurityRuleList>";
+                                                    axios.post(changeSecurityRoleURL, securityRoleNewRessource, config)
+                                                        .then(() => {
+                                                            this.setState({
+                                                                everyone_can_see: false
+                                                            });
+                                                        });
+                                                }
+
+                                                this.setState({
+                                                    showNewIndicesDashboardDialog: false,
+                                                    spinner: ''
+                                                });
+
+                                                this.props.reloadMaps();
+                                            });
+
+                                    });
 
 
                                 });
@@ -367,103 +463,17 @@ class NewIndicesDashboard extends React.Component {
                 });
             });
 
-
-        // Create new map
-        // const getCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/102?full=true";
-
-        // const getTemplateDataURL = "http://localhost:8080/mapstore/rest/geostore/data/102";
-        // axios.get(getTemplateDataURL).then((newMapDataResponse) => {
-        //
-        // });
-
-        const putCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources";
-        newMapData = sample_data;
-
-        ////// modifier ici le mapdata avant d'inserer
-
-            const layers  = newMapData.map.layers;
-
-            var x = 0;
-            layers.forEach((layer) => {
-                console.log(layer.id);
-                if (layer.id === "aire_diffusion" || layer.id == "ilot_diffusion" || layer.id == "hexagone") {
-                    newMapData.map.layers[x].search.url = window.location.origin + "/geoserver/" + this.state.municipalite + "/wfs";
-                    newMapData.map.layers[x].search.type = "wfs";
-                    newMapData.map.layers[x].type = "wms";
-                    newMapData.map.layers[x].url = window.location.origin + "/geoserver/" + this.state.municipalite + "/wms";;
-                }
-                x++;
-            });
-
-        /////
-
-        console.log(JSON.parse(JSON.stringify(newMapData)));
-        newResource = "<Resource><description></description><metadata></metadata><name>" + this.state.municipalite + "</name><category><name>MAP</name></category><store><data><![CDATA[ " + JSON.stringify(newMapData) + " ]]></data></store></Resource>";
-        config = {
-            headers: {
-                'Content-Type': 'text/xml'
-            }
-        };
-        axios.post(putCreateNewMapBaseURL, newResource, config)
-            .then((newMapIDResponse) => {
-                newMapID = newMapIDResponse.data;
-
-                changeSecurityRoleURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/" + newMapID + "/permissions";
-
-                securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule></SecurityRuleList>";
-                if (this.state.everyone_can_see === true) {
-                    securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule><SecurityRule><canRead>true</canRead><canWrite>false</canWrite><group><groupName>everyone</groupName><id>9</id></group></SecurityRule></SecurityRuleList>";
-                    axios.post(changeSecurityRoleURL, securityRoleNewRessource, config)
-                        .then(() => {
-                            this.setState({
-                                everyone_can_see: false
-                            });
-                        });
-                }
-
-                this.props.reloadMaps();
-            });
-
-
-
-        // // //
-        // const baseURL = "http://localhost:8080/mapstore/rest/geostore/data/178";
-        // var mapdata;
-        //
-        // axios.get(baseURL).then((response) => {
-        //     mapdata = response.data;
-        //
-        //     // console.log(response.data);
-        //
-        //     const layers  = mapdata.map.layers;
-        //
-        //     var x = 0;
-        //     layers.forEach((layer) => {
-        //         // console.log(layer.id);
-        //         if (layer.id == "Magog_IBE_HEXA__6") {
-        //             mapdata.map.layers[x].visibility = false;
-        //         }
-        //         x++;
-        //     });
-        //
-        //     axios.put(baseURL, mapdata)
-        //         .then((response) => {
-        //             // console.log(response.data);
-        //         });
-        //
-        // });
-        // // //
-
-        this.setState({
-            showNewIndicesDashboardDialog: false
-        });
-
     };
-
 
     displayNewIndicesDashboardDialog = () => {
         this.setState({
             showNewIndicesDashboardDialog: true
+        });
+    };
+
+    displayNewIndicesDashboardDialogSpinner = () => {
+        this.setState({
+            showSpinner: true
         });
     };
 }
