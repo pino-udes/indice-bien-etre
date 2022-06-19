@@ -1,26 +1,9 @@
 
 import React from 'react';
 
-// import { Row } from 'react-bootstrap';
-// import { get } from 'lodash';
-// import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
-// import Message from '@mapstore/components/I18N/Message';
-// import DockablePanel from '@mapstore/components/misc/panels/DockablePanel';
-// import GeocodeViewer from '@mapstore/components/data/identify/GeocodeViewer';
-// import ResizableModal from '@mapstore/components/misc/ResizableModal';
-// import Portal from '@mapstore/components/misc/Portal';
-// import Coordinate from '@mapstore/components/data/identify/coordinates/Coordinate';
-// import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
-// import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
-
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
-// import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
-// import BorderLayout from '@mapstore/components/layout/BorderLayout';
-// import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-// import Accordion from '@mapstore/components/misc/panels/Accordion';
 import './style/topchart.css';
-
 
 class RadarChartsDimensions extends React.Component {
     static PropTypes = {
@@ -36,15 +19,12 @@ class RadarChartsDimensions extends React.Component {
 
     render() {
         var chartData = JSON.stringify(this.props.data[0]);
-        // console.log(chartData);
         var parsedChartData;
 
-        // var environnement;
         var environnement_c1;
         var environnement_c2;
         var environnement_c3;
         var environnement_c4;
-        // var social;
         var social_c1;
         var social_c2;
         var social_c3;
@@ -53,7 +33,6 @@ class RadarChartsDimensions extends React.Component {
         var social_c6;
         var social_c7;
         var social_c8;
-        // var economique;
         var economique_c1;
         var economique_c2;
         var economique_c3;
@@ -62,31 +41,30 @@ class RadarChartsDimensions extends React.Component {
         var parsedRadarChartData;
         var chartColor;
 
-        if (this.props.data[0] !== undefined) {
+        if (this.props.data.length == 1 && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
             parsedChartData = JSON.parse(chartData);
 
-            // environnement = parsedChartData.response.features[0].properties.ibe_d1;
-            environnement_c1 = parsedChartData.response.features[0].properties.ibe_d1_c1;
-            environnement_c2 = parsedChartData.response.features[0].properties.ibe_d1_c2;
-            environnement_c3 = parsedChartData.response.features[0].properties.ibe_d1_c3;
-            environnement_c4 = parsedChartData.response.features[0].properties.ibe_d1_c4;
+            if (parsedChartData.response.features.length > 0) {
 
+                environnement_c1 = parsedChartData.response.features[0].properties.ibe_d1_c1;
+                environnement_c2 = parsedChartData.response.features[0].properties.ibe_d1_c2;
+                environnement_c3 = parsedChartData.response.features[0].properties.ibe_d1_c3;
+                environnement_c4 = parsedChartData.response.features[0].properties.ibe_d1_c4;
 
-            // social = parsedChartData.response.features[0].properties.ibe_d2;
-            social_c1 = parsedChartData.response.features[0].properties.ibe_d2_c1;
-            social_c2 = parsedChartData.response.features[0].properties.ibe_d2_c2;
-            social_c3 = parsedChartData.response.features[0].properties.ibe_d2_c3;
-            social_c4 = parsedChartData.response.features[0].properties.ibe_d2_c4;
-            social_c5 = parsedChartData.response.features[0].properties.ibe_d2_c5;
-            social_c6 = parsedChartData.response.features[0].properties.ibe_d2_c6;
-            social_c7 = parsedChartData.response.features[0].properties.ibe_d2_c7;
-            social_c8 = parsedChartData.response.features[0].properties.ibe_d2_c8;
+                social_c1 = parsedChartData.response.features[0].properties.ibe_d2_c1;
+                social_c2 = parsedChartData.response.features[0].properties.ibe_d2_c2;
+                social_c3 = parsedChartData.response.features[0].properties.ibe_d2_c3;
+                social_c4 = parsedChartData.response.features[0].properties.ibe_d2_c4;
+                social_c5 = parsedChartData.response.features[0].properties.ibe_d2_c5;
+                social_c6 = parsedChartData.response.features[0].properties.ibe_d2_c6;
+                social_c7 = parsedChartData.response.features[0].properties.ibe_d2_c7;
+                social_c8 = parsedChartData.response.features[0].properties.ibe_d2_c8;
 
-            // economique = parsedChartData.response.features[0].properties.ibe_d3;
-            economique_c1 = parsedChartData.response.features[0].properties.ibe_d3_c1;
-            economique_c2 = parsedChartData.response.features[0].properties.ibe_d3_c2;
-            economique_c3 = parsedChartData.response.features[0].properties.ibe_d3_c3;
-            economique_c4 = parsedChartData.response.features[0].properties.ibe_d3_c4;
+                economique_c1 = parsedChartData.response.features[0].properties.ibe_d3_c1;
+                economique_c2 = parsedChartData.response.features[0].properties.ibe_d3_c2;
+                economique_c3 = parsedChartData.response.features[0].properties.ibe_d3_c3;
+                economique_c4 = parsedChartData.response.features[0].properties.ibe_d3_c4;
+            }
         } else {
             parsedChartData = "";
         }
@@ -131,10 +109,6 @@ class RadarChartsDimensions extends React.Component {
             parsedRadarChartData = parsedEconomiqueData;
             chartColor = '#16BDFA';
         }
-
-        // console.log(parsedRadarChartData);
-
-        // const style = {width: "100%", height: "100%", zIndex: 10000};
 
         return (
             <>

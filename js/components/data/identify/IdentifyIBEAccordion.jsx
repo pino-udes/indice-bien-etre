@@ -87,15 +87,17 @@ class IdentifyIBEAccordion extends React.Component {
     render() {
         var chartData = JSON.stringify(this.props.data[0]);
         var parsedChartData;
-        var environnement;
-        var social;
-        var economique;
+        var environnement = 0;
+        var social = 0;
+        var economique = 0;
 
-        if (this.props.data[0] !==  undefined) {
+        if (this.props.data.length == 1 && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
             parsedChartData = JSON.parse(chartData);
-            environnement = parsedChartData.response.features[0].properties.ibe_d1;
-            social = parsedChartData.response.features[0].properties.ibe_d2;
-            economique = parsedChartData.response.features[0].properties.ibe_d3;
+            if (parsedChartData.response.features.length > 0) {
+                environnement = parsedChartData.response.features[0].properties.ibe_d1;
+                social = parsedChartData.response.features[0].properties.ibe_d2;
+                economique = parsedChartData.response.features[0].properties.ibe_d3;
+            }
         } else {
             parsedChartData = "";
         }

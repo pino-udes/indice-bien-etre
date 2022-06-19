@@ -1,25 +1,8 @@
 
 import React from 'react';
 
-// import { Row } from 'react-bootstrap';
-// import { get } from 'lodash';
-// import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
-// import Message from '@mapstore/components/I18N/Message';
-// import DockablePanel from '@mapstore/components/misc/panels/DockablePanel';
-// import GeocodeViewer from '@mapstore/components/data/identify/GeocodeViewer';
-// import ResizableModal from '@mapstore/components/misc/ResizableModal';
-// import Portal from '@mapstore/components/misc/Portal';
-// import Coordinate from '@mapstore/components/data/identify/coordinates/Coordinate';
-// import { responseValidForEdit } from '@mapstore/utils/IdentifyUtils';
-// import LayerSelector from '@mapstore/components/data/identify/LayerSelector';
-
 import { RadialBarChart, RadialBar, ResponsiveContainer, Legend } from 'recharts';
-// import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
-// import BorderLayout from '@mapstore/components/layout/BorderLayout';
-// import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-// import Accordion from '@mapstore/components/misc/panels/Accordion';
-// import RadarChartsDimensions from '@js/components/data/identify/RadarChartsDimensions';
 import IdentifyIBEAccordion from '@js/components/data/identify/IdentifyIBEAccordion';
 import './style/topchart.css';
 
@@ -41,126 +24,35 @@ class IdentifyCharts extends React.Component {
     state = { activePanel: "panel-002" };
 
     render() {
-        var chartData = JSON.stringify(this.props.data[0]);
-        // console.log(chartData);
+        var chartData;
         var parsedChartData;
 
-        var environnement;
-        // var environnement_c1;
-        // var environnement_c2;
-        // var environnement_c3;
-        // var environnement_c4;
-        var social;
-        // var social_c1;
-        // var social_c2;
-        // var social_c3;
-        // var social_c4;
-        // var social_c5;
-        // var social_c6;
-        // var social_c7;
-        // var social_c8;
-        var economique;
-        // var economique_c1;
-        // var economique_c2;
-        // var economique_c3;
-        // var economique_c4;
+        var environnement = 0;
+        var social = 0;
+        var economique = 0;
 
-        if (this.props.data[0] !==  undefined) {
+        if (this.props.data.length == 1  && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
+            chartData = JSON.stringify(this.props.data[0])
+            console.log(this.props.data[0], " WWWWWW ");
             parsedChartData = JSON.parse(chartData);
-            environnement = parsedChartData.response.features[0].properties.ibe_d1;
-            // environnement_c1 = parsedChartData.response.features[0].properties.ibe_d1_c1;
-            // environnement_c2 = parsedChartData.response.features[0].properties.ibe_d1_c2;
-            // environnement_c3 = parsedChartData.response.features[0].properties.ibe_d1_c3;
-            // environnement_c4 = parsedChartData.response.features[0].properties.ibe_d1_c4;
-
-            social = parsedChartData.response.features[0].properties.ibe_d2;
-            // social_c1 = parsedChartData.response.features[0].properties.ibe_d2_c1;
-            // social_c2 = parsedChartData.response.features[0].properties.ibe_d2_c2;
-            // social_c3 = parsedChartData.response.features[0].properties.ibe_d2_c3;
-            // social_c4 = parsedChartData.response.features[0].properties.ibe_d2_c4;
-            // social_c5 = parsedChartData.response.features[0].properties.ibe_d2_c5;
-            // social_c6 = parsedChartData.response.features[0].properties.ibe_d2_c6;
-            // social_c7 = parsedChartData.response.features[0].properties.ibe_d2_c7;
-            // social_c8 = parsedChartData.response.features[0].properties.ibe_d2_c8;
-
-            economique = parsedChartData.response.features[0].properties.ibe_d3;
-            // economique_c1 = parsedChartData.response.features[0].properties.ibe_d3_c1;
-            // economique_c2 = parsedChartData.response.features[0].properties.ibe_d3_c2;
-            // economique_c3 = parsedChartData.response.features[0].properties.ibe_d3_c3;
-            // economique_c4 = parsedChartData.response.features[0].properties.ibe_d3_c4;
+            environnement = 0;
+            social = 0;
+            economique = 0;
+            if (parsedChartData.response.features.length > 0) {
+                environnement = parsedChartData.response.features[0].properties.ibe_d1;
+                social = parsedChartData.response.features[0].properties.ibe_d2;
+                economique = parsedChartData.response.features[0].properties.ibe_d3;
+            }
 
         } else {
             parsedChartData = "";
         }
 
         const parsedRadarChartData = [
-            {            name: 'Environnement',            A: JSON.stringify(environnement),              "fill": "#3FB338"        },
-            {            name: 'Social',            A: JSON.stringify(social),                     "fill": "#FF9412"        },
-            {            name: 'Économique',            A: JSON.stringify(economique),                  "fill": "#16BDFA"        }
+            { name: 'Environnement', A: JSON.stringify(environnement), "fill": "#3FB338" },
+            { name: 'Social', A: JSON.stringify(social), "fill": "#FF9412" },
+            { name: 'Économique', A: JSON.stringify(economique), "fill": "#16BDFA" }
         ];
-        //
-        // const parsedEnvironnementData = [
-        //     {            name: 'Indicateur 1',            A: JSON.stringify(environnement_c1),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 2',            A: JSON.stringify(environnement_c2),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 3',            A: JSON.stringify(environnement_c3),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 4',            A: JSON.stringify(environnement_c4),              "fill": "#ffc658"        }
-        //
-        // ];
-        //
-        // const parsedSocialData = [
-        //     {            name: 'Indicateur 1',            A: JSON.stringify(social_c1),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 2',            A: JSON.stringify(social_c2),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 3',            A: JSON.stringify(social_c3),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 4',            A: JSON.stringify(social_c4),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 5',            A: JSON.stringify(social_c5),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 6',            A: JSON.stringify(social_c6),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 7',            A: JSON.stringify(social_c7),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 8',            A: JSON.stringify(social_c8),              "fill": "#ffc658"        }
-        // ];
-        //
-        // const parsedEconomiqueData = [
-        //     {            name: 'Indicateur 1',            A: JSON.stringify(economique_c1),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 2',            A: JSON.stringify(economique_c2),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 3',            A: JSON.stringify(economique_c3),              "fill": "#ffc658"        },
-        //     {            name: 'Indicateur 4',            A: JSON.stringify(economique_c4),              "fill": "#ffc658"        }
-        // ];
-
-        // const style = {width: "100%", height: "100%", zIndex: 10000};
-
-        // const formatCards = {
-        //     TEXT: {
-        //         titleId: 'layerProperties.textFormatTitle',
-        //         descId: 'layerProperties.textFormatDescription',
-        //         glyph: 'ext-txt',
-        //         body: () => <div className="test-preview"/>
-        //     },
-        //     HTML: {
-        //         titleId: 'layerProperties.htmlFormatTitle',
-        //         descId: 'layerProperties.htmlFormatDescription',
-        //         glyph: 'ext-html',
-        //         body: () => <div className="test-preview"/>
-        //     },
-        //     PROPERTIES: {
-        //         titleId: 'layerProperties.propertiesFormatTitle',
-        //         descId: 'layerProperties.propertiesFormatDescription',
-        //         glyph: 'ext-json',
-        //         body: () => <div className="test-preview"/>
-        //     },
-        //     TEMPLATE: {
-        //         titleId: 'layerProperties.templateFormatTitle',
-        //         descId: 'layerProperties.templateFormatDescription',
-        //         glyph: 'ext-empty',
-        //         body: () => <div className="test-preview"/>
-        //     }
-        // };
-
-
-        // const style_radial = {
-        //     top: '50%',
-        //     right: 0,
-        //     transform: 'translate(0, -50%)',
-        //     lineHeight: '20px',
-        // };
 
         return (
             <>

@@ -48,6 +48,43 @@
         "params": {}
       },
       {
+        "id": "indice_verdure",
+        "format": "image/png",
+        "group": "Default",
+        "name": "indice_verdure",
+        "description": "Indice de verdure",
+        "title": "Indice de verdure",
+        "type": "wms",
+        "url": "http://localhost:8081/geoserver/ibe_f5bcb3ed-f5ba-462b-85d8-007e17292e27/wms",
+        "bbox": {
+          "crs": "EPSG:4326",
+          "bounds": {
+            "minx": "-72.25546761397759",
+            "miny": "45.157901205890866",
+            "maxx": "-72.0374798315207",
+            "maxy": "45.30942080931612"
+          }
+        },
+        "visibility": false,
+        "singleTile": true,
+        "allowedSRS": {
+          "EPSG:3785": true,
+          "EPSG:3857": true,
+          "EPSG:4269": true,
+          "EPSG:4326": true,
+          "EPSG:102113": true,
+          "EPSG:900913": true
+        },
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "catalogURL": null,
+        "useForElevation": false,
+        "hidden": false,
+        "version": "1.3.0",
+        "params": {}
+      },
+      {
         "id": "aire_diffusion",
         "format": "image/png",
         "search": {

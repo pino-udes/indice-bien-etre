@@ -98,6 +98,7 @@ class NewIndicesDashboard extends React.Component {
         adFilename: '',
         idFilename: '',
         hexaFilename: '',
+        verdureFilename: '',
         spinner: ''
     };
 
@@ -107,10 +108,6 @@ class NewIndicesDashboard extends React.Component {
             ref="loginForm"
             showSubmitButton={false}
             user={this.props.user}
-            // loginError={this.props.loginError}
-            // onLoginSuccess={this.props.onLoginSuccess}
-            // onSubmit={this.props.onSubmit}
-            // onError={this.props.onError}
         />);
     };
 
@@ -157,6 +154,9 @@ class NewIndicesDashboard extends React.Component {
 
                             </Tab>
                             <Tab  eventKey={"Indice de verdure"} title={"Indice de verdure"}>
+                                <p style={{marginTop: "20px"}}>Téléversez le fichier raster en format tif</p>
+
+                                <FileUploader dropMessage={"Indice de verdure"} beforeUploadMessage={"Indice de verdure"} setFilename={this.setVerdureFilename}/>
 
                             </Tab>
                         </Tabs>
@@ -210,6 +210,12 @@ class NewIndicesDashboard extends React.Component {
         });
     };
 
+    setVerdureFilename = (value) => {
+        this.setState({
+            verdureFilename: value
+        });
+    };
+
     setMunicipalite = (e) => {
         this.setState({
             municipalite: e.target.value
@@ -249,9 +255,18 @@ class NewIndicesDashboard extends React.Component {
                 password: 'geoserver'
             }
         };
-        var configGeoserverUpload = {
+        var configGeoserverUploadZip = {
             headers: {
                 'Content-Type': 'application/zip'
+            },
+            auth: {
+                username: 'admin',
+                password: 'geoserver'
+            }
+        };
+        var configGeoserverUploadTif = {
+            headers: {
+                'Content-Type': 'application/image'
             },
             auth: {
                 username: 'admin',
@@ -276,6 +291,7 @@ class NewIndicesDashboard extends React.Component {
         var WMSGetCapabilitiesADBBox;
         var WMSGetCapabilitiesIDBBox;
         var WMSGetCapabilitiesHEXABBox;
+        var WMSGetCapabilitiesVerdureBBox;
         var x;
 
         this.setState({
@@ -286,6 +302,28 @@ class NewIndicesDashboard extends React.Component {
         axios
             .post(geoserverWorkspaceBaseURL, createWorkspaceXML, configGeoserver)
             .then(() => {
+
+                // Get the file from FileUploader (blob url) and upload to geoserver Indice verdure
+                config = { responseType: 'blob' };
+                axios.get(this.state.verdureFilename, config).then(response => {
+                    file = new File([response.data], "indice_verdure.tif");
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/coveragestores/indice_verdure/file.geotiff";
+
+                    axios
+                        .put(geoserverDatastoreBaseURL, file, configGeoserverUploadTif)
+                        .then((response) => {
+                            console.log("!VERDURE uploaded!");
+                            // Set default style //
+                            // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/indice_verdure";
+                            // axios
+                            //     .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
+                            //     .then((response) => {
+                            //         console.log("default style", response.data);
+                            //     });
+                            // //
+                        });
+                });
+
                 // Get the file from FileUploader (blob url) and upload to geoserver aire_diffusion
                 config = { responseType: 'blob' };
                 axios.get(this.state.adFilename, config).then(response => {
@@ -294,7 +332,7 @@ class NewIndicesDashboard extends React.Component {
                     // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/aire_diffusion";
 
                     axios
-                        .put(geoserverDatastoreBaseURL, file, configGeoserverUpload)
+                        .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
                         .then((response) => {
                             console.log("!Shapefile uploaded!");
                             geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/aire_diffusion";
@@ -313,7 +351,7 @@ class NewIndicesDashboard extends React.Component {
                     // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/ilot_diffusion";
 
                     axios
-                        .put(geoserverDatastoreBaseURL, file, configGeoserverUpload)
+                        .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
                         .then((response) => {
                             console.log("!Shapefile uploaded!");
                             geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/ilot_diffusion";
@@ -331,7 +369,7 @@ class NewIndicesDashboard extends React.Component {
                     file = new File([response.data], "hexagone.zip");
                     geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/datastores/hexagone/file.shp";
                     axios
-                        .put(geoserverDatastoreBaseURL, file, configGeoserverUpload)
+                        .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
                         .then((response) => {
                             console.log("!Shapefile uploaded!");
                             geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/hexagone";
@@ -370,6 +408,14 @@ class NewIndicesDashboard extends React.Component {
                                                 }
                                                 if (wmslayer.Name[0] === "hexagone") {
                                                     WMSGetCapabilitiesHEXABBox = {
+                                                        "minx": wmslayer.EX_GeographicBoundingBox[0].westBoundLongitude[0],
+                                                        "miny": wmslayer.EX_GeographicBoundingBox[0].southBoundLatitude[0],
+                                                        "maxx": wmslayer.EX_GeographicBoundingBox[0].eastBoundLongitude[0],
+                                                        "maxy": wmslayer.EX_GeographicBoundingBox[0].northBoundLatitude[0]
+                                                    }
+                                                }
+                                                if (wmslayer.Name[0] === "indice_verdure") {
+                                                    WMSGetCapabilitiesVerdureBBox = {
                                                         "minx": wmslayer.EX_GeographicBoundingBox[0].westBoundLongitude[0],
                                                         "miny": wmslayer.EX_GeographicBoundingBox[0].southBoundLatitude[0],
                                                         "maxx": wmslayer.EX_GeographicBoundingBox[0].eastBoundLongitude[0],
@@ -418,6 +464,14 @@ class NewIndicesDashboard extends React.Component {
                                                 newMapData.map.layers[x].bbox.bounds.miny = WMSGetCapabilitiesHEXABBox.miny;
                                                 newMapData.map.layers[x].bbox.bounds.maxx = WMSGetCapabilitiesHEXABBox.maxx;
                                                 newMapData.map.layers[x].bbox.bounds.maxy = WMSGetCapabilitiesHEXABBox.maxy;
+                                            }
+                                            if (layer.id == "indice_verdure") {
+                                                newMapData.map.layers[x].type = "wms";
+                                                newMapData.map.layers[x].url = window.location.origin + "/geoserver/" + workspaceId + "/wms";
+                                                newMapData.map.layers[x].bbox.bounds.minx = WMSGetCapabilitiesVerdureBBox.minx;
+                                                newMapData.map.layers[x].bbox.bounds.miny = WMSGetCapabilitiesVerdureBBox.miny;
+                                                newMapData.map.layers[x].bbox.bounds.maxx = WMSGetCapabilitiesVerdureBBox.maxx;
+                                                newMapData.map.layers[x].bbox.bounds.maxy = WMSGetCapabilitiesVerdureBBox.maxy;
                                             }
                                             x++;
                                         });
