@@ -113,7 +113,7 @@ class IdentifyIBEAccordion extends React.Component {
                     size: 'sm'
                 },
                 body: <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Environnement"}/>,
-                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Environnement')} glyphicon={this.visualizationLockButtonGlyph('Environnement')} tooltip={<Tooltip>Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Environnement'); } }/>
+                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Environnement')} glyphicon={this.visualizationLockButtonGlyph('Environnement')} tooltip={<Tooltip>Focuser l'affichage sur la dimension environnementale</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Environnement'); } }/>
             },
 
             {
@@ -125,7 +125,7 @@ class IdentifyIBEAccordion extends React.Component {
                     size: 'sm'
                 },
                 body: <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Sociale"}/>,
-                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Sociale')} glyphicon={this.visualizationLockButtonGlyph('Sociale')} tooltip={<Tooltip>Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Sociale'); } }/>
+                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Sociale')} glyphicon={this.visualizationLockButtonGlyph('Sociale')} tooltip={<Tooltip>Focuser l'affichage sur la dimension sociale</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Sociale'); } }/>
             },
             {
                 id: 'panel-economique',
@@ -136,7 +136,7 @@ class IdentifyIBEAccordion extends React.Component {
                     size: 'sm'
                 },
                 body: <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Économique"}/>,
-                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Économique')} glyphicon={this.visualizationLockButtonGlyph('Économique')} tooltip={<Tooltip>Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Économique'); } }/>
+                tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Économique')} glyphicon={this.visualizationLockButtonGlyph('Économique')} tooltip={<Tooltip>Focuser l'affichage sur la dimension économique</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Économique'); } }/>
             }
         ];
 

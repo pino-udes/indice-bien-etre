@@ -76,25 +76,7 @@ class IdentifyTabs extends React.Component {
     handleSelect() {
 
     }
-    // handleSelect(event) {
-    // if (event == "Magog_IBE_ID__7") {
-    //     this.setState( { selected_tab: "Magog_IBE_ID__7"});
-    //     this.setState( { ibe_check: "glyphicon glyphicon-check"});
-    //     this.setState( { iv_check: "glyphicon glyphicon-unchecked"});
-    //     this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: false});
-    //     this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: true});
-    //     console.log(this.state.selected_tab);
-    // }
-    // if (event == "Magog_IBE_AD__5") {
-    //     this.setState({selected_tab: "Magog_IBE_AD__5"});
-    //     this.setState({ibe_check: "glyphicon glyphicon-unchecked"});
-    //     this.setState({iv_check: "glyphicon glyphicon-check"});
-    //     this.props.updateNode("Magog_IBE_AD__5", 'layers', {visibility: true});
-    //     this.props.updateNode("Magog_IBE_ID__7", 'layers', {visibility: false});
-    //     console.log(this.state.selected_tab);
-    // }
-    // }
-    // Magog_IBE_HEXA__6
+
     handleToggleButtonClick(button) {
         if (button === 'AD') {
             this.setState({
@@ -145,7 +127,6 @@ class IdentifyTabs extends React.Component {
 
     render() {
         const style = {width: "100%", height: "100%", zIndex: 10000};
-        // const ToggleButtonStyle = {padding: '10px', border: '0px'};
 
         return (
 
