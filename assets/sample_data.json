@@ -52,6 +52,7 @@
         "format": "image/png",
         "group": "Default",
         "name": "indice_verdure",
+        "opacity": 0.2,
         "description": "Indice de verdure",
         "title": "Indice de verdure",
         "type": "wms",
@@ -65,7 +66,7 @@
             "maxy": "45.30942080931612"
           }
         },
-        "visibility": false,
+        "visibility": true,
         "singleTile": true,
         "allowedSRS": {
           "EPSG:3785": true,
@@ -78,6 +79,9 @@
         "dimensions": [],
         "hideLoading": false,
         "handleClickOnLayer": false,
+        "featureInfo": {
+          "format": "PROPERTIES"
+        },
         "catalogURL": null,
         "useForElevation": false,
         "hidden": false,

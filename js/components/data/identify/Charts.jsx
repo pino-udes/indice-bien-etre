@@ -30,6 +30,9 @@ class IdentifyCharts extends React.Component {
         var environnement = 0;
         var social = 0;
         var economique = 0;
+        console.log("WMS ", this.props.data.length);
+        console.log("WMS ", this.props.data);
+
 
         if (this.props.data.length == 1  && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
             chartData = JSON.stringify(this.props.data[0])
@@ -49,9 +52,9 @@ class IdentifyCharts extends React.Component {
         }
 
         const parsedRadarChartData = [
-            { name: 'Environnement', A: JSON.stringify(environnement), "fill": "#3FB338" },
-            { name: 'Social', A: JSON.stringify(social), "fill": "#FF9412" },
-            { name: 'Économique', A: JSON.stringify(economique), "fill": "#16BDFA" }
+            { name: 'Environnement', A: JSON.stringify(environnement), "fill": "#09C342" },
+            { name: 'Social', A: JSON.stringify(social), "fill": "#16BDFA" },
+            { name: 'Économique', A: JSON.stringify(economique), "fill": "#FF9412" }
         ];
 
         return (

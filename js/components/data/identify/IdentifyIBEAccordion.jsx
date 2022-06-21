@@ -45,8 +45,11 @@ class IdentifyIBEAccordion extends React.Component {
         return false;
     }
 
+    changePanel(panel) {
+        this.setState({activePanel: panel});
+    }
+
     toggleVisualizationLockButton(button) {
-        // console.log(button);
         if (button === this.state.current_lock) {
             this.setState({ current_lock: "" }, this.resetVisualization);
         } else {
@@ -54,7 +57,6 @@ class IdentifyIBEAccordion extends React.Component {
         }
     }
 
-    // changeVisualization(button) {
     changeVisualization() {
         if (this.state.current_lock === 'Environnement') {
             this.props.updateNode("aire_diffusion", 'layers', {style: 'indice_bien_etre_environnement'});
@@ -62,19 +64,18 @@ class IdentifyIBEAccordion extends React.Component {
             this.props.updateNode("ilot_diffusion", 'layers', {style: 'indice_bien_etre_environnement'});
         }
         if (this.state.current_lock === 'Sociale') {
-            this.props.updateNode("aire_diffusion", 'layers', {style: 'indice_bien_etre_environnement'});
-            this.props.updateNode("hexagone", 'layers', {style: 'indice_bien_etre_environnement'});
-            this.props.updateNode("ilot_diffusion", 'layers', {style: 'indice_bien_etre_environnement'});
+            this.props.updateNode("aire_diffusion", 'layers', {style: 'indice_bien_etre_sociale'});
+            this.props.updateNode("hexagone", 'layers', {style: 'indice_bien_etre_sociale'});
+            this.props.updateNode("ilot_diffusion", 'layers', {style: 'indice_bien_etre_sociale'});
         }
         if (this.state.current_lock === 'Économique') {
-            this.props.updateNode("aire_diffusion", 'layers', {style: 'indice_bien_etre_environnement'});
-            this.props.updateNode("hexagone", 'layers', {style: 'indice_bien_etre_environnement'});
-            this.props.updateNode("ilot_diffusion", 'layers', {style: 'indice_bien_etre_environnement'});
+            this.props.updateNode("aire_diffusion", 'layers', {style: 'indice_bien_etre_economique'});
+            this.props.updateNode("hexagone", 'layers', {style: 'indice_bien_etre_economique'});
+            this.props.updateNode("ilot_diffusion", 'layers', {style: 'indice_bien_etre_economique'});
         }
     }
 
     resetVisualization() {
-        // console.log("RESETING VISZ");
         this.props.updateNode("aire_diffusion", 'layers', {style: 'indice_bien_etre'});
         this.props.updateNode("ilot_diffusion", 'layers', {style: 'indice_bien_etre'});
         this.props.updateNode("hexagone", 'layers', {style: 'indice_bien_etre'});
@@ -119,7 +120,7 @@ class IdentifyIBEAccordion extends React.Component {
                 id: 'panel-social',
                 head: {
                     preview: <h1>{social}</h1>,
-                    title: 'Social',
+                    title: 'Sociale',
                     description: 'Indicateurs de la dimension sociale',
                     size: 'sm'
                 },
@@ -142,8 +143,9 @@ class IdentifyIBEAccordion extends React.Component {
         return (
             <>
                 <Accordion activePanel={this.props.activePanel} panels={panels} onSelect={ (key) => {
-                    this.setState({activePanel: key});
-                } } />
+                    this.changePanel(key);
+                }
+                } />
             </>
         );
     }

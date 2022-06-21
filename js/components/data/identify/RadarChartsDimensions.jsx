@@ -103,11 +103,11 @@ class RadarChartsDimensions extends React.Component {
 
         if (this.props.name === 'Sociale') {
             parsedRadarChartData = parsedSocialData;
-            chartColor = '#FF9412';
+            chartColor = '#16BDFA';
         }
         if (this.props.name === 'Économique') {
             parsedRadarChartData = parsedEconomiqueData;
-            chartColor = '#16BDFA';
+            chartColor = '#FF9412';
         }
 
         return (

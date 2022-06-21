@@ -44,7 +44,6 @@ import Spinner from 'react-spinkit';
 
 
 const Button = tooltip(ButtonB);
-// const SplitButton = tooltip(SplitButtonB);
 
 class NewIndicesDashboard extends React.Component {
     static propTypes = {
@@ -99,7 +98,8 @@ class NewIndicesDashboard extends React.Component {
         idFilename: '',
         hexaFilename: '',
         verdureFilename: '',
-        spinner: ''
+        spinner: '',
+        progressMessage: ''
     };
 
     getForm = () => {
@@ -126,7 +126,8 @@ class NewIndicesDashboard extends React.Component {
                 }, {
                     bsStyle: "primary",
                     text: "Créer",
-                    onClick: this.createDashboard
+                    onClick: this.createDashboard,
+                    disabled: this.state.municipalite.length < 1 || this.state.adFilename.length < 1 || this.state.idFilename.length < 1 || this.state.hexaFilename.length < 1 || this.state.verdureFilename.length < 1
                 }]}
                 fitContent
             >
@@ -160,7 +161,10 @@ class NewIndicesDashboard extends React.Component {
 
                             </Tab>
                         </Tabs>
-                        {this.state.spinner}
+
+                        <div style={{marginTop: "20px", marginBottom: "20px"}}>
+                            {this.state.spinner} {this.state.progressMessage}
+                        </div>
                     </>
 
                 </div>
@@ -231,11 +235,20 @@ class NewIndicesDashboard extends React.Component {
     close = () => {
         // TODO Launch an action in order to change the state
         this.setState({
-            showNewIndicesDashboardDialog: false
+            showNewIndicesDashboardDialog: false,
+            municipalite: '',
+            everyone_can_see: false,
+            adFilename: '',
+            idFilename: '',
+            hexaFilename: '',
+            verdureFilename: '',
+            spinner: '',
+            progressMessage: ''
         });
     };
 
     createDashboard = () => {
+        let actions = [];
         var newResource;
         var config;
         var newMapData;
@@ -278,7 +291,6 @@ class NewIndicesDashboard extends React.Component {
         console.log("workspace ", workspaceId);
 
         const geoserverWorkspaceBaseURL = window.location.origin + "/geoserver/rest/workspaces";
-        // todo changer pour un random. Pas besoin d'avoir le nom dans le workspace nécessairment.
         createWorkspaceXML = "<workspace><name>" + workspaceId + "</name></workspace>";
 
         var parts = this.state.adFilename.split('/');
@@ -293,12 +305,12 @@ class NewIndicesDashboard extends React.Component {
         var WMSGetCapabilitiesHEXABBox;
         var WMSGetCapabilitiesVerdureBBox;
         var x;
-
         this.setState({
             spinner: <Spinner style={{marginTop: "10px", marginBottom: "10px"}} spinnerName="circle" overrideSpinnerClassName="spinner"/>
         });
 
         // Create workspace on Geoserver
+        this.setState({progressMessage: 'Création du nouveau workspace'});
         axios
             .post(geoserverWorkspaceBaseURL, createWorkspaceXML, configGeoserver)
             .then(() => {
@@ -309,10 +321,10 @@ class NewIndicesDashboard extends React.Component {
                     file = new File([response.data], "indice_verdure.tif");
                     geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/coveragestores/indice_verdure/file.geotiff";
 
+                    this.setState({progressMessage: 'Téléversement de l\'indice de verdure'});
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUploadTif)
                         .then((response) => {
-                            console.log("!VERDURE uploaded!");
                             // Set default style //
                             // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/indice_verdure";
                             // axios
@@ -325,6 +337,7 @@ class NewIndicesDashboard extends React.Component {
                 });
 
                 // Get the file from FileUploader (blob url) and upload to geoserver aire_diffusion
+                this.setState({progressMessage: 'Téléversement du shapefile d\'aire de diffusion'});
                 config = { responseType: 'blob' };
                 axios.get(this.state.adFilename, config).then(response => {
                     file = new File([response.data], "aire_diffusion.zip");
@@ -334,7 +347,6 @@ class NewIndicesDashboard extends React.Component {
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
                         .then((response) => {
-                            console.log("!Shapefile uploaded!");
                             geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/aire_diffusion";
                             axios
                                 .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
@@ -344,6 +356,7 @@ class NewIndicesDashboard extends React.Component {
                         });
                 });
                 // Get the file from FileUploader (blob url) and upload to geoserver ilot_diffusion
+                this.setState({progressMessage: 'Téléversement du shapefile d\'îlots de diffusion'});
                 config = { responseType: 'blob' };
                 axios.get(this.state.idFilename, config).then(response => {
                     file = new File([response.data], "ilot_diffusion.zip");
@@ -364,6 +377,7 @@ class NewIndicesDashboard extends React.Component {
                 });
 
                 // Get the file from FileUploader (blob url) and upload to geoserver hexagone
+                this.setState({progressMessage: 'Téléversement du shapefile d\'hexagones'});
                 config = { responseType: 'blob' };
                 axios.get(this.state.hexaFilename, config).then(response => {
                     file = new File([response.data], "hexagone.zip");
@@ -371,13 +385,13 @@ class NewIndicesDashboard extends React.Component {
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
                         .then((response) => {
-                            console.log("!Shapefile uploaded!");
                             geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/hexagone";
                             axios
                                 .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
                                 .then((response) => {
                                     console.log("default style", response.data);
 
+                                    this.setState({progressMessage: 'Configuration de la visualisation'});
                                     axios.get("http://localhost:8080/geoserver/" + workspaceId + "/wms?service=WMS&request=GetCapabilities", configGeoserver).then((response) => {
                                         //console.log(xml2js.parseString(response.data));
                                         const parser = new xml2js.Parser();
@@ -484,6 +498,7 @@ class NewIndicesDashboard extends React.Component {
                                                 'Content-Type': 'text/xml'
                                             }
                                         };
+                                        this.setState({progressMessage: 'Création de la visualisation'});
                                         axios.post(putCreateNewMapBaseURL, newResource, config)
                                             .then((newMapIDResponse) => {
                                                 newMapID = newMapIDResponse.data;
@@ -493,6 +508,8 @@ class NewIndicesDashboard extends React.Component {
                                                 securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule></SecurityRuleList>";
                                                 if (this.state.everyone_can_see === true) {
                                                     securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule><SecurityRule><canRead>true</canRead><canWrite>false</canWrite><group><groupName>everyone</groupName><id>9</id></group></SecurityRule></SecurityRuleList>";
+
+                                                    this.setState({progressMessage: 'Configuration des accès'});
                                                     axios.post(changeSecurityRoleURL, securityRoleNewRessource, config)
                                                         .then(() => {
                                                             this.setState({
@@ -516,7 +533,7 @@ class NewIndicesDashboard extends React.Component {
                         });
                 });
             });
-
+        this.setState({progressMessage: ''});
     };
 
     displayNewIndicesDashboardDialog = () => {
