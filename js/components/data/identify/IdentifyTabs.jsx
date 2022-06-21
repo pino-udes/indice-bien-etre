@@ -37,6 +37,9 @@ import { connect } from 'react-redux';
 import ToggleButton from '@mapstore/components/buttons/ToggleButton';
 // import Accordion from '@mapstore/components/misc/panels/Accordion';
 import './style/topchart.css';
+import { RadialBarChart, RadialBar, ResponsiveContainer, Legend } from 'recharts';
+import IdentifyIBEAccordion from '@js/components/data/identify/IdentifyIBEAccordion';
+import OpacitySlider from '@mapstore/components/TOC/fragments/OpacitySlider';
 
 
 const mapDispatchToProps = {
@@ -128,6 +131,39 @@ class IdentifyTabs extends React.Component {
     render() {
         const style = {width: "100%", height: "100%", zIndex: 10000};
 
+        var chartData;
+        var parsedChartData;
+
+        var environnement = 0;
+        var social = 0;
+        var economique = 0;
+        console.log("WMS ", this.props.data.length);
+        console.log("WMS ", this.props.data);
+
+
+        if (this.props.data.length == 1  && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
+            chartData = JSON.stringify(this.props.data[0])
+            console.log(this.props.data[0], " WWWWWW ");
+            parsedChartData = JSON.parse(chartData);
+            environnement = 0;
+            social = 0;
+            economique = 0;
+            if (parsedChartData.response.features.length > 0) {
+                environnement = parsedChartData.response.features[0].properties.ibe_d1;
+                social = parsedChartData.response.features[0].properties.ibe_d2;
+                economique = parsedChartData.response.features[0].properties.ibe_d3;
+            }
+
+        } else {
+            parsedChartData = "";
+        }
+
+        const parsedRadarChartData = [
+            { name: 'Environnement', A: JSON.stringify(environnement), "fill": "#09C342" },
+            { name: 'Social', A: JSON.stringify(social), "fill": "#16BDFA" },
+            { name: 'Économique', A: JSON.stringify(economique), "fill": "#FF9412" }
+        ];
+
         return (
 
             <>
@@ -155,31 +191,43 @@ class IdentifyTabs extends React.Component {
                     `}
                 </style>
 
-                <Tabs onSelect={ (event) => { this.handleSelect(event); } } defaultActiveKey={this.state.selected_tab}>
-                    <Tab  eventKey={"Magog_IBE_ID__7"} title={
-                        <><h4>Indice de bien-être</h4></>
-                    }>
-
-                        <div className="charts" style={style}>
+                        <div className="IdentifyGridCard" >
+                            <p align="center" style={{marginTop: 0+"px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de bien-être</p>
                             <div className={"buttoncard"}>
                                 <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} text={"Aire de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('AD'); } }/>
                                 <ToggleButton pressed={this.state.ibe_id_pressed} glyphicon={this.state.ibe_id_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'ilots de diffusion</Tooltip>} text={"Îlot de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('ID'); } }/>
                                 <ToggleButton pressed={this.state.ibe_pix_pressed} glyphicon={this.state.ibe_pix_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon des hexagones de 200 mètres</Tooltip>} text={"Pixel"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('PIX'); } }/>
                             </div>
 
-                            <IdentifyCharts width="100%" height="100%" data={this.props.data} name="indice-bien-etre" selectedLayer={this.state.selectedLayer} />
+                            <ResponsiveContainer width="100%" height={150}>
+                                <RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="10%" outerRadius="100%" data={parsedRadarChartData} startAngle={180} endAngle={0}>
+                                    <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise dataKey="A" />
+                                    <Legend iconSize={14} layout="horizontal" verticalAlign="bottom"  />
+                                </RadialBarChart>
+                            </ResponsiveContainer>
 
+                            <p align="center" style={{marginTop: 15+"px", padding: 0 + "px", fontSize: 40}}>{Math.round((environnement + social + economique) / 3)}</p>
+                            <p align="center" style={{marginTop: -20+"px", padding: 0 + "px", fontSize: 14}}>Indice de bien-être globale</p>
+
+                            <IdentifyIBEAccordion data={this.props.data} selectedLayer={this.props.selectedLayer}/>
                         </div>
-                    </Tab>
 
-                    <Tab eventKey={"Magog_IBE_AD__5"} title={
-                        <><h4>Indice de verdure</h4></>
-                    }>
-                        <p align={"center"}><br/><br/><br/><span className="glyphicon glyphicon-wrench"></span></p>
+                <div className="IdentifyGridCard" >
+                    <p align="center" style={{marginTop: 0+"px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de verdure</p>
+                    <div className={"buttoncard"}>
 
-                    </Tab>
-                </Tabs>
+                        <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} text={"0%"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('AD'); } }/>
+                        <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} text={"25%"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('AD'); } }/>
 
+                        <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} text={"50%"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('AD'); } }/>
+                        <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} text={"75%"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('AD'); } }/>
+
+                    </div>
+
+                    <p align="center" style={{marginTop: 15+"px", padding: 0 + "px", fontSize: 40}}>{Math.round((environnement + social + economique) / 3)}</p>
+                    <p align="center" style={{marginTop: -20+"px", paddingBottom: 10 + "px", fontSize: 14}}>Indice de verdure</p>
+
+                </div>
             </>
         );
     }
