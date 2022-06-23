@@ -149,7 +149,7 @@ class IdentifyTabs extends React.Component {
             parsedChartData = JSON.parse(chartData);
             indice_verdure = 0;
             if (parsedChartData.response.features.length > 0) {
-                indice_verdure = parsedChartData.response.features[0].properties.GRAY_INDEX * 100;
+                indice_verdure = Math.round(parsedChartData.response.features[0].properties.GRAY_INDEX * 100);
             }
 
         }
@@ -160,9 +160,10 @@ class IdentifyTabs extends React.Component {
             { name: 'Économique', A: JSON.stringify(economique), "fill": "#FF9412" }
         ];
 
-        function changeTransparency() {
-            console.log("test");
-        }
+        const parsedRadarChartDataVerdure = [
+            { name: 'Indice de verdure', A: JSON.stringify(indice_verdure), "fill": "#09C342" },
+
+        ];
 
         return (
 
@@ -238,7 +239,14 @@ class IdentifyTabs extends React.Component {
                             onChange={opacity => this.handleOpacityChange("indice_verdure", opacity) }/>
                     </div>
 
-                    <p align="center" style={{marginTop: 15+"px", padding: 0 + "px", fontSize: 40}}>{Math.round(indice_verdure)}</p>
+                    <ResponsiveContainer width="100%" height={150}>
+                        <RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="100%" outerRadius="50%" data={parsedRadarChartDataVerdure} startAngle={180} endAngle={0}>
+                            <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise dataKey="A" />
+                            <Legend iconSize={14} layout="horizontal" verticalAlign="bottom" />
+                        </RadialBarChart>
+                    </ResponsiveContainer>
+
+                    <p align="center" style={{marginTop: 15+"px", padding: 0 + "px", fontSize: 40}}>{indice_verdure}</p>
                     <p align="center" style={{marginTop: -20+"px", paddingBottom: 10 + "px", fontSize: 14}}>Indice de verdure</p>
 
                 </div>
