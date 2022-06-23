@@ -41,7 +41,7 @@ class RadarChartsDimensions extends React.Component {
         var parsedRadarChartData;
         var chartColor;
 
-        if (this.props.data.length == 1 && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
+        if (this.props.data[0] && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
             parsedChartData = JSON.parse(chartData);
 
             if (parsedChartData.response.features.length > 0) {

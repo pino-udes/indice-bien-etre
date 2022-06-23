@@ -52,7 +52,7 @@
         "format": "image/png",
         "group": "Default",
         "name": "indice_verdure",
-        "opacity": 0.2,
+        "opacity": 0.3,
         "description": "Indice de verdure",
         "title": "Indice de verdure",
         "type": "wms",

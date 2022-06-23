@@ -46,7 +46,6 @@
     margin-bottom: 20px;
 
     margin-bottom: 0px;
-    border-bottom: 1px solid #dddddd;
 
     padding-top: 15px;
     padding-bottom: 15px;
@@ -55,6 +54,28 @@
     transition: all 0.3s;
 
     justify-content: space-evenly;
+}
+
+.ibeControls {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-inside: 0px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.opacityslider {
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-inside: 0px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
 }
 
 .mapstore-side-card {
