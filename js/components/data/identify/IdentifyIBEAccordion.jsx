@@ -32,7 +32,7 @@ class IdentifyIBEAccordion extends React.Component {
         environnement_lock: "eye-close",
         sociale_lock: "eye-close",
         economique_lock: "eye-close",
-        current_lock: ""
+        current_lock: "",
     };
 
     visualizationLockButtonGlyph(button) {
@@ -103,6 +103,11 @@ class IdentifyIBEAccordion extends React.Component {
             parsedChartData = "";
         }
 
+        const details = ({width, height, data, name}) => {
+
+        }
+
+
         const panels = [
             {
                 id: 'panel-environnement',
@@ -112,6 +117,8 @@ class IdentifyIBEAccordion extends React.Component {
                     description: 'Indicateurs de la dimension environnementale',
                     size: 'sm'
                 },
+                //body: this.state.radar,
+                //body: this.props.radar_env,
                 body: <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Environnement"}/>,
                 tool: <ToggleButton pressed={this.visualizationLockButtonToggled('Environnement')} glyphicon={this.visualizationLockButtonGlyph('Environnement')} tooltip={<Tooltip>Focuser l'affichage sur la dimension environnementale</Tooltip>} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('Environnement'); } }/>
             },

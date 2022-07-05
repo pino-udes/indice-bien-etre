@@ -7,10 +7,13 @@ import { updateNode } from '@mapstore/actions/layers';
 import { connect } from 'react-redux';
 import ToggleButton from '@mapstore/components/buttons/ToggleButton';
 import './style/topchart.css';
-import { RadialBarChart, RadialBar, ResponsiveContainer, Legend } from 'recharts';
+import { RadialBarChart, RadialBar, ResponsiveContainer, PolarAngleAxis, CartesianGrid, BarChart, Bar, XAxis, YAxis, Legend } from 'recharts';
 import IdentifyIBEAccordion from '@js/components/data/identify/IdentifyIBEAccordion';
 import OpacitySlider from '@mapstore/components/TOC/fragments/OpacitySlider';
-
+import createPlotlyComponent from 'react-plotly.js/factory';
+import Plotly from 'plotly.js-cartesian-dist';
+const Plot = createPlotlyComponent(Plotly);
+import RadarChartsDimensions from '@js/components/data/identify/RadarChartsDimensions';
 
 const mapDispatchToProps = {
     updateNode
@@ -21,7 +24,7 @@ class IdentifyTabs extends React.Component {
     static PropTypes = {
         data: PropTypes.object,
         layers: PropTypes.array,
-        selectedLayer: PropTypes.string
+        selectedLayer: PropTypes.string,
     };
 
     static defaultProps = {
@@ -131,7 +134,6 @@ class IdentifyTabs extends React.Component {
 
         if (this.props.data[0]  && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
             chartData = JSON.stringify(this.props.data[0])
-            console.log(this.props.data[0], " WWWWWW ");
             parsedChartData = JSON.parse(chartData);
             environnement = 0;
             social = 0;
@@ -145,7 +147,6 @@ class IdentifyTabs extends React.Component {
         }
         if (this.props.data[1]  && ['indice_verdure'].includes(this.props.data[1].layer.id)) {
             chartData = JSON.stringify(this.props.data[1])
-            console.log(this.props.data[1], " ssssssssssss ");
             parsedChartData = JSON.parse(chartData);
             indice_verdure = 0;
             if (parsedChartData.response.features.length > 0) {
@@ -161,44 +162,24 @@ class IdentifyTabs extends React.Component {
         ];
 
         const parsedRadarChartDataVerdure = [
-            { name: 'Indice de verdure', A: JSON.stringify(indice_verdure), "fill": "#09C342" },
-
+            { name: 'Indice de verdure', value: indice_verdure, "fill": "#09C342"}
         ];
 
+        const IndiceBienEtreDataLabel = ['Économique  ', 'Social  ', 'Environnement  ']
+        const IndiceBienEtreData = [JSON.stringify(economique), JSON.stringify(social),  JSON.stringify(environnement)]
+        const IndiceVerdureData = [indice_verdure]
+
+        // const radarChartEnvironnement = <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Environnement"}/>
+
         return (
-
             <>
-                <style type="text/css">
-                    {`
-                        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover {
-                            float:none;
-                            display:inline-block;
-                            zoom:1;
-                            box-shadow: 0px -4px 4px 2px rgb(0 0 0 / 20%);
-                            width: 99%;
-                        }
-                        .nav-tabs > li {
-                            float:none;
-                            display:inline-block;
-                            zoom:1;
-                            width: 50%;
-                        }
-                        .nav-tabs {
-                            text-align:center;
-                            box-shadow: inset 0px -6px 4px -4px rgb(0 0 0 / 20%);
-                            margin-top: 15px;
-                            width: 99%;
-                        }
-                    `}
-                </style>
-
                         <div className="IdentifyGridCard" >
                             <p align="center" style={{marginTop: 0+"px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de bien-être</p>
                             <div className={"ibeControls"}>
                                 <p align="center" style={{marginBottom: -10+"px", paddingtop: 25 + "px", fontSize: 14}}>Opacité</p>
                                 <div className={"opacityslider"}>
                                     <OpacitySlider
-                                        opacity={1}
+                                        opacity={0.6}
                                         disabled={false}
                                         hideTooltip={false}
                                         onChange={opacity => this.handleOpacityChange("indice_bien_etre", opacity) }/>
@@ -214,37 +195,95 @@ class IdentifyTabs extends React.Component {
 
                             </div>
 
-                            <ResponsiveContainer width="100%" height={150}>
-                                <RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="10%" outerRadius="100%" data={parsedRadarChartData} startAngle={180} endAngle={0}>
-                                    <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise dataKey="A" />
-                                    <Legend iconSize={14} layout="horizontal" verticalAlign="bottom"  />
-                                </RadialBarChart>
-                            </ResponsiveContainer>
+                            <Plot style={{}}
+                                data =
+                                    {[{
+                                        type: 'bar',
+                                        x: IndiceBienEtreData,
+                                        y: IndiceBienEtreDataLabel,
+                                        marker: {
+                                            color: ['#FF9412', '#16BDFA', '#09C342']
+                                        },
+                                        orientation: 'h'
+                                    }]}
 
-                            <p align="center" style={{marginTop: 15+"px", padding: 0 + "px", fontSize: 40}}>{Math.round((environnement + social + economique) / 3)}</p>
+                                layout={{
+                                    autosize: true,
+                                    yaxis: {
+                                        automargin: true
+                                    },
+                                    xaxis1: {range: [0, 100]},
+                                    height: 240,
+                                    showlegend: false,
+                                    legend: {"orientation": "h"},
+
+                                }}
+
+                                config={{ responsive: true, staticPlot:true }}
+                            />
+
+                            {/*<ResponsiveContainer width="100%" height={150}>*/}
+                                {/*<RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="10%" outerRadius="100%" data={parsedRadarChartData} startAngle={180} endAngle={0}>*/}
+                                {/*    <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise dataKey="A" />*/}
+                                {/*    <Legend iconSize={14} layout="horizontal" verticalAlign="bottom"  />*/}
+                                {/*</RadialBarChart>*/}
+                            {/*</ResponsiveContainer>*/}
+
+                            <p align="center" style={{marginTop: 0+"px", padding: 0 + "px", fontSize: 40}}>{Math.round((environnement + social + economique) / 3)}</p>
                             <p align="center" style={{marginTop: -20+"px", padding: 0 + "px", fontSize: 14}}>Indice de bien-être globale</p>
 
-                            <IdentifyIBEAccordion data={this.props.data} selectedLayer={this.props.selectedLayer}/>
+                            <IdentifyIBEAccordion data={this.props.data} selectedLayer={this.props.selectedLayer} />
                         </div>
 
                 <div className="IdentifyGridCard" >
                     <p align="center" style={{marginTop: 0+"px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de verdure</p>
 
-                    <p align="center" style={{marginBottom: -10+"px", paddingtop: 25 + "px", fontSize: 14}}>Opacité</p>
-                    <div className={"opacityslider"}>
-                        <OpacitySlider
-                            opacity={0.3}
-                            disabled={false}
-                            hideTooltip={false}
-                            onChange={opacity => this.handleOpacityChange("indice_verdure", opacity) }/>
+                    <p align="center" style={{marginBottom: -18+"px", paddingtop: 25 + "px", fontSize: 14}}>Opacité</p>
+                    <div className={"ibeControls"}>
+                        <div className={"opacityslider"}>
+                            <OpacitySlider
+                                opacity={0.3}
+                                disabled={false}
+                                hideTooltip={false}
+                                onChange={opacity => this.handleOpacityChange("indice_verdure", opacity) }/>
+                        </div>
                     </div>
 
-                    <ResponsiveContainer width="100%" height={150}>
-                        <RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="100%" outerRadius="50%" data={parsedRadarChartDataVerdure} startAngle={180} endAngle={0}>
-                            <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise dataKey="A" />
-                            <Legend iconSize={14} layout="horizontal" verticalAlign="bottom" />
-                        </RadialBarChart>
-                    </ResponsiveContainer>
+
+                    <Plot style={{}}
+                          data =
+                              {[{
+                                  type: 'bar',
+                                  x: IndiceVerdureData,
+                                  y: ['Indice de verdure  '],
+                                  marker: {
+                                      color: [ '#6ddb8f']
+                                  },
+                                  orientation: 'h'
+                              }]}
+
+                          layout={{
+                              autosize: true,
+                              yaxis: {
+                                  automargin: true
+                              },
+                              xaxis1: {range: [0, 100]},
+                              height: 200,
+                              showlegend: false,
+                              legend: {"orientation": "h"},
+
+                          }}
+
+                          config={{ responsive: true, staticPlot:true }}
+                    />
+
+                    {/*<ResponsiveContainer width="100%" height={150}>*/}
+                    {/*    <RadialBarChart domain={[0, 100]} barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="100%" outerRadius="50%" data={parsedRadarChartDataVerdure} startAngle={180} endAngle={0}>*/}
+                    {/*        <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />*/}
+                    {/*        <RadialBar background minAngle={15} label={false} clockWise dataKey="value" angleAxisId={0} />*/}
+                    {/*        <Legend iconSize={14} layout="horizontal" verticalAlign="bottom" />*/}
+                    {/*    </RadialBarChart>*/}
+                    {/*</ResponsiveContainer>*/}
 
                     <p align="center" style={{marginTop: 15+"px", padding: 0 + "px", fontSize: 40}}>{indice_verdure}</p>
                     <p align="center" style={{marginTop: -20+"px", paddingBottom: 10 + "px", fontSize: 14}}>Indice de verdure</p>

@@ -41,9 +41,17 @@ import sample_data from '../../assets/sample_data.json';
 import xml2js from 'xml2js';
 import uuid from 'uuid';
 import Spinner from 'react-spinkit';
-
+import {createSelector} from 'reselect';
+import { userSelector } from '@mapstore/selectors/security';
 
 const Button = tooltip(ButtonB);
+
+const saveSelector = createSelector(
+    userSelector,
+    (user) =>
+        ({ user })
+);
+
 
 class NewIndicesDashboard extends React.Component {
     static propTypes = {
@@ -253,8 +261,6 @@ class NewIndicesDashboard extends React.Component {
         var config;
         var newMapData;
         var newMapID;
-        // var username = 'admin';
-        // var password = 'geoserver';
         var securityRoleNewRessource;
         var changeSecurityRoleURL;
         var tempXML;
@@ -540,6 +546,7 @@ class NewIndicesDashboard extends React.Component {
         this.setState({
             showNewIndicesDashboardDialog: true
         });
+        console.log(process.env.REACT_APP_GEOSTORE_PWD);
     };
 
     displayNewIndicesDashboardDialogSpinner = () => {
