@@ -8,7 +8,7 @@
 
 import React from 'react';
 
-import { Glyphicon, Grid, Row, Col } from 'react-bootstrap';
+import { Glyphicon, Grid, Row, Col, OverlayTrigger, Popover, Image } from 'react-bootstrap';
 import Button from '@mapstore/components/misc/Button';
 
 /* eslint-disable */
@@ -80,7 +80,23 @@ export default ({
             <Glyphicon glyph={glyph} className={`${bsStyle === 'default' ? 'text-primary' : '' }`}/>
         </div>
         );
-    const buttons = position === 'left' ? [glyphButton] : [glyphButton];
+
+    const popoverIndiceBienEtreInfo = (
+        <Popover id="popover-trigger-hover-focus" title=<strong>Légende</strong>>
+
+            <div><strong>Indice de bien-être</strong></div>
+            <Image src="./assets/legende-indice-bien-etre.png" />
+            <div style={{paddingTop:20+"px", paddingBottom:5+"px"}}><strong>Indice de verdure</strong></div>
+            <Image src="./assets/legende-indice-bien-etre.png" />
+        </Popover>
+    );
+
+    const glyphButtonInfo = (
+        <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceBienEtreInfo}>
+            <Glyphicon className="square-button" glyph="info-sign" style={{ fontSize: 24+"px"}}/>
+        </OverlayTrigger>);
+
+    const buttons = position === 'left' ? [glyphButton, glyphButtonInfo] : [glyphButton, glyphButtonInfo];
     return (
         <Grid fluid style={{width: '100%'}} className={'ms-header ms-' + bsStyle}>
             <Row>

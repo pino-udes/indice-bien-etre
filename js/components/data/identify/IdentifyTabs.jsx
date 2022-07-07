@@ -2,7 +2,7 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { Tabs, Tab, Tooltip } from 'react-bootstrap';
+import { Tooltip, Glyphicon, OverlayTrigger, Popover } from 'react-bootstrap';
 import { updateNode } from '@mapstore/actions/layers';
 import { connect } from 'react-redux';
 import ToggleButton from '@mapstore/components/buttons/ToggleButton';
@@ -12,8 +12,9 @@ import IdentifyIBEAccordion from '@js/components/data/identify/IdentifyIBEAccord
 import OpacitySlider from '@mapstore/components/TOC/fragments/OpacitySlider';
 import createPlotlyComponent from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-cartesian-dist';
+import InfoButton from '@mapstore/components/buttons/InfoButton';
 const Plot = createPlotlyComponent(Plotly);
-import RadarChartsDimensions from '@js/components/data/identify/RadarChartsDimensions';
+import Button from '@mapstore/components/misc/Button';
 
 const mapDispatchToProps = {
     updateNode
@@ -171,6 +172,8 @@ class IdentifyTabs extends React.Component {
 
         // const radarChartEnvironnement = <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Environnement"}/>
 
+
+
         return (
             <>
                         <div className="IdentifyGridCard" >
@@ -194,8 +197,10 @@ class IdentifyTabs extends React.Component {
 
 
                             </div>
+                            <p align="center" style={{marginTop: 20+"px", padding: 0 + "px", fontSize: 40}}>{Math.round((environnement + social + economique) / 3)}</p>
+                            <p align="center" style={{ marginTop: -20+"px", padding: 0 + "px", fontSize: 14}}>Indice de bien-être globale</p>
 
-                            <Plot style={{}}
+                            <Plot style={{marginTop: -80+"px", marginBottom: -40+"px"}}
                                 data =
                                     {[{
                                         type: 'bar',
@@ -213,10 +218,11 @@ class IdentifyTabs extends React.Component {
                                         automargin: true
                                     },
                                     xaxis1: {range: [0, 100]},
-                                    height: 240,
+                                    yaxis1: {range: [0, 10]},
+                                    height: 250,
                                     showlegend: false,
                                     legend: {"orientation": "h"},
-
+                                    paper_bgcolor: 'rgba(0,0,0,0)'
                                 }}
 
                                 config={{ responsive: true, staticPlot:true }}
@@ -229,8 +235,6 @@ class IdentifyTabs extends React.Component {
                                 {/*</RadialBarChart>*/}
                             {/*</ResponsiveContainer>*/}
 
-                            <p align="center" style={{marginTop: 0+"px", padding: 0 + "px", fontSize: 40}}>{Math.round((environnement + social + economique) / 3)}</p>
-                            <p align="center" style={{marginTop: -20+"px", padding: 0 + "px", fontSize: 14}}>Indice de bien-être globale</p>
 
                             <IdentifyIBEAccordion data={this.props.data} selectedLayer={this.props.selectedLayer} />
                         </div>
@@ -249,8 +253,10 @@ class IdentifyTabs extends React.Component {
                         </div>
                     </div>
 
+                    <p align="center" style={{marginTop: 15+"px", padding: 0 + "px", fontSize: 40}}>{indice_verdure}</p>
+                    <p align="center" style={{marginTop: -20+"px", paddingBottom: 10 + "px", fontSize: 14}}>Indice de verdure</p>
 
-                    <Plot style={{}}
+                    <Plot style={{marginTop: -80+"px", marginBottom: -40+"px"}}
                           data =
                               {[{
                                   type: 'bar',
@@ -271,7 +277,7 @@ class IdentifyTabs extends React.Component {
                               height: 200,
                               showlegend: false,
                               legend: {"orientation": "h"},
-
+                              paper_bgcolor: 'rgba(0,0,0,0)'
                           }}
 
                           config={{ responsive: true, staticPlot:true }}
@@ -284,9 +290,6 @@ class IdentifyTabs extends React.Component {
                     {/*        <Legend iconSize={14} layout="horizontal" verticalAlign="bottom" />*/}
                     {/*    </RadialBarChart>*/}
                     {/*</ResponsiveContainer>*/}
-
-                    <p align="center" style={{marginTop: 15+"px", padding: 0 + "px", fontSize: 40}}>{indice_verdure}</p>
-                    <p align="center" style={{marginTop: -20+"px", paddingBottom: 10 + "px", fontSize: 14}}>Indice de verdure</p>
 
                 </div>
             </>
