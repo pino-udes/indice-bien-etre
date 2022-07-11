@@ -20,7 +20,8 @@ class IdentifyIBEAccordion extends React.Component {
         data: PropTypes.object,
         activePanel: PropTypes.string,
         onChange: PropTypes.func,
-        selectedLayer: PropTypes.string
+        selectedLayer: PropTypes.string,
+        handleChangeLegend: PropTypes.func
     };
 
     static defaultProps = {
@@ -52,10 +53,16 @@ class IdentifyIBEAccordion extends React.Component {
     toggleVisualizationLockButton(button) {
         if (button === this.state.current_lock) {
             this.setState({ current_lock: "" }, this.resetVisualization);
+            this.props.handleChangeLegend("");
         } else {
             this.setState({ current_lock: button }, this.changeVisualization);
+            this.props.handleChangeLegend(button);
         }
     }
+
+    // changeLegend(layername) {
+    //     this.props.handleChangeLegend(layername);
+    // }
 
     changeVisualization() {
         if (this.state.current_lock === 'Environnement') {
@@ -73,6 +80,7 @@ class IdentifyIBEAccordion extends React.Component {
             this.props.updateNode("hexagone", 'layers', {style: 'indice_bien_etre_economique'});
             this.props.updateNode("ilot_diffusion", 'layers', {style: 'indice_bien_etre_economique'});
         }
+        // this.changeLegend(this.state.current_lock);
     }
 
     resetVisualization() {

@@ -81,22 +81,7 @@ export default ({
         </div>
         );
 
-    const popoverIndiceBienEtreInfo = (
-        <Popover id="popover-trigger-hover-focus" title=<strong>Légende</strong>>
-
-            <div><strong>Indice de bien-être</strong></div>
-            <Image src="./assets/legende-indice-bien-etre.png" />
-            <div style={{paddingTop:20+"px", paddingBottom:5+"px"}}><strong>Indice de verdure</strong></div>
-            <Image src="./assets/legende-indice-bien-etre.png" />
-        </Popover>
-    );
-
-    const glyphButtonInfo = (
-        <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceBienEtreInfo}>
-            <Glyphicon className="square-button" glyph="info-sign" style={{ fontSize: 24+"px"}}/>
-        </OverlayTrigger>);
-
-    const buttons = position === 'left' ? [glyphButton, glyphButtonInfo] : [glyphButton, glyphButtonInfo];
+    const buttons = position === 'left' ? [glyphButton] : [glyphButton];
     return (
         <Grid fluid style={{width: '100%'}} className={'ms-header ms-' + bsStyle}>
             <Row>

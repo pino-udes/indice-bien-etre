@@ -2,12 +2,11 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { Tooltip, Glyphicon, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Tooltip, Glyphicon, OverlayTrigger, Popover, Image, Grid, Row, Col } from 'react-bootstrap';
 import { updateNode } from '@mapstore/actions/layers';
 import { connect } from 'react-redux';
 import ToggleButton from '@mapstore/components/buttons/ToggleButton';
 import './style/topchart.css';
-import { RadialBarChart, RadialBar, ResponsiveContainer, PolarAngleAxis, CartesianGrid, BarChart, Bar, XAxis, YAxis, Legend } from 'recharts';
 import IdentifyIBEAccordion from '@js/components/data/identify/IdentifyIBEAccordion';
 import OpacitySlider from '@mapstore/components/TOC/fragments/OpacitySlider';
 import createPlotlyComponent from 'react-plotly.js/factory';
@@ -49,7 +48,9 @@ class IdentifyTabs extends React.Component {
         ibe_pix_pressed: false,
         iv_check: "glyphicon glyphicon-unchecked",
         ibe_opacity: 50,
-        iv_opacity: 30
+        iv_opacity: 30,
+        current_lock: "",
+        legend_label: "Indice de bien-être global"
     }
 
     handleSelect() {
@@ -121,6 +122,29 @@ class IdentifyTabs extends React.Component {
         }
     }
 
+    changeLegend(layername) {
+
+        var layer;
+        var label = "Indice de bien-être global";
+        if (layername === 'Environnement') { layer = '-environnement'; label = "Dimension environnementale"; }
+        else if (layername === 'Sociale') { layer = '-sociale'; label = "Dimension sociale"; }
+        else if (layername === 'Économique') { layer = '-economique'; label = "Dimension économique"; }
+        else layer = "";
+        this.setState({
+            current_lock: layer,
+            legend_label: label
+        });
+    }
+
+    handleChangeLegend(layername) {
+        console.log("QWEQWE " + layername);
+        // this.setState({
+        //     current_lock: layername
+        // });
+        this.changeLegend(layername);
+    }
+
+
 
     render() {
         const style = {width: "100%", height: "100%", zIndex: 10000};
@@ -173,10 +197,34 @@ class IdentifyTabs extends React.Component {
         // const radarChartEnvironnement = <RadarChartsDimensions width="100%" height="100%" data={this.props.data} name={"Environnement"}/>
 
 
+        const popoverIndiceBienEtreInfo = (
+            <Popover id="popover-trigger-hover-focus" title={<div align="center"><strong>Légende</strong></div>}   >
+                <div style={{paddingTop:5+"px", paddingBottom:5+"px"}}>{this.state.legend_label}</div>
+                <Image src={"./assets/legende-indice-bien-etre" + this.state.current_lock + ".png"} />
+
+            </Popover>
+        );
+
+        const popoverIndiceVerdureInfo = (
+            <Popover id="popover-trigger-hover-focus" title={<div align="center"><strong>Légende</strong></div>}   >
+            <div style={{paddingTop:5+"px", paddingBottom:5+"px"}}>Indice de verdure</div>
+            <Image src="./assets/legende-indice-verdure.png" />
+            </Popover>
+    );
+
+        const glyphButtonInfo = (
+            <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceBienEtreInfo}>
+                <Glyphicon className="square-button" glyph="info-sign" style={{ fontSize: 24+"px"}}/>
+            </OverlayTrigger>);
+
 
         return (
             <>
                         <div className="IdentifyGridCard" >
+                            <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceBienEtreInfo}>
+                                <Glyphicon className="square-button" glyph="info-sign" style={{alignItems: 'center', display: 'inline-flex', width: 38+"px", height: 38+"px", position: 'absolute', right: 0+"px", color: '#078aa3', fontSize: 24+"px"}}/>
+                            </OverlayTrigger>
+
                             <p align="center" style={{marginTop: 0+"px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de bien-être</p>
                             <div className={"ibeControls"}>
                                 <p align="center" style={{marginBottom: -10+"px", paddingtop: 25 + "px", fontSize: 14}}>Opacité</p>
@@ -235,13 +283,15 @@ class IdentifyTabs extends React.Component {
                                 {/*</RadialBarChart>*/}
                             {/*</ResponsiveContainer>*/}
 
-
-                            <IdentifyIBEAccordion data={this.props.data} selectedLayer={this.props.selectedLayer} />
+                            <IdentifyIBEAccordion data={this.props.data} current_lock={this.state.current_lock} handleChangeLegend={this.handleChangeLegend.bind(this)} selectedLayer={this.props.selectedLayer} />
                         </div>
 
                 <div className="IdentifyGridCard" >
-                    <p align="center" style={{marginTop: 0+"px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de verdure</p>
+                    <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceVerdureInfo}>
+                        <Glyphicon className="square-button" glyph="info-sign" style={{alignItems: 'center', display: 'inline-flex', width: 38+"px", height: 38+"px", position: 'absolute', right: 0+"px", color: '#078aa3', fontSize: 24+"px"}}/>
+                    </OverlayTrigger>
 
+                    <p align="center" style={{marginTop: 0+"px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de verdure</p>
                     <p align="center" style={{marginBottom: -18+"px", paddingtop: 25 + "px", fontSize: 14}}>Opacité</p>
                     <div className={"ibeControls"}>
                         <div className={"opacityslider"}>
@@ -271,9 +321,10 @@ class IdentifyTabs extends React.Component {
                           layout={{
                               autosize: true,
                               yaxis: {
-                                  automargin: true
+                                  automargin: true,
                               },
                               xaxis1: {range: [0, 100]},
+                              yaxis1: {range: [0, 10]},
                               height: 200,
                               showlegend: false,
                               legend: {"orientation": "h"},
