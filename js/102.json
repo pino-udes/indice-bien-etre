@@ -1,0 +1,330 @@
+{
+  "version": 2,
+  "map": {
+    "center": {
+      "x": -72.24643707275506,
+      "y": 45.23204697248984,
+      "crs": "EPSG:4326"
+    },
+    "maxExtent": [
+      -20037508.34,
+      -20037508.34,
+      20037508.34,
+      20037508.34
+    ],
+    "projection": "EPSG:900913",
+    "units": "m",
+    "zoom": 12,
+    "mapOptions": {},
+    "layers": [
+      {
+        "id": "mapnik__0",
+        "group": "background",
+        "source": "osm",
+        "name": "mapnik",
+        "title": "Open Street Map",
+        "type": "osm",
+        "visibility": false,
+        "singleTile": false,
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "useForElevation": false,
+        "hidden": false
+      },
+      {
+        "id": "Night2012__1",
+        "group": "background",
+        "source": "nasagibs",
+        "name": "Night2012",
+        "provider": "NASAGIBS.ViirsEarthAtNight2012",
+        "title": "NASAGIBS Night 2012",
+        "type": "tileprovider",
+        "visibility": false,
+        "singleTile": false,
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "useForElevation": false,
+        "hidden": false
+      },
+      {
+        "id": "OpenTopoMap__2",
+        "group": "background",
+        "source": "OpenTopoMap",
+        "name": "OpenTopoMap",
+        "provider": "OpenTopoMap",
+        "title": "OpenTopoMap",
+        "type": "tileprovider",
+        "visibility": false,
+        "singleTile": false,
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "useForElevation": false,
+        "hidden": false
+      },
+      {
+        "id": "s2cloudless:s2cloudless__3",
+        "format": "image/jpeg",
+        "group": "background",
+        "source": "s2cloudless",
+        "name": "s2cloudless:s2cloudless",
+        "opacity": 1,
+        "title": "Sentinel 2 Cloudless",
+        "type": "wms",
+        "url": [
+          "https://1maps.geo-solutions.it/geoserver/wms",
+          "https://2maps.geo-solutions.it/geoserver/wms",
+          "https://3maps.geo-solutions.it/geoserver/wms",
+          "https://4maps.geo-solutions.it/geoserver/wms",
+          "https://5maps.geo-solutions.it/geoserver/wms",
+          "https://6maps.geo-solutions.it/geoserver/wms"
+        ],
+        "visibility": false,
+        "singleTile": false,
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "useForElevation": false,
+        "hidden": false
+      },
+      {
+        "id": "undefined__4",
+        "group": "background",
+        "source": "ol",
+        "title": "Empty Background",
+        "type": "empty",
+        "visibility": false,
+        "singleTile": false,
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "useForElevation": false,
+        "hidden": false
+      },
+      {
+        "id": "ad79d1f0-b5db-11ec-bea5-f91468571b5b",
+        "group": "background",
+        "name": "Stamen.TonerLite",
+        "provider": "Stamen.TonerLite",
+        "title": "Stamen Toner Lite",
+        "type": "tileprovider",
+        "visibility": true,
+        "singleTile": false,
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "useForElevation": false,
+        "hidden": false,
+        "params": {}
+      },
+      {
+        "id": "Magog_IBE_AD__5",
+        "format": "image/png",
+        "search": {
+          "url": "http://192.168.1.194:8088/geoserver/Magog/wfs",
+          "type": "wfs"
+        },
+        "name": "Magog_IBE_AD",
+        "opacity": 1,
+        "description": "Layer-Group type layer: Magog_IBE_AD",
+        "title": "Magog_IBE_AD",
+        "type": "wms",
+        "url": "http://192.168.1.194:8088/geoserver/Magog/wms",
+        "bbox": {
+          "crs": "EPSG:4326",
+          "bounds": {
+            "minx": "-72.24698485572016",
+            "miny": "45.15809359423062",
+            "maxx": "-72.03754283836254",
+            "maxy": "45.3095644526256"
+          }
+        },
+        "visibility": true,
+        "singleTile": false,
+        "allowedSRS": {
+          "EPSG:3785": true,
+          "EPSG:3857": true,
+          "EPSG:4269": true,
+          "EPSG:4326": true,
+          "EPSG:102113": true,
+          "EPSG:900913": true
+        },
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "featureInfo": {
+          "format": "PROPERTIES"
+        },
+        "catalogURL": null,
+        "useForElevation": false,
+        "hidden": false,
+        "version": "1.3.0",
+        "params": {}
+      },
+      {
+        "id": "Magog_IBE_ID__7",
+        "format": "image/png",
+        "search": {
+          "url": "http://192.168.1.194:8088/geoserver/Magog/wfs",
+          "type": "wfs"
+        },
+        "name": "Magog_IBE_ID",
+        "opacity": 1,
+        "description": "Layer-Group type layer: Magog_IBE_ID",
+        "title": "Magog_IBE_ID",
+        "type": "wms",
+        "url": "http://192.168.1.194:8088/geoserver/Magog/wms",
+        "bbox": {
+          "crs": "EPSG:4326",
+          "bounds": {
+            "minx": "-72.24698485572016",
+            "miny": "45.15809359423062",
+            "maxx": "-72.03754283836254",
+            "maxy": "45.3095644526256"
+          }
+        },
+        "visibility": false,
+        "singleTile": false,
+        "allowedSRS": {
+          "EPSG:3785": true,
+          "EPSG:3857": true,
+          "EPSG:4269": true,
+          "EPSG:4326": true,
+          "EPSG:102113": true,
+          "EPSG:900913": true
+        },
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "featureInfo": {
+          "format": "PROPERTIES"
+        },
+        "catalogURL": null,
+        "useForElevation": false,
+        "hidden": false,
+        "version": "1.3.0",
+        "params": {}
+      },
+      {
+        "id": "Magog_IBE_HEXA__6",
+        "format": "image/png",
+        "search": {
+          "url": "http://192.168.1.194:8088/geoserver/Magog/wfs",
+          "type": "wfs"
+        },
+        "name": "Magog_IBE_HEXA",
+        "opacity": 1,
+        "description": "Layer-Group type layer: Magog_IBE_HEXA",
+        "title": "Magog_IBE_HEXA",
+        "type": "wms",
+        "url": "http://192.168.1.194:8088/geoserver/Magog/wms",
+        "bbox": {
+          "crs": "EPSG:4326",
+          "bounds": {
+            "minx": "-72.24698485513593",
+            "miny": "45.156338174605246",
+            "maxx": "-72.03544449616709",
+            "maxy": "45.309602563502686"
+          }
+        },
+        "visibility": false,
+        "singleTile": false,
+        "allowedSRS": {
+          "EPSG:3785": true,
+          "EPSG:3857": true,
+          "EPSG:4269": true,
+          "EPSG:4326": true,
+          "EPSG:102113": true,
+          "EPSG:900913": true
+        },
+        "dimensions": [],
+        "hideLoading": false,
+        "handleClickOnLayer": false,
+        "featureInfo": {
+          "format": "PROPERTIES"
+        },
+        "catalogURL": null,
+        "useForElevation": false,
+        "hidden": false,
+        "version": "1.3.0",
+        "params": {}
+      },
+      {
+        "id": "annotations",
+        "features": [
+          {
+            "type": "FeatureCollection",
+            "properties": {
+              "id": "3c5074c0-c05d-11ec-a154-2b2ea78abcf9",
+              "title": "Hello world!",
+              "description": "<p>Test</p>",
+              "visibility": true
+            },
+            "features": [
+              {
+                "type": "Feature",
+                "geometry": {
+                  "coordinates": [
+                    -72.1944236755371,
+                    45.299705237607604
+                  ],
+                  "type": "Point"
+                },
+                "properties": {
+                  "id": "4406f180-c05d-11ec-a154-2b2ea78abcf9",
+                  "isValidFeature": true,
+                  "canEdit": false
+                },
+                "style": [
+                  {
+                    "iconGlyph": "comment",
+                    "iconShape": "square",
+                    "iconColor": "blue",
+                    "highlight": false,
+                    "id": "4406ca70-c05d-11ec-a154-2b2ea78abcf9"
+                  }
+                ]
+              }
+            ],
+            "style": {
+              "highlight": false
+            }
+          }
+        ],
+        "name": "Annotations",
+        "type": "vector",
+        "visibility": true,
+        "singleTile": false,
+        "dimensions": [],
+        "hideLoading": true,
+        "handleClickOnLayer": true,
+        "useForElevation": false,
+        "hidden": false
+      }
+    ],
+    "groups": [
+      {
+        "id": "Default",
+        "title": "Default",
+        "expanded": true
+      }
+    ],
+    "backgrounds": [],
+    "bookmark_search_config": {}
+  },
+  "catalogServices": {},
+  "widgetsConfig": {
+    "widgets": [],
+    "layouts": {
+      "xxs": [],
+      "md": []
+    }
+  },
+  "mapInfoConfiguration": {
+    "trigger": "click"
+  },
+  "dimensionData": {},
+  "timelineData": {}
+}

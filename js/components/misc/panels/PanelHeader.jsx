@@ -8,7 +8,7 @@
 
 import React from 'react';
 
-import { Glyphicon, Grid, Row, Col, OverlayTrigger, Popover, Image } from 'react-bootstrap';
+import { Glyphicon, Grid, Row, Col } from 'react-bootstrap';
 import Button from '@mapstore/components/misc/Button';
 
 /* eslint-disable */
@@ -51,7 +51,7 @@ const fullscreenGlyph = {
 
 export default ({
     position = 'right',
-    onClose,
+    // onClose,
     bsStyle = 'default',
     title = '',
     fullscreen = false,
@@ -60,11 +60,11 @@ export default ({
     additionalRows,
     onFullscreen = () => {}
 }) => {
-    const closeButton = !onClose ? null : (
-        <Button key="ms-header-close" className="square-button ms-close" onClick={onClose} bsStyle={bsStyle}>
-            <Glyphicon glyph="1-close"/>
-        </Button>
-    );
+    // const closeButton = !onClose ? null : (
+    //     <Button key="ms-header-close" className="square-button ms-close" onClick={onClose} bsStyle={bsStyle}>
+    //         <Glyphicon glyph="1-close"/>
+    //     </Button>
+    // );
     const glyphButton = showFullscreen ? (
         <Button
             key="ms-header-glyph"

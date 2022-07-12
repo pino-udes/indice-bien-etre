@@ -30,13 +30,13 @@ class IdentifyCharts extends React.Component {
         var environnement = 0;
         var social = 0;
         var economique = 0;
-        console.log("WMS ", this.props.data.length);
-        console.log("WMS ", this.props.data);
+        // console.log("WMS ", this.props.data.length);
+        // console.log("WMS ", this.props.data);
 
 
-        if (this.props.data.length == 1  && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
-            chartData = JSON.stringify(this.props.data[0])
-            console.log(this.props.data[0], " WWWWWW ");
+        if (this.props.data.length === 1  && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
+            chartData = JSON.stringify(this.props.data[0]);
+            // console.log(this.props.data[0], " WWWWWW ");
             parsedChartData = JSON.parse(chartData);
             environnement = 0;
             social = 0;

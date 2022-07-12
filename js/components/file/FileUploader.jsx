@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { round } from 'lodash';
-import { Message, DateFormat } from '@mapstore/components/I18N/I18N';
+import { Message } from '@mapstore/components/I18N/I18N';
 import Spinner from 'react-spinkit';
 import { Glyphicon, ProgressBar, Table, Alert } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
@@ -72,13 +72,15 @@ class FileUploader extends React.Component {
         return (
 
             <Table striped condensed hover>
-            <tbody>
-                {this.state.fileList && this.state.fileList.map((file, index) =>
-                    (<tr key={"row_" + index}>
-                        <td key="name">{file.name}</td>
-                        <td key="size">{this.humanFileSize(file.size)}</td>
-                    </tr>) )
-                }</tbody></Table>
+                <tbody>
+                    {this.state.fileList && this.state.fileList.map((file, index) =>
+                        (<tr key={"row_" + index}>
+                            <td key="name">{file.name}</td>
+                            <td key="size">{this.humanFileSize(file.size)}</td>
+                        </tr>) )
+                    }
+                </tbody>
+            </Table>
         );
     };
 
@@ -128,17 +130,19 @@ class FileUploader extends React.Component {
     }
 
     humanFileSize = (size) => {
-        var i = Math.floor( Math.log(size) / Math.log(1024) );
+        var i;
+        i = Math.floor( Math.log(size) / Math.log(1024) );
         return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
     };
 
     uploadFiles = (files) => {
+        var blob;
         if (!files) return;
         if (!this.props.allowUpload) {
             this.setState({files: files, fileList: files});
             this.props.onBeforeUpload(files);
-            var blob = files[0].preview;
-            console.log("the what ", files[0]);
+            blob = files[0].preview;
+            // console.log("the what ", files[0]);
             this.props.setFilename(blob);
 
         } else {

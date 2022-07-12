@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import Message from '@mapstore/components/I18N/Message';
+// import Message from '@mapstore/components/I18N/Message';
 // import NewMapDialog from '@mapstore/components/misc/NewMapDialog';
 import { FormControl, FormGroup, Checkbox, ControlLabel, ButtonToolbar, Grid, Col, Tabs, Tab} from 'react-bootstrap';
 import ButtonB from '@mapstore/components/misc/Button';
@@ -32,7 +32,7 @@ import * as epics from '@mapstore/epics/createnewmap';
 
 //
 import NewIndicesDashboardForm from "@js/plugins/NewIndicesDashboard/NewIndicesDashboardForm";
-import Dropzone from 'react-dropzone';
+// import Dropzone from 'react-dropzone';
 import Modal from "@mapstore/components/misc/ResizableModal";
 import axios from '@mapstore/libs/ajax';
 import { reloadMaps } from '@mapstore/actions/maps';
@@ -41,16 +41,16 @@ import sample_data from '../../assets/sample_data.json';
 import xml2js from 'xml2js';
 import uuid from 'uuid';
 import Spinner from 'react-spinkit';
-import {createSelector} from 'reselect';
-import { userSelector } from '@mapstore/selectors/security';
+// import {createSelector} from 'reselect';
+// import { userSelector } from '@mapstore/selectors/security';
 
 const Button = tooltip(ButtonB);
 
-const saveSelector = createSelector(
-    userSelector,
-    (user) =>
-        ({ user })
-);
+// const saveSelector = createSelector(
+//     userSelector,
+//     (user) =>
+//         ({ user })
+// );
 
 
 class NewIndicesDashboard extends React.Component {
@@ -67,7 +67,7 @@ class NewIndicesDashboard extends React.Component {
         user: PropTypes.object,
         fluid: PropTypes.bool,
         hasContexts: PropTypes.bool,
-        reloadMaps: PropTypes.func,
+        reloadMaps: PropTypes.func
         // showNewMapDialog: PropTypes.bool,
         // onShowNewMapDialog: PropTypes.func,
         // onNewMap: PropTypes.func
@@ -256,14 +256,14 @@ class NewIndicesDashboard extends React.Component {
     };
 
     createDashboard = () => {
-        let actions = [];
+        // let actions = [];
         var newResource;
         var config;
         var newMapData;
         var newMapID;
         var securityRoleNewRessource;
         var changeSecurityRoleURL;
-        var tempXML;
+        // var tempXML;
         var createWorkspaceXML;
         var configGeoserver = {
             headers: {
@@ -294,16 +294,11 @@ class NewIndicesDashboard extends React.Component {
         };
         var workspaceId = "ibe_" + uuid();
 
-        console.log("workspace ", workspaceId);
-
-        const geoserverWorkspaceBaseURL = window.location.origin + "/geoserver/rest/workspaces";
-        createWorkspaceXML = "<workspace><name>" + workspaceId + "</name></workspace>";
-
-        var parts = this.state.adFilename.split('/');
-        var lastSegment = parts.pop() || parts.pop();
+        // var parts = this.state.adFilename.split('/');
+        // var lastSegment = parts.pop() || parts.pop();
         var geoserverDatastoreBaseURL;
         var file;
-        var config;
+        // var config;
         var geoserverLayerBaseURL;
         var layerDefaultStyle = "<layer><defaultStyle><name>indice_bien_etre</name></defaultStyle></layer>";
         var WMSGetCapabilitiesADBBox;
@@ -311,6 +306,11 @@ class NewIndicesDashboard extends React.Component {
         var WMSGetCapabilitiesHEXABBox;
         var WMSGetCapabilitiesVerdureBBox;
         var x;
+        // console.log("workspace ", workspaceId);
+
+        const geoserverWorkspaceBaseURL = window.location.origin + "/geoserver/rest/workspaces";
+        createWorkspaceXML = "<workspace><name>" + workspaceId + "</name></workspace>";
+
         this.setState({
             spinner: <Spinner style={{marginTop: "10px", marginBottom: "10px"}} spinnerName="circle" overrideSpinnerClassName="spinner"/>
         });
@@ -323,14 +323,14 @@ class NewIndicesDashboard extends React.Component {
 
                 // Get the file from FileUploader (blob url) and upload to geoserver Indice verdure
                 config = { responseType: 'blob' };
-                axios.get(this.state.verdureFilename, config).then(response => {
-                    file = new File([response.data], "indice_verdure.tif");
-                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/coveragestores/indice_verdure/file.geotiff";
+                axios.get(this.state.verdureFilename, config).then(responseverdureFilename => {
+                    file = new File([responseverdureFilename.data], "indice_verdure.tif");
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/coveragestores/indice_verdure/file.geotiff";
 
                     this.setState({progressMessage: 'Téléversement de l\'indice de verdure'});
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUploadTif)
-                        .then((response) => {
+                        .then(() => {
                             // Set default style //
                             // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/indice_verdure";
                             // axios
@@ -345,39 +345,39 @@ class NewIndicesDashboard extends React.Component {
                 // Get the file from FileUploader (blob url) and upload to geoserver aire_diffusion
                 this.setState({progressMessage: 'Téléversement du shapefile d\'aire de diffusion'});
                 config = { responseType: 'blob' };
-                axios.get(this.state.adFilename, config).then(response => {
-                    file = new File([response.data], "aire_diffusion.zip");
-                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/datastores/aire_diffusion/file.shp";
+                axios.get(this.state.adFilename, config).then(responseadFilename => {
+                    file = new File([responseadFilename.data], "aire_diffusion.zip");
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/datastores/aire_diffusion/file.shp";
                     // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/aire_diffusion";
 
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
-                        .then((response) => {
-                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/aire_diffusion";
+                        .then(() => {
+                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/layers/aire_diffusion";
                             axios
                                 .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
-                                .then((response) => {
-                                    console.log("default style", response.data);
+                                .then(() => {
+                                    // console.log("default style", response.data);
                                 });
                         });
                 });
                 // Get the file from FileUploader (blob url) and upload to geoserver ilot_diffusion
                 this.setState({progressMessage: 'Téléversement du shapefile d\'îlots de diffusion'});
                 config = { responseType: 'blob' };
-                axios.get(this.state.idFilename, config).then(response => {
-                    file = new File([response.data], "ilot_diffusion.zip");
-                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/datastores/ilot_diffusion/file.shp";
+                axios.get(this.state.idFilename, config).then(responseidFilename => {
+                    file = new File([responseidFilename.data], "ilot_diffusion.zip");
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/datastores/ilot_diffusion/file.shp";
                     // geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ this.state.municipalite + "/layers/ilot_diffusion";
 
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
-                        .then((response) => {
-                            console.log("!Shapefile uploaded!");
-                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/ilot_diffusion";
+                        .then(() => {
+                            // console.log("!Shapefile uploaded!");
+                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/layers/ilot_diffusion";
                             axios
                                 .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
-                                .then((response) => {
-                                    console.log("default style", response.data);
+                                .then(() => {
+                                    // console.log("default style", response.data);
                                 });
                         });
                 });
@@ -385,38 +385,38 @@ class NewIndicesDashboard extends React.Component {
                 // Get the file from FileUploader (blob url) and upload to geoserver hexagone
                 this.setState({progressMessage: 'Téléversement du shapefile d\'hexagones'});
                 config = { responseType: 'blob' };
-                axios.get(this.state.hexaFilename, config).then(response => {
-                    file = new File([response.data], "hexagone.zip");
-                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/datastores/hexagone/file.shp";
+                axios.get(this.state.hexaFilename, config).then(responsehexaFilename => {
+                    file = new File([responsehexaFilename.data], "hexagone.zip");
+                    geoserverDatastoreBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/datastores/hexagone/file.shp";
                     axios
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
-                        .then((response) => {
-                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/layers/hexagone";
+                        .then(() => {
+                            geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/layers/hexagone";
                             axios
                                 .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
-                                .then((response) => {
-                                    console.log("default style", response.data);
+                                .then(() => {
+                                    // console.log("default style", response.data);
 
                                     this.setState({progressMessage: 'Configuration de la visualisation'});
-                                    axios.get("http://localhost:8080/geoserver/" + workspaceId + "/wms?service=WMS&request=GetCapabilities", configGeoserver).then((response) => {
-                                        //console.log(xml2js.parseString(response.data));
+                                    axios.get(window.location.origin + "/geoserver/" + workspaceId + "/wms?service=WMS&request=GetCapabilities", configGeoserver).then((responseGetCapabilities) => {
+                                        // console.log(xml2js.parseString(responseGetCapabilities.data));
                                         const parser = new xml2js.Parser();
-                                        parser.parseString(response.data, function (err, result) {
+                                        parser.parseString(responseGetCapabilities.data, function(err, result) {
 
-                                            //WMSGetCapabilitiesADnum
-                                            //wmslayers = result.WMS_Capabilities;
+                                            // WMSGetCapabilitiesADnum
+                                            // wmslayers = result.WMS_Capabilities;
                                             const wmslayers = result.WMS_Capabilities.Capability[0].Layer[0].Layer;
-                                            console.log(wmslayers);
+                                            // console.log(wmslayers);
 
                                             wmslayers.forEach((wmslayer) => {
-                                                console.log("bound ", wmslayer.EX_GeographicBoundingBox[0].westBoundLongitude[0]);
+                                                // console.log("bound ", wmslayer.EX_GeographicBoundingBox[0].westBoundLongitude[0]);
                                                 if (wmslayer.Name[0] === "aire_diffusion") {
                                                     WMSGetCapabilitiesADBBox = {
                                                         "minx": wmslayer.EX_GeographicBoundingBox[0].westBoundLongitude[0],
                                                         "miny": wmslayer.EX_GeographicBoundingBox[0].southBoundLatitude[0],
                                                         "maxx": wmslayer.EX_GeographicBoundingBox[0].eastBoundLongitude[0],
                                                         "maxy": wmslayer.EX_GeographicBoundingBox[0].northBoundLatitude[0]
-                                                    }
+                                                    };
                                                 }
                                                 if (wmslayer.Name[0] === "ilot_diffusion") {
                                                     WMSGetCapabilitiesIDBBox = {
@@ -424,7 +424,7 @@ class NewIndicesDashboard extends React.Component {
                                                         "miny": wmslayer.EX_GeographicBoundingBox[0].southBoundLatitude[0],
                                                         "maxx": wmslayer.EX_GeographicBoundingBox[0].eastBoundLongitude[0],
                                                         "maxy": wmslayer.EX_GeographicBoundingBox[0].northBoundLatitude[0]
-                                                    }
+                                                    };
                                                 }
                                                 if (wmslayer.Name[0] === "hexagone") {
                                                     WMSGetCapabilitiesHEXABBox = {
@@ -432,7 +432,7 @@ class NewIndicesDashboard extends React.Component {
                                                         "miny": wmslayer.EX_GeographicBoundingBox[0].southBoundLatitude[0],
                                                         "maxx": wmslayer.EX_GeographicBoundingBox[0].eastBoundLongitude[0],
                                                         "maxy": wmslayer.EX_GeographicBoundingBox[0].northBoundLatitude[0]
-                                                    }
+                                                    };
                                                 }
                                                 if (wmslayer.Name[0] === "indice_verdure") {
                                                     WMSGetCapabilitiesVerdureBBox = {
@@ -440,21 +440,21 @@ class NewIndicesDashboard extends React.Component {
                                                         "miny": wmslayer.EX_GeographicBoundingBox[0].southBoundLatitude[0],
                                                         "maxx": wmslayer.EX_GeographicBoundingBox[0].eastBoundLongitude[0],
                                                         "maxy": wmslayer.EX_GeographicBoundingBox[0].northBoundLatitude[0]
-                                                    }
+                                                    };
                                                 }
                                             });
                                         });
 
                                         newMapData = sample_data;
-                                        newMapData.map.center.x = WMSGetCapabilitiesADBBox.minx + ((WMSGetCapabilitiesADBBox.maxx - WMSGetCapabilitiesADBBox.minx) / 2)
-                                        newMapData.map.center.y = WMSGetCapabilitiesADBBox.miny + ((WMSGetCapabilitiesADBBox.maxy - WMSGetCapabilitiesADBBox.miny) / 2)
+                                        newMapData.map.center.x = WMSGetCapabilitiesADBBox.minx + ((WMSGetCapabilitiesADBBox.maxx - WMSGetCapabilitiesADBBox.minx) / 2);
+                                        newMapData.map.center.y = WMSGetCapabilitiesADBBox.miny + ((WMSGetCapabilitiesADBBox.maxy - WMSGetCapabilitiesADBBox.miny) / 2);
 
-                                        const putCreateNewMapBaseURL = "http://localhost:8080/mapstore/rest/geostore/resources";
+                                        const putCreateNewMapBaseURL = window.location.origin + "/indice-bien-etre/rest/geostore/resources";
                                         const layers  = newMapData.map.layers;
 
                                         x = 0;
                                         layers.forEach((layer) => {
-                                            console.log(layer.id);
+                                            // console.log(layer.id);
                                             if (layer.id === "aire_diffusion") {
                                                 newMapData.map.layers[x].search.url = window.location.origin + "/geoserver/" + workspaceId + "/wfs";
                                                 newMapData.map.layers[x].search.type = "wfs";
@@ -465,7 +465,7 @@ class NewIndicesDashboard extends React.Component {
                                                 newMapData.map.layers[x].bbox.bounds.maxx = WMSGetCapabilitiesADBBox.maxx;
                                                 newMapData.map.layers[x].bbox.bounds.maxy = WMSGetCapabilitiesADBBox.maxy;
                                             }
-                                            if (layer.id == "ilot_diffusion") {
+                                            if (layer.id === "ilot_diffusion") {
                                                 newMapData.map.layers[x].search.url = window.location.origin + "/geoserver/" + workspaceId + "/wfs";
                                                 newMapData.map.layers[x].search.type = "wfs";
                                                 newMapData.map.layers[x].type = "wms";
@@ -475,7 +475,7 @@ class NewIndicesDashboard extends React.Component {
                                                 newMapData.map.layers[x].bbox.bounds.maxx = WMSGetCapabilitiesIDBBox.maxx;
                                                 newMapData.map.layers[x].bbox.bounds.maxy = WMSGetCapabilitiesIDBBox.maxy;
                                             }
-                                            if (layer.id == "hexagone") {
+                                            if (layer.id === "hexagone") {
                                                 newMapData.map.layers[x].search.url = window.location.origin + "/geoserver/" + workspaceId + "/wfs";
                                                 newMapData.map.layers[x].search.type = "wfs";
                                                 newMapData.map.layers[x].type = "wms";
@@ -485,7 +485,7 @@ class NewIndicesDashboard extends React.Component {
                                                 newMapData.map.layers[x].bbox.bounds.maxx = WMSGetCapabilitiesHEXABBox.maxx;
                                                 newMapData.map.layers[x].bbox.bounds.maxy = WMSGetCapabilitiesHEXABBox.maxy;
                                             }
-                                            if (layer.id == "indice_verdure") {
+                                            if (layer.id === "indice_verdure") {
                                                 newMapData.map.layers[x].type = "wms";
                                                 newMapData.map.layers[x].url = window.location.origin + "/geoserver/" + workspaceId + "/wms";
                                                 newMapData.map.layers[x].bbox.bounds.minx = WMSGetCapabilitiesVerdureBBox.minx;
@@ -497,7 +497,7 @@ class NewIndicesDashboard extends React.Component {
                                         });
 
 
-                                        console.log(JSON.parse(JSON.stringify(newMapData)));
+                                        // console.log(JSON.parse(JSON.stringify(newMapData)));
                                         newResource = "<Resource><description></description><metadata></metadata><name>" + this.state.municipalite + "</name><category><name>MAP</name></category><store><data><![CDATA[ " + JSON.stringify(newMapData) + " ]]></data></store></Resource>";
                                         config = {
                                             headers: {
@@ -509,7 +509,7 @@ class NewIndicesDashboard extends React.Component {
                                             .then((newMapIDResponse) => {
                                                 newMapID = newMapIDResponse.data;
 
-                                                changeSecurityRoleURL = "http://localhost:8080/mapstore/rest/geostore/resources/resource/" + newMapID + "/permissions";
+                                                changeSecurityRoleURL = window.location.origin + "/indice-bien-etre/rest/geostore/resources/resource/" + newMapID + "/permissions";
 
                                                 securityRoleNewRessource = "<SecurityRuleList><SecurityRule><canRead>true</canRead><canWrite>true</canWrite><user><id>12</id><name>admin</name></user></SecurityRule></SecurityRuleList>";
                                                 if (this.state.everyone_can_see === true) {
@@ -546,7 +546,7 @@ class NewIndicesDashboard extends React.Component {
         this.setState({
             showNewIndicesDashboardDialog: true
         });
-        console.log(process.env.REACT_APP_GEOSTORE_PWD);
+        // console.log(process.env.REACT_APP_GEOSTORE_PWD);
     };
 
     displayNewIndicesDashboardDialogSpinner = () => {

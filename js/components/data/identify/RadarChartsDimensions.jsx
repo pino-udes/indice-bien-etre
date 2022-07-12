@@ -41,6 +41,7 @@ class RadarChartsDimensions extends React.Component {
 
         var parsedRadarChartData;
         var chartColor;
+        // var dataLabel;
 
         if (this.props.data[0] && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
             parsedChartData = JSON.parse(chartData);
@@ -96,9 +97,8 @@ class RadarChartsDimensions extends React.Component {
             { name: 'Commerces et marchés', A: JSON.stringify(economique_c4), "fill": "#ffc658" }
         ];
 
-        const environnementDataLabel = ['Transport durable', 'Risques naturels', 'Accessibilité aux espaces verts', 'Environnement naturel et verdure'];
-        const environnementData = [environnement_c1, environnement_c2, environnement_c3, environnement_c4];
-        var dataLabel;
+        // const environnementDataLabel = ['Transport durable', 'Risques naturels', 'Accessibilité aux espaces verts', 'Environnement naturel et verdure'];
+        // const environnementData = [environnement_c1, environnement_c2, environnement_c3, environnement_c4];
 
         if (this.props.name === 'Environnement') {
             parsedRadarChartData = parsedEnvironnementData;

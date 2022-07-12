@@ -65,7 +65,7 @@ class Footer extends React.Component {
                 height={logo.height || 'auto'}
                 title={logo.title || ''}
                 alt={logo.alt || ''}
-                style={{padding: 20+"px" }}/>
+                style={{padding: 20 + "px" }}/>
         );
         const imageUdeS = (
             <img
@@ -74,7 +74,7 @@ class Footer extends React.Component {
                 height={logoudes.height || 'auto'}
                 title={logoudes.title || ''}
                 alt={logoudes.alt || ''}
-                style={{padding: 20+"px" }}/>
+                style={{padding: 20 + "px" }}/>
         );
         return (
             <Grid>

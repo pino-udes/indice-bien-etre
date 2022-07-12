@@ -1,0 +1,159 @@
+{
+  "widgets": [
+    {
+      "id": "0d1d1ed0-92de-11ec-b360-0f8a75d6b43c",
+      "layer": false,
+      "url": false,
+      "legend": false,
+      "mapSync": false,
+      "cartesian": true,
+      "yAxis": true,
+      "widgetType": "map",
+      "map": {
+        "center": {
+          "x": 11.22894105149402,
+          "y": 43.380053862794,
+          "crs": "EPSG:4326"
+        },
+        "maxExtent": [
+          -20037508.34,
+          -20037508.34,
+          20037508.34,
+          20037508.34
+        ],
+        "projection": "EPSG:900913",
+        "units": "m",
+        "zoom": 5,
+        "mapOptions": {},
+        "backgrounds": [],
+        "bookmark_search_config": {},
+        "groups": [],
+        "layers": [
+          {
+            "id": "mapnik__0",
+            "group": "background",
+            "source": "osm",
+            "name": "mapnik",
+            "title": "Open Street Map",
+            "type": "osm",
+            "visibility": true,
+            "singleTile": false,
+            "dimensions": [],
+            "hideLoading": false,
+            "handleClickOnLayer": false,
+            "useForElevation": false,
+            "hidden": false
+          },
+          {
+            "id": "Night2012__1",
+            "group": "background",
+            "source": "nasagibs",
+            "name": "Night2012",
+            "provider": "NASAGIBS.ViirsEarthAtNight2012",
+            "title": "NASAGIBS Night 2012",
+            "type": "tileprovider",
+            "visibility": false,
+            "singleTile": false,
+            "dimensions": [],
+            "hideLoading": false,
+            "handleClickOnLayer": false,
+            "useForElevation": false,
+            "hidden": false
+          },
+          {
+            "id": "OpenTopoMap__2",
+            "group": "background",
+            "source": "OpenTopoMap",
+            "name": "OpenTopoMap",
+            "provider": "OpenTopoMap",
+            "title": "OpenTopoMap",
+            "type": "tileprovider",
+            "visibility": false,
+            "singleTile": false,
+            "dimensions": [],
+            "hideLoading": false,
+            "handleClickOnLayer": false,
+            "useForElevation": false,
+            "hidden": false
+          },
+          {
+            "id": "s2cloudless:s2cloudless__3",
+            "format": "image/jpeg",
+            "group": "background",
+            "source": "s2cloudless",
+            "name": "s2cloudless:s2cloudless",
+            "opacity": 1,
+            "title": "Sentinel 2 Cloudless",
+            "type": "wms",
+            "url": [
+              "https://1maps.geo-solutions.it/geoserver/wms",
+              "https://2maps.geo-solutions.it/geoserver/wms",
+              "https://3maps.geo-solutions.it/geoserver/wms",
+              "https://4maps.geo-solutions.it/geoserver/wms",
+              "https://5maps.geo-solutions.it/geoserver/wms",
+              "https://6maps.geo-solutions.it/geoserver/wms"
+            ],
+            "visibility": false,
+            "singleTile": false,
+            "dimensions": [],
+            "hideLoading": false,
+            "handleClickOnLayer": false,
+            "useForElevation": false,
+            "hidden": false
+          },
+          {
+            "id": "undefined__4",
+            "group": "background",
+            "source": "ol",
+            "title": "Empty Background",
+            "type": "empty",
+            "visibility": false,
+            "singleTile": false,
+            "dimensions": [],
+            "hideLoading": false,
+            "handleClickOnLayer": false,
+            "useForElevation": false,
+            "hidden": false
+          }
+        ],
+        "mapInfoControl": true,
+        "bbox": {
+          "bounds": {
+            "minx": -948940.4297079502,
+            "miny": 4051614.1361372788,
+            "maxx": 3448940.429707951,
+            "maxy": 6688385.863862719
+          },
+          "crs": "EPSG:3857",
+          "rotation": 0
+        },
+        "size": {
+          "width": 899,
+          "height": 539
+        },
+        "mapStateSource": "0d1d1ed0-92de-11ec-b360-0f8a75d6b43c",
+        "resolution": 4891.96981025128
+      },
+      "mapStateSource": "__base_map__",
+      "dataGrid": {
+        "y": 0,
+        "x": 0,
+        "w": 1,
+        "h": 1
+      }
+    }
+  ],
+  "layouts": {
+    "md": [
+      {
+        "w": 3,
+        "h": 3,
+        "x": 2,
+        "y": 0,
+        "i": "0d1d1ed0-92de-11ec-b360-0f8a75d6b43c",
+        "moved": false,
+        "static": false
+      }
+    ]
+  }
+}
