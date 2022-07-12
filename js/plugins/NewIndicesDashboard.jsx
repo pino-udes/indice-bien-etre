@@ -400,6 +400,7 @@ class NewIndicesDashboard extends React.Component {
                                     this.setState({progressMessage: 'Configuration de la visualisation'});
                                     axios.get(window.location.origin + "/geoserver/" + workspaceId + "/wms?service=WMS&request=GetCapabilities", configGeoserver).then((responseGetCapabilities) => {
                                         // console.log(xml2js.parseString(responseGetCapabilities.data));
+
                                         const parser = new xml2js.Parser();
                                         parser.parseString(responseGetCapabilities.data, function(err, result) {
 
