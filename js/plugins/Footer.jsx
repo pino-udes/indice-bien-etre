@@ -81,6 +81,13 @@ class Footer extends React.Component {
                 <Row>
                     <Col xs={12} className="text-center">
                         <div>
+                            <p>
+                                Cet outil a été développé par des étudiant(e)s du programme de <i>Géomatique appliquée à l'environnement</i>
+                                de l'<i>Université de Sherbrooke</i><br/>
+                                en partenariat avec <i>Nature Québec</i> dans le cadre du programme <i>Milieux de vie en santé</i>
+                            </p>
+                        </div>
+                        <div>
                             {href_nq ? <a target="_blank" href={href_nq}>
                                 {image}
                             </a> : image}
@@ -88,6 +95,9 @@ class Footer extends React.Component {
                             {href_udes ? <a target="_blank" href={href_udes}>
                                 {imageUdeS}
                             </a> : imageUdeS}
+                        </div>
+                        <div>
+                            Code source disponible <a href={"https://github.com/pino-udes/indice-bien-etre"}>ici</a>
                         </div>
                     </Col>
 

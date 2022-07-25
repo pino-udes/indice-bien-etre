@@ -19,9 +19,13 @@ export default {
         WidgetsPlugin: require('@js/plugins/Widgets').default,
         IdentifyPlugin: require('@js/plugins/Identify').default,
         MapPlugin: require('@js/plugins/Map').default,
+        AttributionPlugin: require('@js/plugins/Attribution').default,
+        NavMenu: require('@js/plugins/NavMenu').default,
+        AboutPlugin: require('@js/plugins/About').default,
 
-        // product plugins
-        AboutPlugin: require('@mapstore/product/plugins/About').default,
+        //  product plugins
+        // AboutPlugin: require('@mapstore/product/plugins/About').default,
+
         // AttributionPlugin: require('@mapstore/product/plugins/Attribution').default,
         FooterPlugin: require('./plugins/Footer'),
         HeaderPlugin: require('@mapstore/product/plugins/Header').default,
@@ -55,7 +59,7 @@ export default {
         // FloatingLegendPlugin: require('@mapstore/plugins/FloatingLegend').default,
         // FullScreenPlugin: require('@mapstore/plugins/FullScreen').default,
         // DashboardSaveAsPlugin: require('@mapstore/plugins/DashboardSave').DashboardSaveAs,
-        GlobeViewSwitcherPlugin: require('@mapstore/plugins/GlobeViewSwitcher').default,
+        // GlobeViewSwitcherPlugin: require('@mapstore/plugins/GlobeViewSwitcher').default,
         GoFull: require('@mapstore/plugins/GoFull').default,
         GridContainerPlugin: require('@mapstore/plugins/GridContainer').default,
         GroupManagerPlugin: require('@mapstore/plugins/manager/GroupManager').default,
@@ -113,7 +117,7 @@ export default {
         // ThemeSwitcherPlugin: require('@mapstore/plugins/ThemeSwitcher').default,
         // TimelinePlugin: require('@mapstore/plugins/Timeline').default,
         ToolbarPlugin: require('@mapstore/plugins/Toolbar').default,
-        TutorialPlugin: require('@mapstore/plugins/Tutorial').default,
+        // TutorialPlugin: require('@mapstore/plugins/Tutorial').default,
         UndoPlugin: require('@mapstore/plugins/History').default,
         UserManagerPlugin: require('@mapstore/plugins/manager/UserManager').default,
         UserExtensionsPlugin: require('@mapstore/plugins/UserExtensions').default,

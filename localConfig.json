@@ -590,7 +590,7 @@
             "cfg": {
                 "enableContextManager": true
             }
-        }, "Login","Language",  "Attribution", "ScrollTop", "Notifications"],
+        }, "Login","Language", "NavMenu", "Attribution", "ScrollTop", "Notifications"],
         "maps": ["HomeDescription", "MapSearch", "CreateNewMap", "FeaturedMaps", "ContentTabs",
           {
             "name": "Maps",

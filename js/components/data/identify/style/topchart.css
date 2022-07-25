@@ -126,3 +126,7 @@
 .gridcard-tools .spinner div:before{
     background-color: white
 }
+
+.recharts-text {
+    font-size: small;
+}

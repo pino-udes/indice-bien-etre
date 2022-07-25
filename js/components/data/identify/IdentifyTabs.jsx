@@ -182,6 +182,7 @@ class IdentifyTabs extends React.Component {
 
         }
 
+
         // const parsedRadarChartData = [
         //     { name: 'Environnement', A: JSON.stringify(environnement), "fill": "#09C342" },
         //     { name: 'Social', A: JSON.stringify(social), "fill": "#16BDFA" },
@@ -222,27 +223,70 @@ class IdentifyTabs extends React.Component {
 
         return (
             <>
-                <div className="IdentifyGridCard" >
-                    <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceBienEtreInfo}>
-                        <Glyphicon className="square-button" glyph="info-sign" style={{alignItems: 'center', display: 'inline-flex', width: 38 + "px", height: 38 + "px", position: 'absolute', right: 0 + "px", color: '#078aa3', fontSize: 24 + "px"}}/>
-                    </OverlayTrigger>
+                        <div className="IdentifyGridCard" >
+                            <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceBienEtreInfo}>
+                                <Glyphicon className="square-button" glyph="info-sign" style={{alignItems: 'center', display: 'inline-flex', width: 38+"px", height: 38+"px", position: 'absolute', right: 0+"px", color: '#078aa3', fontSize: 24+"px"}}/>
+                            </OverlayTrigger>
 
-                    <p align="center" style={{marginTop: 0 + "px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de bien-être</p>
-                    <div className={"ibeControls"}>
-                        <p align="center" style={{marginBottom: -10 + "px", paddingtop: 25 + "px", fontSize: 14}}>Opacité</p>
-                        <div className={"opacityslider"}>
-                            <OpacitySlider
-                                opacity={0.6}
-                                disabled={false}
-                                hideTooltip={false}
-                                onChange={opacity => this.handleOpacityChange("indice_bien_etre", opacity) }/>
-                        </div>
+                            <p align="center" style={{marginTop: 0+"px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de bien-être</p>
+                            <div className={"ibeControls"}>
+                                <p align="center" style={{marginBottom: -10+"px", paddingtop: 25 + "px", fontSize: 14}}>Opacité</p>
+                                <div className={"opacityslider"}>
+                                    <OpacitySlider
+                                        opacity={0.6}
+                                        disabled={false}
+                                        hideTooltip={false}
+                                        onChange={opacity => this.handleOpacityChange("indice_bien_etre", opacity) }/>
+                                </div>
 
-                        <p align="center" style={{marginBottom: -10 + "px", paddingTop: 10 + "px", fontSize: 14}}>Échelle d'agrégation</p>
-                        <div className={"buttoncard"}>
-                            <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} text={"Aire de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('AD'); } }/>
-                            <ToggleButton pressed={this.state.ibe_id_pressed} glyphicon={this.state.ibe_id_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'ilots de diffusion</Tooltip>} text={"Îlot de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('ID'); } }/>
-                            <ToggleButton pressed={this.state.ibe_pix_pressed} glyphicon={this.state.ibe_pix_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon des hexagones de 200 mètres</Tooltip>} text={"Pixel"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('PIX'); } }/>
+                                <p align="center" style={{marginBottom: -10+"px", paddingTop: 10 + "px", fontSize: 14}}>Échelle d'agrégation</p>
+                                <div className={"buttoncard"}>
+                                    <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} text={"Aire de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('AD'); } }/>
+                                    <ToggleButton pressed={this.state.ibe_id_pressed} glyphicon={this.state.ibe_id_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'ilots de diffusion</Tooltip>} text={"Îlot de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('ID'); } }/>
+                                    <ToggleButton pressed={this.state.ibe_pix_pressed} glyphicon={this.state.ibe_pix_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon des hexagones de 200 mètres</Tooltip>} text={"Hexagones"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('PIX'); } }/>
+                                </div>
+
+
+                            </div>
+                            <p align="center" style={{marginTop: 20+"px", padding: 0 + "px", fontSize: 40}}>{Math.round((environnement + social + economique) / 3)}</p>
+                            <p align="center" style={{ marginTop: -20+"px", padding: 0 + "px", fontSize: 14}}>Indice de bien-être globale</p>
+
+                            <Plot style={{marginTop: -80+"px", marginBottom: -40+"px"}}
+                                data =
+                                    {[{
+                                        type: 'bar',
+                                        x: IndiceBienEtreData,
+                                        y: IndiceBienEtreDataLabel,
+                                        marker: {
+                                            color: ['#FF9412', '#16BDFA', '#09C342']
+                                        },
+                                        orientation: 'h'
+                                    }]}
+
+                                layout={{
+                                    autosize: true,
+                                    yaxis: {
+                                        automargin: true
+                                    },
+                                    xaxis1: {range: [0, 100]},
+                                    yaxis1: {range: [0, 10]},
+                                    height: 250,
+                                    showlegend: false,
+                                    legend: {"orientation": "h"},
+                                    paper_bgcolor: 'rgba(0,0,0,0)'
+                                }}
+
+                                config={{ responsive: true, staticPlot:true }}
+                            />
+
+                            {/*<ResponsiveContainer width="100%" height={150}>*/}
+                                {/*<RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="10%" outerRadius="100%" data={parsedRadarChartData} startAngle={180} endAngle={0}>*/}
+                                {/*    <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise dataKey="A" />*/}
+                                {/*    <Legend iconSize={14} layout="horizontal" verticalAlign="bottom"  />*/}
+                                {/*</RadialBarChart>*/}
+                            {/*</ResponsiveContainer>*/}
+
+                            <IdentifyIBEAccordion data={this.props.data} current_lock={this.state.current_lock} handleChangeLegend={this.handleChangeLegend.bind(this)} selectedLayer={this.props.selectedLayer} />
                         </div>
 
 

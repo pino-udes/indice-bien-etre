@@ -2,9 +2,9 @@
 import React from 'react';
 
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+// import RadarChartsDimensionsLabel from '@js/components/data/identify/RadarChartsDimensionsLabels'
 import PropTypes from 'prop-types';
 import './style/topchart.css';
-
 
 class RadarChartsDimensions extends React.Component {
     static PropTypes = {
@@ -76,7 +76,6 @@ class RadarChartsDimensions extends React.Component {
             { name: 'Risques naturels', A: JSON.stringify(environnement_c2), "fill": "#ffc658" },
             { name: 'Accessibilité aux espaces verts', A: JSON.stringify(environnement_c3), "fill": "#ffc658" },
             { name: 'Environnement naturel et verdure', A: JSON.stringify(environnement_c4), "fill": "#ffc658" }
-
         ];
 
         const parsedSocialData = [
@@ -117,11 +116,10 @@ class RadarChartsDimensions extends React.Component {
         return (
             <>
                 <ResponsiveContainer width="100%" height={250}>
-                    <RadarChart  cy="50%" outerRadius="75%" data={parsedRadarChartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                    <RadarChart label={false} cy="50%" outerRadius="75%" data={parsedRadarChartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                         <PolarGrid gridType="polygon"/>
                         <PolarAngleAxis dataKey="name" />
-                        <PolarRadiusAxis domain={[0, 100]} />
-
+                        <PolarRadiusAxis domain={[0, 100]}/>
                         <Radar  name="indice-bien-etre"  dataKey="A" stroke="#1e44ae" fill={chartColor} fillOpacity={0.4} strokeOpacity={0.5}/>
                     </RadarChart>
                 </ResponsiveContainer>
