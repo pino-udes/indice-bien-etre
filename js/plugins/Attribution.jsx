@@ -10,8 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import src from '../../assets/universite_de_sherbrooke_logo.png';
 import assign from 'object-assign';
-import { Glyphicon, Button } from 'react-bootstrap';
-import Modal from "@mapstore/components/misc/ResizableModal";
+import { Glyphicon } from 'react-bootstrap';
 
 class Attribution extends React.Component {
     static propTypes = {
@@ -28,7 +27,6 @@ class Attribution extends React.Component {
             bottom: 0
         }
     };
-
 
 
     render() {
@@ -55,8 +53,8 @@ export default {
                 position: 0,
                 label: props.label || 'Aide',
                 href: <p>aasd</p>,
-                img: <Glyphicon style={{fontSize: 30+"px"}} glyph="question-sign" />,
-                logo: true,
+                img: <Glyphicon style={{fontSize: 30 + "px"}} glyph="question-sign" />,
+                logo: true
             })
         }
     })

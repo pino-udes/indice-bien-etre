@@ -7,7 +7,7 @@
  */
 import React from 'react';
 
-import I18N from '@mapstore/components/I18N/I18N';
+// import I18N from '@mapstore/components/I18N/I18N';
 
 class About extends React.Component {
     render() {

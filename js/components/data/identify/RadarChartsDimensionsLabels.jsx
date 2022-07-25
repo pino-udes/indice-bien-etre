@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class RadarChartsDimensionsLabel extends React.Component {
     static PropTypes = {
-        text: PropTypes.string,
+        text: PropTypes.string
     };
 
     static defaultProps = {

@@ -32,7 +32,7 @@ export default {
         // HomeDescriptionPlugin: require('@mapstore/product/plugins/HomeDescription').default,
         // MadeWithLovePlugin: require('@mapstore/product/plugins/MadeWithLove').default,
         MapTypePlugin: require('@mapstore/product/plugins/MapType').default,
-        NavMenu: require('@mapstore/product/plugins/NavMenu').default,
+        // NavMenu: require('@mapstore/product/plugins/NavMenu').default,
         // framework plugins
         AddGroupPlugin: require('@mapstore/plugins/AddGroup').default,
         // AnnotationsPlugin: require('@mapstore/plugins/Annotations').default,

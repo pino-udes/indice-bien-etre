@@ -133,6 +133,7 @@ class IdentifyTabs extends React.Component {
         } else if (layername === 'Économique') {
             layer = '-economique'; label = "Dimension économique";
         } else layer = "";
+
         this.setState({
             current_lock: layer,
             legend_label: label
@@ -140,10 +141,6 @@ class IdentifyTabs extends React.Component {
     }
 
     handleChangeLegend(layername) {
-        // console.log("QWEQWE " + layername);
-        // this.setState({
-        //     current_lock: layername
-        // });
         this.changeLegend(layername);
     }
 
@@ -182,13 +179,12 @@ class IdentifyTabs extends React.Component {
 
         }
 
-
         // const parsedRadarChartData = [
         //     { name: 'Environnement', A: JSON.stringify(environnement), "fill": "#09C342" },
-        //     { name: 'Social', A: JSON.stringify(social), "fill": "#16BDFA" },
+        //     { name: 'Sociale', A: JSON.stringify(social), "fill": "#16BDFA" },
         //     { name: 'Économique', A: JSON.stringify(economique), "fill": "#FF9412" }
         // ];
-
+        //
         // const parsedRadarChartDataVerdure = [
         //     { name: 'Indice de verdure', value: indice_verdure, "fill": "#09C342"}
         // ];
@@ -202,14 +198,15 @@ class IdentifyTabs extends React.Component {
 
         const popoverIndiceBienEtreInfo = (
             <Popover id="popover-trigger-hover-focus" title={<div align="center"><strong>Légende</strong></div>}   >
-                <div style={{ paddingTop: 5 + "px", paddingBottom: 5 + "px" }}>{this.state.legend_label}</div>
+                <div style={{paddingTop: 5 + "px", paddingBottom: 5 + "px"}}>{this.state.legend_label}</div>
                 <Image src={"./assets/legende-indice-bien-etre" + this.state.current_lock + ".png"} />
+
             </Popover>
         );
 
         const popoverIndiceVerdureInfo = (
             <Popover id="popover-trigger-hover-focus" title={<div align="center"><strong>Légende</strong></div>}   >
-                <div style={{ paddingTop: 5 + "px", paddingBottom: 5 + "px" }}>Indice de verdure</div>
+                <div style={{paddingTop: 5 + "px", paddingBottom: 5 + "px"}}>Indice de verdure</div>
                 <Image src="./assets/legende-indice-verdure.png" />
             </Popover>
         );
@@ -217,76 +214,32 @@ class IdentifyTabs extends React.Component {
         // const glyphButtonInfo = (
         //     <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceBienEtreInfo}>
         //         <Glyphicon className="square-button" glyph="info-sign" style={{ fontSize: 24 + "px"}}/>
-        //     </OverlayTrigger>
-        // );
+        //     </OverlayTrigger>);
 
 
         return (
             <>
-                        <div className="IdentifyGridCard" >
-                            <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceBienEtreInfo}>
-                                <Glyphicon className="square-button" glyph="info-sign" style={{alignItems: 'center', display: 'inline-flex', width: 38+"px", height: 38+"px", position: 'absolute', right: 0+"px", color: '#078aa3', fontSize: 24+"px"}}/>
-                            </OverlayTrigger>
+                <div className="IdentifyGridCard" >
+                    <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceBienEtreInfo}>
+                        <Glyphicon className="square-button" glyph="info-sign" style={{alignItems: 'center', display: 'inline-flex', width: 38 + "px", height: 38 + "px", position: 'absolute', right: 0 + "px", color: '#078aa3', fontSize: 24 + "px"}}/>
+                    </OverlayTrigger>
 
-                            <p align="center" style={{marginTop: 0+"px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de bien-être</p>
-                            <div className={"ibeControls"}>
-                                <p align="center" style={{marginBottom: -10+"px", paddingtop: 25 + "px", fontSize: 14}}>Opacité</p>
-                                <div className={"opacityslider"}>
-                                    <OpacitySlider
-                                        opacity={0.6}
-                                        disabled={false}
-                                        hideTooltip={false}
-                                        onChange={opacity => this.handleOpacityChange("indice_bien_etre", opacity) }/>
-                                </div>
+                    <p align="center" style={{marginTop: 0 + "px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de bien-être</p>
+                    <div className={"ibeControls"}>
+                        <p align="center" style={{marginBottom: -10 + "px", paddingtop: 25 + "px", fontSize: 14}}>Opacité</p>
+                        <div className={"opacityslider"}>
+                            <OpacitySlider
+                                opacity={0.6}
+                                disabled={false}
+                                hideTooltip={false}
+                                onChange={opacity => this.handleOpacityChange("indice_bien_etre", opacity) }/>
+                        </div>
 
-                                <p align="center" style={{marginBottom: -10+"px", paddingTop: 10 + "px", fontSize: 14}}>Échelle d'agrégation</p>
-                                <div className={"buttoncard"}>
-                                    <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} text={"Aire de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('AD'); } }/>
-                                    <ToggleButton pressed={this.state.ibe_id_pressed} glyphicon={this.state.ibe_id_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'ilots de diffusion</Tooltip>} text={"Îlot de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('ID'); } }/>
-                                    <ToggleButton pressed={this.state.ibe_pix_pressed} glyphicon={this.state.ibe_pix_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon des hexagones de 200 mètres</Tooltip>} text={"Hexagones"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('PIX'); } }/>
-                                </div>
-
-
-                            </div>
-                            <p align="center" style={{marginTop: 20+"px", padding: 0 + "px", fontSize: 40}}>{Math.round((environnement + social + economique) / 3)}</p>
-                            <p align="center" style={{ marginTop: -20+"px", padding: 0 + "px", fontSize: 14}}>Indice de bien-être globale</p>
-
-                            <Plot style={{marginTop: -80+"px", marginBottom: -40+"px"}}
-                                data =
-                                    {[{
-                                        type: 'bar',
-                                        x: IndiceBienEtreData,
-                                        y: IndiceBienEtreDataLabel,
-                                        marker: {
-                                            color: ['#FF9412', '#16BDFA', '#09C342']
-                                        },
-                                        orientation: 'h'
-                                    }]}
-
-                                layout={{
-                                    autosize: true,
-                                    yaxis: {
-                                        automargin: true
-                                    },
-                                    xaxis1: {range: [0, 100]},
-                                    yaxis1: {range: [0, 10]},
-                                    height: 250,
-                                    showlegend: false,
-                                    legend: {"orientation": "h"},
-                                    paper_bgcolor: 'rgba(0,0,0,0)'
-                                }}
-
-                                config={{ responsive: true, staticPlot:true }}
-                            />
-
-                            {/*<ResponsiveContainer width="100%" height={150}>*/}
-                                {/*<RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="10%" outerRadius="100%" data={parsedRadarChartData} startAngle={180} endAngle={0}>*/}
-                                {/*    <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise dataKey="A" />*/}
-                                {/*    <Legend iconSize={14} layout="horizontal" verticalAlign="bottom"  />*/}
-                                {/*</RadialBarChart>*/}
-                            {/*</ResponsiveContainer>*/}
-
-                            <IdentifyIBEAccordion data={this.props.data} current_lock={this.state.current_lock} handleChangeLegend={this.handleChangeLegend.bind(this)} selectedLayer={this.props.selectedLayer} />
+                        <p align="center" style={{marginBottom: -10 + "px", paddingTop: 10 + "px", fontSize: 14}}>Échelle d'agrégation</p>
+                        <div className={"buttoncard"}>
+                            <ToggleButton pressed={this.state.ibe_ad_pressed} glyphicon={this.state.ibe_ad_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'aires de diffusion</Tooltip>} text={"Aire de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('AD'); } }/>
+                            <ToggleButton pressed={this.state.ibe_id_pressed} glyphicon={this.state.ibe_id_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon les polygones d'ilots de diffusion</Tooltip>} text={"Îlot de diffusion"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('ID'); } }/>
+                            <ToggleButton pressed={this.state.ibe_pix_pressed} glyphicon={this.state.ibe_pix_check} tooltip={<Tooltip id="showMousePositionCoordinates">Visualiser les résultats selon des hexagones de 200 mètres</Tooltip>} text={"Hexagones"} style={{marginLeft: 8 + 'px', marginRight: 8 + 'px', borderRadius: 6 + 'px'}} onClick={ () => { this.handleToggleButtonClick('PIX'); } }/>
                         </div>
 
 
@@ -322,19 +275,19 @@ class IdentifyTabs extends React.Component {
                         config={{ responsive: true, staticPlot: true }}
                     />
 
-                    {/* <ResponsiveContainer width="100%" height={150}> */}
-                    {/* <RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="10%" outerRadius="100%" data={parsedRadarChartData} startAngle={180} endAngle={0}> */}
-                    {/*    <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise dataKey="A" /> */}
-                    {/*    <Legend iconSize={14} layout="horizontal" verticalAlign="bottom"  /> */}
-                    {/* </RadialBarChart> */}
-                    {/* </ResponsiveContainer> */}
+                    {/* <ResponsiveContainer width="100%" height={150}>*/}
+                    {/* <RadialBarChart barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="10%" outerRadius="100%" data={parsedRadarChartData} startAngle={180} endAngle={0}>*/}
+                    {/*    <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise dataKey="A" />*/}
+                    {/*    <Legend iconSize={14} layout="horizontal" verticalAlign="bottom"  />*/}
+                    {/* </RadialBarChart>*/}
+                    {/* </ResponsiveContainer>*/}
 
                     <IdentifyIBEAccordion data={this.props.data} current_lock={this.state.current_lock} handleChangeLegend={this.handleChangeLegend.bind(this)} selectedLayer={this.props.selectedLayer} />
                 </div>
 
                 <div className="IdentifyGridCard" >
                     <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverIndiceVerdureInfo}>
-                        <Glyphicon className="square-button" glyph="info-sign" style={{alignItems: 'center', display: 'inline-flex', width: 38  + "px", height: 38 + "px", position: 'absolute', right: 0 + "px", color: '#078aa3', fontSize: 24 + "px"}}/>
+                        <Glyphicon className="square-button" glyph="info-sign" style={{alignItems: 'center', display: 'inline-flex', width: 38 + "px", height: 38 + "px", position: 'absolute', right: 0 + "px", color: '#078aa3', fontSize: 24 + "px"}}/>
                     </OverlayTrigger>
 
                     <p align="center" style={{marginTop: 0 + "px", paddingTop: 5 + "px", paddingBottom: 0 + "px", fontSize: 24, fontWeight: "bold"}}>Indice de verdure</p>
@@ -363,7 +316,6 @@ class IdentifyTabs extends React.Component {
                                 },
                                 orientation: 'h'
                             }]}
-
                         layout={{
                             autosize: true,
                             yaxis: {
@@ -376,17 +328,16 @@ class IdentifyTabs extends React.Component {
                             legend: {"orientation": "h"},
                             paper_bgcolor: 'rgba(0,0,0,0)'
                         }}
-
                         config={{ responsive: true, staticPlot: true }}
                     />
 
                     {/* <ResponsiveContainer width="100%" height={150}>*/}
-                    {/*    <RadialBarChart domain={[0, 100]} barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="100%" outerRadius="50%" data={parsedRadarChartDataVerdure} startAngle={180} endAngle={0}> */}
-                    {/*        <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} /> */}
-                    {/*        <RadialBar background minAngle={15} label={false} clockWise dataKey="value" angleAxisId={0} /> */}
-                    {/*        <Legend iconSize={14} layout="horizontal" verticalAlign="bottom" /> */}
-                    {/*    </RadialBarChart> */}
-                    {/* </ResponsiveContainer> */}
+                    {/*    <RadialBarChart domain={[0, 100]} barCategoryGap={1} barGap={1} barSize={17} width="100%" height={150} cy="70%" innerRadius="100%" outerRadius="50%" data={parsedRadarChartDataVerdure} startAngle={180} endAngle={0}>*/}
+                    {/*        <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />*/}
+                    {/*        <RadialBar background minAngle={15} label={false} clockWise dataKey="value" angleAxisId={0} />*/}
+                    {/*        <Legend iconSize={14} layout="horizontal" verticalAlign="bottom" />*/}
+                    {/*    </RadialBarChart>*/}
+                    {/* </ResponsiveContainer>*/}
 
                 </div>
             </>
