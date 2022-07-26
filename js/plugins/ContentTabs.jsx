@@ -9,12 +9,12 @@
 import assign from 'object-assign';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Col, Grid, Nav, NavItem, Row } from 'react-bootstrap';
+import { Col, Grid, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { onTabSelected } from '@mapstore/actions/contenttabs';
-import Message from '@mapstore/components/I18N/Message';
+// import Message from '@mapstore/components/I18N/Message';
 import contenttabsEpics from '@mapstore/epics/contenttabs';
 import contenttabsReducers from '@js/reducers/contenttabs';
 import ToolsContainer from '@mapstore/plugins/containers/ToolsContainer';
@@ -25,7 +25,7 @@ const selectedSelector = createSelector(
     (selected, hiddenTabs) => ({ selected, hiddenTabs })
 );
 
-const DefaultTitle = ({ item = {}, index }) => <span>{ item.title || `Tab ${index}` }</span>;
+// const DefaultTitle = ({ item = {}, index }) => <span>{ item.title || `Tab ${index}` }</span>;
 
 /**
  * @name ContentTabs
@@ -79,7 +79,7 @@ class ContentTabs extends React.Component {
                             container={(props) => <div {...props}>
                                 {
                                     props.children
-                                     }
+                                }
                             </div>}
                             toolStyle="primary"
                             stateSelector="contentTabs"

@@ -21,8 +21,6 @@ export default shouldUpdate((props, nextProps) => nextProps.response !== props.r
     props => {
         const type = props.layer && props.layer.featureInfo && props.layer.featureInfo.format && (props.layer.featureInfo.template && props.layer.featureInfo.template !== '<p><br></p>') && props.layer.featureInfo.format || 'PROPERTIES';
         const Viewer = Viewers[type] || Viewers.PROPERTIES;
-        console.log("JSONVIEWER");
-        console.log(JSON.stringify(props.response));
         return <Viewer {...props}/>;
     }
 );

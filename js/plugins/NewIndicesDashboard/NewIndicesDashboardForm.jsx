@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import { FormControl, FormGroup, Checkbox, ControlLabel, Alert } from 'react-bootstrap';
 import Spinner from 'react-spinkit';
 import PropTypes from 'prop-types';
 
@@ -15,9 +15,6 @@ import Message from '@mapstore/components/I18N/Message';
 import { getMessageById } from '@mapstore/utils/LocaleUtils';
 import Button from '@mapstore/components/misc/Button';
 
-//
-import Dropzone from 'react-dropzone';
-//
 /**
  * A Form to login menu for user details:
  */
@@ -117,6 +114,11 @@ class NewIndicesDashboardForm extends React.Component {
                     <ControlLabel>Nom de la municipalité</ControlLabel>
                     <FormControl ref="username" key="username" type="text" value={this.state.municipalite} onChange={this.setMunicipalite} />
                 </FormGroup>
+
+                <Checkbox >
+                    Visible pour tout le monde
+                </Checkbox>
+
                 <div style={{"float": "right"}}>{this.renderLoading()}</div>
             </form>
         );

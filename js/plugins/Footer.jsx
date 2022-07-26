@@ -10,7 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Row, Col } from 'react-bootstrap';
 import src from "../../assets/Nature-Quebec-logo.png";
-import HTML from '@mapstore/components/I18N/HTML';
+import udes from "../../assets/universite_de_sherbrooke_logo.png";
+
+// import HTML from '@mapstore/components/I18N/HTML';
 
 /**
  * Footer plugin, section of the homepage.
@@ -30,41 +32,76 @@ import HTML from '@mapstore/components/I18N/HTML';
 class Footer extends React.Component {
 
     static propTypes = {
-        logo: PropTypes.object
+        logo: PropTypes.object,
+        logoudes: PropTypes.object
     };
 
     static defaultProps = {
         logo: {
             src,
-            width: 140,
-            height: 'auto',
-            href: 'https://naturequebec.org/',
+            width: 'auto',
+            height: 90,
+            href_nq: 'https://naturequebec.org/',
             title: 'Nature Québec',
             alt: 'Nature Québec'
+        },
+        logoudes: {
+            src: udes,
+            width: 'auto',
+            height: 110,
+            href_udes: 'https://www.usherbrooke.ca/',
+            title: 'Université de Sherbrooke',
+            alt: 'Université de Sherbrooke'
         }
     };
 
     render() {
-        const { href, ...logo } = this.props.logo || {};
+        const { href_nq, ...logo } = this.props.logo || {};
+        const { href_udes, ...logoudes } = this.props.logoudes || {};
         const image = (
             <img
                 src={logo.src}
                 width={logo.width || 'auto'}
                 height={logo.height || 'auto'}
                 title={logo.title || ''}
-                alt={logo.alt || ''} />
+                alt={logo.alt || ''}
+                style={{padding: 20 + "px" }}/>
+        );
+        const imageUdeS = (
+            <img
+                src={logoudes.src}
+                width={logoudes.width || 'auto'}
+                height={logoudes.height || 'auto'}
+                title={logoudes.title || ''}
+                alt={logoudes.alt || ''}
+                style={{padding: 20 + "px" }}/>
         );
         return (
             <Grid>
-                {logo && logo.src && <Row>
+                <Row>
                     <Col xs={12} className="text-center">
                         <div>
-                            {href ? <a target="_blank" href={href}>
+                            <p>
+                                Cet outil a été développé par des étudiant(e)s du programme de <i>Géomatique appliquée à l'environnement</i>
+                                de l'<i>Université de Sherbrooke</i><br/>
+                                en partenariat avec <i>Nature Québec</i> dans le cadre du programme <i>Milieux de vie en santé</i>
+                            </p>
+                        </div>
+                        <div>
+                            {href_nq ? <a target="_blank" href={href_nq}>
                                 {image}
                             </a> : image}
+
+                            {href_udes ? <a target="_blank" href={href_udes}>
+                                {imageUdeS}
+                            </a> : imageUdeS}
+                        </div>
+                        <div>
+                            Code source disponible <a href={"https://github.com/pino-udes/indice-bien-etre"}>ici</a>
                         </div>
                     </Col>
-                </Row>}
+
+                </Row>
             </Grid>
         );
     }

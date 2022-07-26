@@ -68,13 +68,16 @@ import {
     hoverEnabledSelector,
     mapInfoEnabledSelector
 } from '@mapstore/selectors/mapInfo';
-import { mapLayoutValuesSelector } from '@mapstore/selectors/maplayout';
+import { mapLayoutValuesSelector } from '@js/selectors/maplayout';
 import { isCesium, mapTypeSelector } from '@mapstore/selectors/maptype';
 import ConfigUtils from '@mapstore/utils/ConfigUtils';
 import { getDefaultInfoFormatValue, getValidator } from '@js/utils/MapInfoUtils';
 import getFeatureButtons from '@mapstore/plugins/identify/featureButtons';
 import getToolButtons from '@mapstore/plugins/identify/toolButtons';
 import Message from '@mapstore/plugins/locale/Message';
+
+// import { updateNode } from '@mapstore/actions/layers';
+
 
 const selector = createStructuredSelector({
     enabled: (state) => mapInfoEnabledSelector(state) || state.controls && state.controls.info && state.controls.info.enabled || false,
@@ -131,7 +134,6 @@ const identifyDefaultProps = defaultProps({
     purgeResults: () => { },
     hideMarker: () => { },
     clearWarning: () => { },
-    test: () => { alert("test") },
     changeMousePointer: () => { },
     showRevGeocode: () => { },
     checkIdentifyIsMounted: () => {},

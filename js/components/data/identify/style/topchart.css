@@ -1,0 +1,132 @@
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #dddddd;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #bbbbbb;
+    box-shadow: inset 0 0 1px ;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #aaaaaa;
+}
+
+
+.IdentifyGridCard {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12), 0 3px 6px rgba(0,0,0,0.12);
+    transition: box-shadow 250ms;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    margin: 15px;
+    border: 1px solid #dddddd;
+    position: relative;
+}
+
+.VerdureGridCard {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12), 0 3px 6px rgba(0,0,0,0.12);
+    transition: box-shadow 250ms;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 15px;
+    border: 1px solid #dddddd;
+}
+
+.buttoncard {
+
+
+    margin-bottom: 20px;
+
+    margin-bottom: 0px;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    display: flex;
+    transition: all 0.3s;
+
+    justify-content: space-evenly;
+}
+
+.ibeControls {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-inside: 0px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
+    border-bottom: 1px solid #dddddd;
+}
+
+.opacityslider {
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-inside: 0px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.mapstore-side-card {
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    margin: 10px 0 0 0;
+    display: flex;
+    transition: all 0.3s;
+    flex-direction: column;
+    border-top: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-bottom: 0px solid #dddddd;
+
+}
+
+
+.panel-group .panel-heading + .panel-collapse > .panel-body,
+.panel-group .panel-heading + .panel-collapse > .list-group {
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    border-top: 0px solid #dddddd;
+}
+
+.gridcard:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.gridcard-title {
+    padding-left: 10px;
+    padding-top: 3px;
+    min-height: 40px;
+}
+.gridcard-tools {
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+}
+
+.gridcard-tools .spinner{
+    left: -8px
+}
+.gridcard-tools .spinner div:before{
+    background-color: white
+}
+
+.recharts-text {
+    font-size: small;
+}
