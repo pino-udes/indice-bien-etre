@@ -301,6 +301,18 @@ class NewIndicesDashboard extends React.Component {
         // var config;
         var geoserverLayerBaseURL;
         var layerDefaultStyle = "<layer><defaultStyle><name>indice_bien_etre</name></defaultStyle></layer>";
+        var adClassificationSLD;
+        var adEnvClassificationSLD;
+        var adSocClassificationSLD;
+        var adEcoClassificationSLD;
+        var idClassificationSLD;
+        var idEnvClassificationSLD;
+        var idSocClassificationSLD;
+        var idEcoClassificationSLD;
+        var hexaClassificationSLD;
+        var hexaEnvClassificationSLD;
+        var hexaSocClassificationSLD;
+        var hexaEcoClassificationSLD;
         var WMSGetCapabilitiesADBBox;
         var WMSGetCapabilitiesIDBBox;
         var WMSGetCapabilitiesHEXABBox;
