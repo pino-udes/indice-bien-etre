@@ -82,9 +82,7 @@ class Footer extends React.Component {
                     <Col xs={12} className="text-center">
                         <div>
                             <p>
-                                Cet outil a été développé par des étudiant(e)s du programme de <i>Géomatique appliquée à l'environnement</i>
-                                de l'<i>Université de Sherbrooke</i><br/>
-                                en partenariat avec <i>Nature Québec</i> dans le cadre du programme <i>Milieux de vie en santé</i>
+                                Cet outil a été développé par des étudiant(e)s du programme de <i>Géomatique appliquée à l'environnement</i> de l'<i>Université de Sherbrooke</i><br/> en partenariat avec <i>Nature Québec</i> dans le cadre du programme <i>Milieux de vie en santé</i>
                             </p>
                         </div>
                         <div>
