@@ -151,6 +151,7 @@ class IdentifyTabs extends React.Component {
         var chartData;
         var parsedChartData;
 
+        var global = 0;
         var environnement = 0;
         var social = 0;
         var economique = 0;
@@ -159,10 +160,12 @@ class IdentifyTabs extends React.Component {
         if (this.props.data[0]  && ['aire_diffusion', 'ilot_diffusion', 'hexagone'].includes(this.props.data[0].layer.id)) {
             chartData = JSON.stringify(this.props.data[0]);
             parsedChartData = JSON.parse(chartData);
+            global = 0;
             environnement = 0;
             social = 0;
             economique = 0;
             if (parsedChartData.response.features.length > 0) {
+                global = parsedChartData.response.features[0].properties.ibe;
                 environnement = parsedChartData.response.features[0].properties.ibe_d1;
                 social = parsedChartData.response.features[0].properties.ibe_d2;
                 economique = parsedChartData.response.features[0].properties.ibe_d3;
@@ -174,7 +177,11 @@ class IdentifyTabs extends React.Component {
             parsedChartData = JSON.parse(chartData);
             indice_verdure = 0;
             if (parsedChartData.response.features.length > 0) {
-                indice_verdure = Math.round(parsedChartData.response.features[0].properties.GRAY_INDEX * 100);
+                if (parsedChartData.response.features[0].properties.GRAY_INDEX < 0) {
+                    indice_verdure = 0;
+                } else {
+                    indice_verdure = Math.round(parsedChartData.response.features[0].properties.GRAY_INDEX * 100);
+                }
             }
 
         }
@@ -199,7 +206,7 @@ class IdentifyTabs extends React.Component {
         const popoverIndiceBienEtreInfo = (
             <Popover id="popover-trigger-hover-focus" title={<div align="center"><strong>Légende</strong></div>}   >
                 <div style={{paddingTop: 5 + "px", paddingBottom: 5 + "px"}}>{this.state.legend_label}</div>
-                <Image src={"./assets/legende-indice-bien-etre" + this.state.current_lock + ".png"} />
+                <Image src={"./assets/legende-indice-bien-etre_ramp" + this.state.current_lock + ".png"} />
 
             </Popover>
         );
@@ -244,7 +251,7 @@ class IdentifyTabs extends React.Component {
 
 
                     </div>
-                    <p align="center" style={{marginTop: 20 + "px", padding: 0 + "px", fontSize: 40}}>{Math.round((environnement + social + economique) / 3)}</p>
+                    <p align="center" style={{marginTop: 20 + "px", padding: 0 + "px", fontSize: 40}}>{global}</p>
                     <p align="center" style={{ marginTop: -20 + "px", padding: 0 + "px", fontSize: 14}}>Indice de bien-être globale</p>
 
                     <Plot style={{marginTop: -80 + "px", marginBottom: -40 + "px"}}
