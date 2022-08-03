@@ -265,6 +265,15 @@ class NewIndicesDashboard extends React.Component {
         var changeSecurityRoleURL;
         // var tempXML;
         var createWorkspaceXML;
+        var configGeoserverSLD = {
+            headers: {
+                'Content-type': 'application/vnd.ogc.sld+xml'
+            },
+            auth: {
+                username: 'admin',
+                password: 'geoserver'
+            }
+        };
         var configGeoserver = {
             headers: {
                 'Content-type': 'text/xml'
@@ -366,8 +375,66 @@ class NewIndicesDashboard extends React.Component {
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
                         .then(() => {
                             geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/layers/aire_diffusion";
+
+                            // Create style for indice bien-être
                             axios
-                                .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":aire_diffusion/classify.xml?attribute=ibe&ramp=CUSTOM&intervals=4&startColor=0xD7191C&midColor=0xFFFFBF&endColor=0x2B83BA", configGeoserver)
+                                .then((ad_ibe_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>ad_indice_bien_etre</Name>\n" + "    <UserStyle>\n" + "       <Name>ad_indice_bien_etre</Name>" + "      <Title>Indice de bien-être</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const ad_ibe_response_temp = ad_ibe_response.data;
+                                    adClassificationSLD = sldheader + ad_ibe_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", adClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+                            // Craete style for indive bien-être environnement
+                            axios
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":aire_diffusion/classify.xml?attribute=ibe_d1&ramp=CUSTOM&intervals=4&startColor=0xF7FCF5&midColor=0x74C476&endColor=0x00441B", configGeoserver)
+                                .then((ad_ibe_d1_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>ad_indice_bien_etre_environnement</Name>\n" + "    <UserStyle>\n" + "       <Name>ad_indice_bien_etre_environnement</Name>" + "      <Title>Indice de bien-être (environnement)</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const ad_ibe_d1_response_temp = ad_ibe_d1_response.data;
+                                    adEnvClassificationSLD = sldheader + ad_ibe_d1_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", adEnvClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+
+                            // Craete style for indive bien-être social
+                            axios
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":aire_diffusion/classify.xml?attribute=ibe_d2&ramp=CUSTOM&intervals=4&startColor=0xF4F9FA&midColor=0x64D2FA&endColor=0x094F68", configGeoserver)
+                                .then((ad_ibe_d2_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>ad_indice_bien_etre_sociale</Name>\n" + "    <UserStyle>\n" + "       <Name>ad_indice_bien_etre_sociale</Name>" + "      <Title>Indice de bien-être (social)</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const ad_ibe_d2_response_temp = ad_ibe_d2_response.data;
+                                    adSocClassificationSLD = sldheader + ad_ibe_d2_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", adSocClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+
+                            // Craete style for indive bien-être économique
+                            axios
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":aire_diffusion/classify.xml?attribute=ibe_d3&ramp=CUSTOM&intervals=4&startColor=0xDB7C0F&midColor=0xFFDB70&endColor=0xDB7C0F", configGeoserver)
+                                .then((ad_ibe_d3_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>ad_indice_bien_etre_economique</Name>\n" + "    <UserStyle>\n" + "       <Name>ad_indice_bien_etre_economique</Name>" + "      <Title>Indice de bien-être (économique)</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const ad_ibe_d3_response_temp = ad_ibe_d3_response.data;
+                                    adEcoClassificationSLD = sldheader + ad_ibe_d3_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", adEcoClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+
+                            // Set default style for aire_diffusion
+
+                            axios
+                                .put(geoserverLayerBaseURL, "<layer><defaultStyle><name>" + workspaceId + ":ad_indice_bien_etre" + "</name></defaultStyle></layer>", configGeoserver)
                                 .then(() => {
                                     // console.log("default style", response.data);
                                 });
@@ -386,8 +453,66 @@ class NewIndicesDashboard extends React.Component {
                         .then(() => {
                             // console.log("!Shapefile uploaded!");
                             geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/layers/ilot_diffusion";
+
+
+                            // Create style for indice bien-être
                             axios
-                                .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":ilot_diffusion/classify.xml?attribute=ibe&ramp=CUSTOM&intervals=4&startColor=0xD7191C&midColor=0xFFFFBF&endColor=0x2B83BA", configGeoserver)
+                                .then((id_ibe_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>id_indice_bien_etre</Name>\n" + "    <UserStyle>\n" + "       <Name>id_indice_bien_etre</Name>" + "      <Title>Indice de bien-être</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const id_ibe_response_temp = id_ibe_response.data;
+                                    idClassificationSLD = sldheader + id_ibe_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", idClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+                            // Craete style for indive bien-être environnement
+                            axios
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":ilot_diffusion/classify.xml?attribute=ibe_d1&ramp=CUSTOM&intervals=4&startColor=0xF7FCF5&midColor=0x74C476&endColor=0x00441B", configGeoserver)
+                                .then((id_ibe_d1_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>id_indice_bien_etre_environnement</Name>\n" + "    <UserStyle>\n" + "       <Name>id_indice_bien_etre_environnement</Name>" + "      <Title>Indice de bien-être (environnement)</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const id_ibe_d1_response_temp = id_ibe_d1_response.data;
+                                    idEnvClassificationSLD = sldheader + id_ibe_d1_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", idEnvClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+
+                            // Craete style for indive bien-être social
+                            axios
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":ilot_diffusion/classify.xml?attribute=ibe_d2&ramp=CUSTOM&intervals=4&startColor=0xF4F9FA&midColor=0x64D2FA&endColor=0x094F68", configGeoserver)
+                                .then((id_ibe_d2_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>id_indice_bien_etre_sociale</Name>\n" + "    <UserStyle>\n" + "       <Name>id_indice_bien_etre_sociale</Name>" + "      <Title>Indice de bien-être (social)</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const id_ibe_d2_response_temp = id_ibe_d2_response.data;
+                                    idSocClassificationSLD = sldheader + id_ibe_d2_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", idSocClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+
+                            // Craete style for indive bien-être économique
+                            axios
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":ilot_diffusion/classify.xml?attribute=ibe_d3&ramp=CUSTOM&intervals=4&startColor=0xDB7C0F&midColor=0xFFDB70&endColor=0xDB7C0F", configGeoserver)
+                                .then((id_ibe_d3_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>id_indice_bien_etre_economique</Name>\n" + "    <UserStyle>\n" + "       <Name>id_indice_bien_etre_economique</Name>" + "      <Title>Indice de bien-être (économique)</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const id_ibe_d3_response_temp = id_ibe_d3_response.data;
+                                    idEcoClassificationSLD = sldheader + id_ibe_d3_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", idEcoClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+
+
+                            axios
+                                .put(geoserverLayerBaseURL, "<layer><defaultStyle><name>" + workspaceId + ":id_indice_bien_etre" + "</name></defaultStyle></layer>", configGeoserver)
                                 .then(() => {
                                     // console.log("default style", response.data);
                                 });
@@ -404,8 +529,66 @@ class NewIndicesDashboard extends React.Component {
                         .put(geoserverDatastoreBaseURL, file, configGeoserverUploadZip)
                         .then(() => {
                             geoserverLayerBaseURL = window.location.origin + "/geoserver/rest/workspaces/" + workspaceId + "/layers/hexagone";
+
+
+                            // Create style for indice bien-être
                             axios
-                                .put(geoserverLayerBaseURL, layerDefaultStyle, configGeoserver)
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":hexagone/classify.xml?attribute=ibe&ramp=CUSTOM&intervals=4&startColor=0xD7191C&midColor=0xFFFFBF&endColor=0x2B83BA", configGeoserver)
+                                .then((hexa_ibe_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>hexa_indice_bien_etre</Name>\n" + "    <UserStyle>\n" + "       <Name>hexa_indice_bien_etre</Name>" + "      <Title>Indice de bien-être</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const hexa_ibe_response_temp = hexa_ibe_response.data;
+                                    hexaClassificationSLD = sldheader + hexa_ibe_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", hexaClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+                            // Craete style for indive bien-être environnement
+                            axios
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":hexagone/classify.xml?attribute=ibe_d1&ramp=CUSTOM&intervals=4&startColor=0xF7FCF5&midColor=0x74C476&endColor=0x00441B", configGeoserver)
+                                .then((hexa_ibe_d1_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>hexa_indice_bien_etre_environnement</Name>\n" + "    <UserStyle>\n" + "       <Name>hexa_indice_bien_etre_environnement</Name>" + "      <Title>Indice de bien-être (environnement)</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const hexa_ibe_d1_response_temp = hexa_ibe_d1_response.data;
+                                    hexaEnvClassificationSLD = sldheader + hexa_ibe_d1_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", hexaEnvClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+
+                            // Craete style for indive bien-être social
+                            axios
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":hexagone/classify.xml?attribute=ibe_d2&ramp=CUSTOM&intervals=4&startColor=0xF4F9FA&midColor=0x64D2FA&endColor=0x094F68", configGeoserver)
+                                .then((hexa_ibe_d2_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>hexa_indice_bien_etre_sociale</Name>\n" + "    <UserStyle>\n" + "       <Name>hexa_indice_bien_etre_sociale</Name>" + "      <Title>Indice de bien-être (social)</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const hexa_ibe_d2_response_temp = hexa_ibe_d2_response.data;
+                                    hexaSocClassificationSLD = sldheader + hexa_ibe_d2_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", hexaSocClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+
+                            // Craete style for indive bien-être économique
+                            axios
+                                .get(window.location.origin + "/geoserver/rest/sldservice/"+ workspaceId + ":hexagone/classify.xml?attribute=ibe_d3&ramp=CUSTOM&intervals=4&startColor=0xDB7C0F&midColor=0xFFDB70&endColor=0xDB7C0F", configGeoserver)
+                                .then((hexa_ibe_d3_response) => {
+                                    const sldheader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + "<StyledLayerDescriptor version=\"1.0.0\"\n" + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\"\n" + "  xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n" + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + "\n" + "  <NamedLayer>\n" + "    <Name>hexa_indice_bien_etre_economique</Name>\n" + "    <UserStyle>\n" + "       <Name>hexa_indice_bien_etre_economique</Name>" + "      <Title>Indice de bien-être (économique)</Title>\n" + "      <FeatureTypeStyle>";
+                                    const sldfooter = "</FeatureTypeStyle>\n" + "    </UserStyle>\n" + "  </NamedLayer>\n" + "</StyledLayerDescriptor>";
+                                    const hexa_ibe_d3_response_temp = hexa_ibe_d3_response.data;
+                                    hexaEcoClassificationSLD = sldheader + hexa_ibe_d3_response_temp.slice(8, -9) + sldfooter;
+                                    axios
+                                        .post(window.location.origin + "/geoserver/rest/workspaces/"+ workspaceId + "/styles", hexaEcoClassificationSLD, configGeoserverSLD)
+                                        .then(() => {
+                                        });
+                                });
+
+
+                            axios
+                                .put(geoserverLayerBaseURL, "<layer><defaultStyle><name>" + workspaceId + ":hexa_indice_bien_etre" + "</name></defaultStyle></layer>", configGeoserver)
                                 .then(() => {
                                     // console.log("default style", response.data);
 

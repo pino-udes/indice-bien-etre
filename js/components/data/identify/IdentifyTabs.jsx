@@ -206,7 +206,7 @@ class IdentifyTabs extends React.Component {
         const popoverIndiceBienEtreInfo = (
             <Popover id="popover-trigger-hover-focus" title={<div align="center"><strong>Légende</strong></div>}   >
                 <div style={{paddingTop: 5 + "px", paddingBottom: 5 + "px"}}>{this.state.legend_label}</div>
-                <Image src={"./assets/legende-indice-bien-etre" + this.state.current_lock + ".png"} />
+                <Image src={"./assets/legende-indice-bien-etre_ramp" + this.state.current_lock + ".png"} />
 
             </Popover>
         );
